@@ -32,3 +32,4 @@
 
   stop("Provide either explicit fuzzy weights or BWM parameters.")
 }
+
