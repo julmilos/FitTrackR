@@ -82,7 +82,6 @@ print(wynik_vikor$wyniki)
 Pakiet oferuje profesjonalne wizualizacje wyników MCDA:
 ```r
 plot(wynik_vikor)
-<img src="man/figures/README-visualization-1.png" width="100%" />
 ```
 ## Meta-ranking
 Agreguj wyniki z wielu metod, aby uzyskać stabilny ranking konsensusu:
