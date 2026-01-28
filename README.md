@@ -46,6 +46,7 @@ Oto podstawowy przykład użycia pakietu z wykorzystaniem danych symulowanych zg
 
 7 kryteriów
 {r example}
+```r
 library(FitTrackR)
 
 # 1. Wczytaj dane
@@ -76,14 +77,16 @@ wynik_vikor <- fuzzy_vikor(
 
 # 4. Wyświetl wynik
 print(wynik_vikor$wyniki)
-
+```
 ## Wizualizacja
 Pakiet oferuje profesjonalne wizualizacje wyników MCDA:
+```r
 plot(wynik_vikor)
 <img src="man/figures/README-visualization-1.png" width="100%" />
-
+```
 ## Meta-ranking
 Agreguj wyniki z wielu metod, aby uzyskać stabilny ranking konsensusu:
+```r
 meta <- meta_ranking(
   macierz,
   typy_kryteriow = c("max", "max", "max", "max", "max", "max", "min"),
@@ -92,7 +95,7 @@ meta <- meta_ranking(
 )
 
 head(meta$porownanie[order(meta$porownanie$Meta_Agregacja), ], 3)
-
+```
 ## Dokumentacja
 Więcej informacji:
 Vignette: vignette("fittrackr_mcda", package = "FitTrackR")
