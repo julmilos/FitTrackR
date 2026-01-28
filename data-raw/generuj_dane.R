@@ -5,7 +5,7 @@
 
 set.seed(123)
 
-alternatywy <- c("MiBand", "AppleWatch", "Garmin")
+alternatywy <- c("Samsung Galaxy Watch", "AppleWatch", "Garmin")
 liczba_ekspertow <- 15
 
 mcda_dane_surowe <- data.frame(
