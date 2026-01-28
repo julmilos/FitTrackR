@@ -1,8 +1,4 @@
-------------------------------------------------------------------------
 
-output: github_document
-
-------------------------------------------------------------------------
 # FitTrackR
 
 <!-- badges: start -->
@@ -40,10 +36,16 @@ Możesz zainstalować wersję deweloperską z GitHub:
 ```r
 # install.packages("devtools")
 devtools::install_github("julmilos/FitTrackR")
+```
+## Szybki start
+Oto podstawowy przykład użycia pakietu z wykorzystaniem danych symulowanych zgodnych z założeniami pracy:
 
-Szybki start
-Oto podstawowy przykład użycia pakietu z wykorzystaniem wbudowanych danych.
+3 alternatywy(Samsung Galaxy Watch, Apple Watch, Garmin)
 
+15 ekspertów
+
+7 kryteriów
+{r example}
 library(FitTrackR)
 
 # 1. Wczytaj dane
@@ -75,12 +77,12 @@ wynik_vikor <- fuzzy_vikor(
 # 4. Wyświetl wynik
 print(wynik_vikor$wyniki)
 
-Wizualizacja
+## Wizualizacja
 Pakiet oferuje profesjonalne wizualizacje wyników MCDA:
 plot(wynik_vikor)
 <img src="man/figures/README-visualization-1.png" width="100%" />
 
-Meta-ranking
+## Meta-ranking
 Agreguj wyniki z wielu metod, aby uzyskać stabilny ranking konsensusu:
 meta <- meta_ranking(
   macierz,
@@ -91,23 +93,14 @@ meta <- meta_ranking(
 
 head(meta$porownanie[order(meta$porownanie$Meta_Agregacja), ], 3)
 
-Dane przykładowe
-Pakiet zawiera zbiór danych mcda_dane_surowe, obejmujący
-symulowane oceny ekspertów dla trzech urządzeń fitness
-(Samsung Galaxy Watch, Apple Watch, Garmin).
-
-Dane wykorzystują skale Likerta oraz kryterium kosztowe (Cena_PLN)
-i są przeznaczone do bezpośredniego użycia w metodach
-Fuzzy VIKOR i Fuzzy PROMETHEE.
-
-Dokumentacja
-Więcej informacji znajdziesz w:
+## Dokumentacja
+Więcej informacji:
 Vignette: vignette("fittrackr_mcda", package = "FitTrackR")
 Pomoc dla funkcji: ?fuzzy_vikor, ?rozmyty_promethee,
 ?meta_ranking, ?prepare_mcdm_data
 
-Autor
+## Autor
 Julia Miłoś
 
-Licencja
+## Licencja
 GPL-3
