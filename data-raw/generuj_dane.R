@@ -47,5 +47,18 @@ mcda_dane_surowe <- data.frame(
   )
 )
 
-# zapis danych do pakietu
+# kolumny kryteriów
+kryteria <- c(
+  "Tetno_Dokladnosc","Kroki_Dokladnosc","Kalorie_Dokladnosc",
+  "Bateria_Wydajnosc",
+  "Funkcje_Zdrowotne","Funkcje_Sportowe","Funkcje_Smart",
+  "Kompatybilnosc_Android","Kompatybilnosc_iOS",
+  "Wygoda_Noszenia","Jakosc_Wykonania",
+  "Wodoodpornosc","Wytrzymalosc",
+  "Cena_PLN"
+)
+
+mcda_dane_surowe[kryteria] <- lapply(mcda_dane_surowe[kryteria], function(x) as.numeric(as.character(x)))
+
+# zapis do pakietu
 usethis::use_data(mcda_dane_surowe, overwrite = TRUE)
