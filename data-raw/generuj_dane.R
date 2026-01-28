@@ -5,7 +5,7 @@
 
 set.seed(123)
 
-alternatywy <- c("Samsung Galaxy Watch", "AppleWatch", "Garmin")
+alternatywy <- c("MiBand", "AppleWatch", "Garmin")
 liczba_ekspertow <- 15
 n <- liczba_ekspertow * length(alternatywy)
 
@@ -41,7 +41,7 @@ mcda_dane_surowe <- data.frame(
 
   # === Kryterium 7: Cena (kryterium kosztowe) ===
   Cena_PLN = c(
-    runif(liczba_ekspertow, 150, 300),      # Samsung Galaxy Watch
+    runif(liczba_ekspertow, 150, 300),      # MiBand
     runif(liczba_ekspertow, 1800, 2500),    # AppleWatch
     runif(liczba_ekspertow, 900, 1800)      # Garmin
   )
