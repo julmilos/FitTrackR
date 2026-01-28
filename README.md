@@ -70,7 +70,7 @@ Odpornosc =~ Wodoodpornosc + Wytrzymalosc
 Cena =~ Cena_PLN
 "
 
-macierz <- przygotuj_mcdm_data(
+macierz <- przygotuj_dane_mcda(
   dane = mcda_dane_surowe,
   skladnia = skladnia,
   kolumna_alternatyw = "Alternatywa"
@@ -123,7 +123,7 @@ head(meta$porownanie[order(meta$porownanie$Meta_Agregacja), ], 3)
 Więcej informacji:
 Vignette: vignette("fittrackr_mcda", package = "FitTrackR")
 Pomoc dla funkcji: ?fuzzy_vikor, ?rozmyty_promethee,
-?meta_ranking, ?przygotuj_mcdm_data
+?meta_ranking, ?przygotuj_dane_mcda
 
 ## Autor
 Julia Miłoś
