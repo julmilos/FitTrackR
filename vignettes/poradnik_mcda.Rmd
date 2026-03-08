@@ -22,4 +22,116 @@ collapse = TRUE,
 comment = "#>"
 
 )
+library(FitTrackR)
 
+#1. Wczytanie danych
+
+data("mcda_dane_surowe")
+head(mcda_dane_surowe)
+#2. Definicja modelu (Składnia)
+
+skladnia_modelu <- "
+
+Dokladnosc =~ Tetno_Dokladnosc + Kroki_Dokladnosc + Kalorie_Dokladnosc;
+
+Funkcjonalnosc =~ Funkcje_Zdrowotne + Funkcje_Sportowe + Funkcje_Smart;
+
+Kompatybilnosc =~ Kompatybilnosc_Android + Kompatybilnosc_iOS;
+
+Komfort_Jakosc =~ Wygoda_Noszenia + Jakosc_Wykonania;
+
+Wytrzymalosc =~ Wodoodpornosc + Wytrzymalosc;
+
+Bateria =~ Bateria_Wydajnosc;
+
+Koszt =~ Cena_PLN
+
+"
+
+#3. Przetwarzanie i Rozmywanie danych
+
+macierz_rozmyta <- przygotuj_dane_mcda(
+  dane = mcda_dane_surowe, 
+  skladnia = skladnia_modelu, 
+  kolumna_alternatyw = "Alternatywa" # Agregujemy opinie ekspertów dla każdej Alternatywy
+)
+
+# Podgląd fragmentu macierzy
+print(macierz_rozmyta[1:3, 1:21])
+
+
+#4. Wyznaczanie wag metodą BWM (Best-Worst Method)
+
+# Kolejność kryteriów w macierzy:
+# 1 Dokladnosc
+# 2 Funkcjonalnosc
+# 3 Kompatybilnosc
+# 4 Komfort_Jakosc
+# 5 Wytrzymalosc
+# 6 Bateria
+# 7 Cena
+
+
+# Preferencja NAJLEPSZEGO (Dokladnosc) nad innymi (1–9):
+# Dokladnosc/Dokladnosc = 1
+# Dokladnosc/Funkcjonalnosc = 3
+# Dokladnosc/Kompatybilnosc = 4
+# Dokladnosc/Komfort_Jakosc = 5
+# Dokladnosc/Wytrzymalosc = 6
+# Dokladnosc/Bateria = 7
+# Dokladnosc/Cena = 9
+
+bwm_best <- c(1, 3, 4, 5, 6, 7, 9)
+
+
+# Preferencja innych nad NAJGORSZYM (Cena) (1–9):
+# Dokladnosc/Cena = 9
+# Funkcjonalnosc/Cena = 7
+# Kompatybilnosc/Cena = 6
+# Komfort_Jakosc/Cena = 5
+# Wytrzymalosc/Cena = 4
+# Bateria/Cena = 3
+# Cena/Cena = 1
+
+bwm_worst <- c(9, 7, 6, 5, 4, 3, 1)
+
+
+#5. Analiza Decyzyjna (VIKOR, TOPSIS, WASPAS)
+
+typy <- c("min", "max", "max", "max")
+
+# Fuzzy VIKOR
+wynik_vikor <- rozmyty_vikor(
+  macierz_decyzyjna = macierz_rozmyta,
+  typy_kryteriow = typy,
+  bwm_najlepsze = bwm_best,
+  bwm_najgorsze = bwm_worst
+)
+
+# Fuzzy TOPSIS
+wynik_topsis <- rozmyty_topsis(
+  macierz_decyzyjna = macierz_rozmyta,
+  typy_kryteriow = typy,
+  bwm_najlepsze = bwm_best,
+  bwm_najgorsze = bwm_worst
+)
+
+# Wyniki tabelaryczne
+print(wynik_vikor$wyniki)
+
+#6. Wizualizacja (Mapy Decyzyjne)
+
+plot(wynik_vikor)
+plot(wynik_topsis)
+
+#7. Meta-Ranking (Konsensus)
+
+meta_wynik <- rozmyty_meta_ranking(
+  macierz_decyzyjna = macierz_rozmyta, 
+  typy_kryteriow = typy,
+  bwm_najlepsze = bwm_best, 
+  bwm_najgorsze = bwm_worst
+)
+
+# Tabela porównawcza
+knitr::kable(meta_wynik$porownanie, caption = "Porównanie rankingów i Konsensus")

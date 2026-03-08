@@ -18,3 +18,125 @@ fig.path = "man/figures/README-",
 out.width = "100%"
 
 )
+# FitTrackR
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+*FitTrackR* to pakiet języka **R** przeznaczony do **wielokryterialnej analizy decyzyjnej (MCDA)** wspomagającej wybór najlepszych urządzeń do monitorowania aktywności fizycznej, takich jak **smartwatche i opaski fitness**.
+
+Pakiet wykorzystuje **logikę rozmytą (TFN)** oraz metody MCDA do obiektywnego porównywania urządzeń na podstawie rzeczywistych parametrów technicznych i użytkowych.
+
+---
+
+## Kryteria decyzyjne
+
+Analiza opiera się na siedmiu głównych kryteriach:
+
+### 🔹 1. Dokładność pomiarów
+- `Tetno_Dokladnosc`
+- `Kroki_Dokladnosc`
+- `Kalorie_Dokladnosc`
+
+### 🔹 2. Funkcjonalność
+- `Funkcje_Zdrowotne`
+- `Funkcje_Sportowe`
+- `Funkcje_Smart`
+
+### 🔹 3. Bateria
+- `Bateria_Wydajnosc`
+
+### 🔹 4. Kompatybilność
+- `Kompatybilnosc_Android`
+- `Kompatybilnosc_iOS`
+
+### 🔹 5. Komfort i jakość
+- `Wygoda_Noszenia`
+- `Jakosc_Wykonania`
+
+### 🔹 6. Odporność
+- `Wodoodpornosc`
+- `Wytrzymalosc`
+
+### 🔹 7. Cena (koszt)
+- `Cena_PLN` *(kryterium minimalizowane)*
+
+---
+
+## Funkcjonalności pakietu
+
+- Przygotowanie **rozmytych macierzy decyzyjnych**
+- Obsługa **kryteriów maksymalizowanych i minimalizowanych**
+- Metody **Fuzzy MCDA** (TFN)
+- Wyznaczanie wag kryteriów metodą **Best–Worst Method (BWM)**
+- **Meta-ranking** – agregacja wielu rankingów w jedno stabilne rozwiązanie
+- Wizualizacje wyników (metody S3)
+
+---
+
+## Instalacja
+
+Wersja deweloperska z GitHub:
+
+```r
+# install.packages("devtools")
+devtools::install_github("julmilos/FitTrackR")
+library(FitTrackR)
+
+# Wczytaj przykładowe dane
+data("fittrack_dane")
+head(fittrack_dane)
+
+# Definicja struktury kryteriów
+skladnia <- "
+Dokladnosc =~ Tetno_Dokladnosc + Kroki_Dokladnosc + Sen_Dokladnosc
+Funkcjonalnosc =~ Funkcje_Zdrowotne + Funkcje_Sportowe + Funkcje_Smart
+Komfort =~ Wygoda_Noszenia + Jakosc_Wykonania
+Odpornosc =~ Wodoodpornosc + Wytrzymalosc
+"
+
+# Przygotowanie macierzy MCDA
+macierz <- przygotuj_dane_mcda(
+  dane = fittrack_dane,
+  skladnia = skladnia,
+  kolumna_alternatyw = "Urządzenie"
+)
+
+# Obliczenie rankingu (Fuzzy VIKOR + BWM)
+wynik <- rozmyty_vikor(
+  macierz,
+  typy_kryteriow = c("max", "max", "max", "max", "max", "max", "min"),
+  bwm_najlepsze = c(8, 7, 6, 5, 4, 3, 1),
+  bwm_najgorsze = c(1, 2, 3, 4, 5, 6, 8)
+)
+
+# Wyniki rankingu
+print(wynik$wyniki)
+
+#Wizualizacja
+Pakiet oferuje profesjonalne mapy decyzyjne:
+plot(wynik)
+
+#Meta-ranking
+Meta-ranking
+
+meta <- rozmyty_meta_ranking(
+  macierz,
+  typy_kryteriow = c("max", "max", "max", "max", "max", "max", "min"),
+  bwm_najlepsze = c(8, 7, 6, 5, 4, 3, 1),
+  bwm_najgorsze = c(1, 2, 3, 4, 5, 6, 8)
+)
+
+head(meta$porownanie[order(meta$porownanie$Meta_Agregacja), ], 3)
+
+Dokumentacja
+vignette("fittrackr_mcda", package = "FitTrackR")
+?rozmyty_vikor
+?rozmyty_meta_ranking
+?przygotuj_dane_mcda
+
+Autor
+Julia Miłoś
+
+Licencja
+GPL-3

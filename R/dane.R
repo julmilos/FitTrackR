@@ -1,7 +1,7 @@
 #' Przykładowe dane do analizy wielokryterialnej MCDA
 #'
 #' Zbiór danych zawiera symulowane oceny ekspertów dotyczące
-#' urządzeń do monitorowania aktywności fizycznej (smartwatchy/opasek).
+#' urządzeń do monitorowania aktywności fizycznej (smartwatchy).
 #' Dane zostały wygenerowane w oparciu o skale Likerta i stanowią
 #' wejście do metod Fuzzy TOPSIS oraz Fuzzy VIKOR.
 #'
@@ -10,7 +10,7 @@
 #' @format Ramka danych (data frame) z ocenami ekspertów dla 3 alternatyw:
 #' \describe{
 #'   \item{EkspertID}{Identyfikator eksperta oceniającego urządzenie}
-#'   \item{Alternatywa}{Nazwa urządzenia (MiBand, AppleWatch, Garmin)}
+#'   \item{Alternatywa}{Nazwa urządzenia (SamsungGalaxyWatch, AppleWatch, Garmin)}
 #'
 #'   \item{Tetno_Dokladnosc}{Dokładność pomiaru tętna (skala Likerta 1–10)}
 #'   \item{Kroki_Dokladnosc}{Dokładność zliczania kroków (skala Likerta 1–10)}
