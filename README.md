@@ -6,20 +6,19 @@
 <!-- badges: end -->
 
 *FitTrackR* to pakiet języka **R** przeznaczony do wspomagania decyzji
-w ramach **wielokryterialnej analizy decyzyjnej (MCDA)** przy wyborze
+w ramach **Wielokryterialnej Analizy Decyzyjnej (MCDA)** w środowisku rozmytym przy wyborze
 urządzeń do monitorowania aktywności fizycznej, takich jak
 **smartwatche i opaski fitness**.
 
 Pakiet łączy **logikę rozmytą (TFN)** z zaawansowanymi metodami MCDA,
-umożliwiając obiektywne porównywanie urządzeń na podstawie
-parametrów technicznych, funkcjonalnych i kosztowych.
+umożliwiając pełną ścieżkę analityczną -  od surowych danych, przez wyznaczanie wag metodą BWM (Best-Worst Method), aż po rankingi metodami TOPSIS oraz VIKOR.
 
 ---
 
 ## Funkcje pakietu
 
-- *Przygotowanie danych rozmytych* z ocen ekspertów i danych liczbowych
-- *Fuzzy MCDA*: implementacja metod **Fuzzy VIKOR** oraz **Fuzzy PROMETHEE**
+- *Przygotowanie danych rozmytych* z surowych danych numerycznych
+- *Fuzzy MCDA*: implementacja metod **Fuzzy VIKOR** oraz **Fuzzy TOPSIS Linear**
 - *Best–Worst Method (BWM)*: wyznaczanie wag kryteriów na podstawie
   porównań eksperckich
 - *Meta-ranking*: agregacja wyników z wielu metod w jeden stabilny
@@ -121,9 +120,9 @@ head(meta$porownanie[order(meta$porownanie$Meta_Agregacja), ], 3)
 ```
 ## Dokumentacja
 Więcej informacji:
-Vignette: vignette("fittrackr_mcda", package = "FitTrackR")
-Pomoc dla funkcji: ?fuzzy_vikor, ?rozmyty_promethee,
-?meta_ranking, ?przygotuj_dane_mcda
+- Vignette: ``` vignette("fittrackr_mcda", package = "FitTrackR") ```
+- Pomoc dla funkcji: ``` ?fuzzy_vikor, ?rozmyty_promethee,
+?meta_ranking, ?przygotuj_dane_mcda ```
 
 ## Autor
 Julia Miłoś
