@@ -5,20 +5,23 @@
 
 <!-- badges: end -->
 
-*FitTrackR* to pakiet języka **R** przeznaczony do wspomagania decyzji
-w ramach **Wielokryterialnej Analizy Decyzyjnej (MCDA)** w środowisku rozmytym przy wyborze
-urządzeń do monitorowania aktywności fizycznej, takich jak
-**smartwatche i opaski fitness**.
+*FitTrackR* to pakiet języka **R** przeznaczony do wspomagania decyzji w
+ramach **Wielokryterialnej Analizy Decyzyjnej (MCDA)** w środowisku
+rozmytym przy wyborze urządzeń do monitorowania aktywności fizycznej,
+takich jak **smartwatche i opaski fitness**.
 
 Pakiet łączy **logikę rozmytą (TFN)** z zaawansowanymi metodami MCDA,
-umożliwiając pełną ścieżkę analityczną -  od surowych danych, przez wyznaczanie wag metodą BWM (Best-Worst Method), aż po rankingi metodami TOPSIS oraz VIKOR.
+umożliwiając pełną ścieżkę analityczną - od surowych danych, przez
+wyznaczanie wag metodą BWM (Best-Worst Method), aż po rankingi metodami
+TOPSIS oraz VIKOR.
 
----
+------------------------------------------------------------------------
 
 ## Funkcje pakietu
 
 - *Przygotowanie danych rozmytych* z surowych danych numerycznych
-- *Fuzzy MCDA*: implementacja metod **Fuzzy VIKOR** oraz **Fuzzy TOPSIS Linear**
+- *Fuzzy MCDA*: implementacja metod **Fuzzy VIKOR** oraz **Fuzzy TOPSIS
+  Linear**
 - *Best–Worst Method (BWM)*: wyznaczanie wag kryteriów na podstawie
   porównań eksperckich
 - *Meta-ranking*: agregacja wyników z wielu metod w jeden stabilny
@@ -26,26 +29,29 @@ umożliwiając pełną ścieżkę analityczną -  od surowych danych, przez wyzn
 - *Wizualizacja S3*: intuicyjne wykresy i mapy decyzyjne
 - *Eksport wyników*: tabele wynikowe w stylu APA
 
----
+------------------------------------------------------------------------
 
 ## Instalacja
 
 Możesz zainstalować wersję deweloperską z GitHub:
 
-```r
+``` r
 # install.packages("devtools")
 devtools::install_github("julmilos/FitTrackR")
 ```
+
 ## Szybki start
-Oto podstawowy przykład użycia pakietu z wykorzystaniem danych symulowanych zgodnych z założeniami pracy:
+
+Oto podstawowy przykład użycia pakietu z wykorzystaniem danych
+symulowanych zgodnych z założeniami pracy:
 
 3 alternatywy(Samsung Galaxy Watch, Apple Watch, Garmin)
 
 15 ekspertów
 
-7 kryteriów
-{r example}
-```r
+7 kryteriów {r example}
+
+``` r
 library(FitTrackR)
 
 # 1. Wczytaj dane
@@ -96,14 +102,20 @@ wynik_vikor <- fuzzy_vikor(
 # 4. Wyświetl wynik
 print(wynik_vikor$wyniki)
 ```
+
 ## Wizualizacja
+
 Pakiet oferuje profesjonalne wizualizacje wyników MCDA:
-```r
+
+``` r
 plot(wynik_vikor)
 ```
+
 ## Meta-ranking
+
 Agreguj wyniki z wielu metod, aby uzyskać stabilny ranking konsensusu:
-```r
+
+``` r
 meta <- meta_ranking(
   macierz,
   typy_kryteriow = c("max", "max", "max", "max", "max", "max", "min"),
@@ -118,14 +130,17 @@ head(meta$porownanie[order(meta$porownanie$Meta_Agregacja), ], 3)
 #> 2 Samsung Galaxy Watch 0.374
 #> 3 AppleWatch 0.390
 ```
+
 ## Dokumentacja
-Więcej informacji:
-- Vignette: ``` vignette("fittrackr_mcda", package = "FitTrackR") ```
-- Pomoc dla funkcji: ``` ?fuzzy_vikor, ?rozmyty_promethee,
-?meta_ranking, ?przygotuj_dane_mcda ```
+
+Więcej informacji: - Vignette:
+`vignette("fittrackr_mcda", package = "FitTrackR")` - Pomoc dla funkcji:
+`?fuzzy_vikor, ?rozmyty_promethee, ?meta_ranking, ?przygotuj_dane_mcda`
 
 ## Autor
+
 Julia Miłoś
 
 ## Licencja
+
 GPL-3
