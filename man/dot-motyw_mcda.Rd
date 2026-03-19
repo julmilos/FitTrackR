@@ -2,11 +2,11 @@
 % Please edit documentation in R/wizualizacja.R
 \name{.motyw_mcda}
 \alias{.motyw_mcda}
-\title{Wewnętrzny motyw graficzny}
+\title{Wewnętrzny motyw graficzny MCDA}
 \usage{
 .motyw_mcda()
 }
 \description{
-Ujednolicony styl wykresów dla całego pakietu.
+Ujednolicony styl wykresów ggplot2 dla całego pakietu.
 }
 \keyword{internal}

@@ -7,7 +7,7 @@
 .parsuj_skladnie_mcda(skladnia)
 }
 \description{
-Funkcja pomocnicza do interpretowania modelu (stringa) podanego przez użytkownika.
-Zamienia tekst "Kryterium =~ zmienna1 + zmienna2" na listę w R.
+Funkcja pomocnicza do interpretowania modelu (stringa).
+Obsługuje podział linii za pomocą średników (;) lub znaków nowej linii (\n).
 }
 \keyword{internal}

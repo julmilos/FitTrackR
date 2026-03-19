@@ -2,10 +2,15 @@
 % Please edit documentation in R/wizualizacja.R
 \name{plot.rozmyty_promethee_wynik}
 \alias{plot.rozmyty_promethee_wynik}
-\title{Wykres Przepływów PROMETHEE II}
+\title{Mapa Przepływów PROMETHEE II}
 \usage{
 \method{plot}{rozmyty_promethee_wynik}(x, ...)
 }
+\arguments{
+\item{x}{Obiekt klasy `rozmyty_promethee_wynik`.}
+
+\item{...}{Dodatkowe argumenty.}
+}
 \description{
-Wykres Przepływów PROMETHEE II
+Oś X: Przepływ wyjściowy (siła). Oś Y: Przepływ wejściowy (słabość).
 }

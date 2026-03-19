@@ -16,16 +16,14 @@ przygotuj_dane_mcda(
 
 \item{skladnia}{Ciąg znaków definiujący kryteria (np. "Koszt =~ k1 + k2").}
 
-\item{kolumna_alternatyw}{Nazwa kolumny identyfikującej alternatywy.
-Jeśli NULL, każdy wiersz traktowany jest jako osobna alternatywa.}
+\item{kolumna_alternatyw}{Nazwa kolumny identyfikującej alternatywy.}
 
-\item{funkcja_agregacji}{Funkcja używana do scalania opinii ekspertów (domyślnie: mean).}
+\item{funkcja_agregacji}{Funkcja używana do scalania opinii (domyślnie: mean).}
 }
 \value{
-Macierz o wymiarach ($m \times 3n$), gdzie m to liczba alternatyw.
+Macierz o wymiarach ($m \times 3n$).
 }
 \description{
-Funkcja przekształca surowe dane ankietowe w rozmytą macierz decyzyjną.
-Oblicza wyniki zmiennych kompozytowych na podstawie składni, skaluje je do przedziału 1-9,
-agreguje odpowiedzi ekspertów (jeśli dotyczy) i dokonuje rozmycia (fuzzification).
+Funkcja przekształca surowe dane w rozmytą macierz decyzyjną.
+Skaluje zmienne do przedziału 1-9, agreguje opinie i dokonuje rozmycia.
 }

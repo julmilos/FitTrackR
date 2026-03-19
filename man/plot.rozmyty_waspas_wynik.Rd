@@ -12,6 +12,5 @@
 \item{...}{Dodatkowe argumenty.}
 }
 \description{
-Porównuje podejście addytywne (WSM) z multiplikatywnym (WPM).
-Jeśli punkty leżą na przekątnej, metoda jest spójna.
+Porównuje WSM (addytwność) z WPM (multiplikatywność).
 }

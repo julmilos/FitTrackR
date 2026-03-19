@@ -6,15 +6,6 @@
 \usage{
 tabela_apa(x, tytul = NULL)
 }
-\arguments{
-\item{x}{Obiekt wynikowy z funkcji pakietu (np. `rozmyty_topsis_wynik`).}
-
-\item{tytul}{Opcjonalny tytuł tabeli.}
-}
-\value{
-Obiekt klasy `flextable` gotowy do druku lub zapisu do Worda.
-}
 \description{
-Funkcja przekształca wyniki analizy MCDA (TOPSIS, VIKOR, WASPAS, Meta-Ranking)
-w sformatowaną tabelę zgodną ze standardem APA, gotową do publikacji w Wordzie.
+Generowanie Tabeli APA
 }

@@ -1,323 +1,235 @@
-#' @title Wewnętrzny motyw graficzny
+# ---------------------------------------------------------------------------
+# Moduł wizualizacji pakietu MCDA
+# Zawiera ujednolicony motyw oraz dedykowane wykresy dla metod:
+# Wagi, TOPSIS, VIKOR, WASPAS, PROMETHEE II.
+# ---------------------------------------------------------------------------
 
-#' @description Ujednolicony styl wykresów dla całego pakietu.
-
+#' @title Wewnętrzny motyw graficzny MCDA
+#' @description Ujednolicony styl wykresów ggplot2 dla całego pakietu.
 #' @import ggplot2
-
 #' @keywords internal
-
 .motyw_mcda <- function() {
-
   list(
-
     theme_light(base_size = 12),
-
-    scale_fill_gradient(low = "#90A4AE", high = "#2E7D32"), # Od szaro-niebieskiego do zieleni
-
-    scale_size_continuous(range = c(4, 16)),
-
+    # scale_fill_gradient(low = "#9bbacaff", high = "#237a28ff"), 
+    scale_fill_gradientn(colors = c("#9a1919ff", "#a1941fff", "#622487ff")), 
+    scale_size_continuous(range = c(3, 12)),
     theme(
-
-      plot.title = element_text(face = "bold", size = 16),
-
-      plot.subtitle = element_text(color = "grey40", size = 11),
-
+      plot.title = element_text(face = "bold", size = 15),
+      plot.subtitle = element_text(color = "grey40", size = 10),
       panel.border = element_rect(color = "black", fill = NA, linewidth = 0.5),
-
       legend.position = "right",
-
-      axis.title = element_text(face = "bold")
-
+      axis.title = element_text(face = "bold"),
+      strip.background = element_rect(fill = "#f2f2f2"),
+      strip.text = element_text(color = "black", face = "bold")
     )
-
   )
+}
 
+# Fix dla ostrzeżeń R CMD check o zmiennych globalnych w ggplot2
+utils::globalVariables(c("Def_S", "Def_R", "D_plus", "D_minus", "Wynik", "WSM", "WPM", 
+                         "Wydajnosc", "Rozmiar", "OdlegloscWizualna", "Spojnosc", 
+                         "Alternatywa", "Phi_Net", "Phi_Plus", "Phi_Minus", "Alt_Nazwa",
+                         "Waga_Def", "Kryterium", "L", "U"))
+
+
+#' Wizualizacja Wag Kryteriów
+#' 
+#' @description Pokazuje defuzyfikowane wagi kryteriów wraz z rozpiętością rozmytą (L, U).
+#' @param wagi_rozmyte Wektor wag (format 3n: L, M, U dla każdego kryterium).
+#' @param nazwy_kryteriow Opcjonalny wektor z nazwami kryteriów.
+#' @import ggplot2
+#' @export
+plot_wagi <- function(wagi_rozmyte, nazwy_kryteriow = NULL) {
+  
+  n_kryt <- length(wagi_rozmyte) / 3
+  
+  if (is.null(nazwy_kryteriow)) {
+    nazwy_kryteriow <- paste0("C", 1:n_kryt)
+  }
+  
+  # Przygotowanie danych (Defuzyfikacja GMIR dla słupka)
+  df_wagi <- data.frame(
+    Kryterium = factor(nazwy_kryteriow, levels = nazwy_kryteriow),
+    L = wagi_rozmyte[seq(1, length(wagi_rozmyte), 3)],
+    M = wagi_rozmyte[seq(2, length(wagi_rozmyte), 3)],
+    U = wagi_rozmyte[seq(3, length(wagi_rozmyte), 3)]
+  )
+  
+  df_wagi$Waga_Def <- (df_wagi$L + 4*df_wagi$M + df_wagi$U) / 6
+  
+  ggplot(df_wagi, aes(x = Kryterium, y = Waga_Def)) +
+    geom_bar(stat = "identity", fill = "#487f9aff", color = "black", alpha = 0.8, width = 0.7) +
+    # Wąsy pokazujące rozpiętość rozmytą (niepewność)
+    geom_errorbar(aes(ymin = L, ymax = U), width = 0.2, color = "black") +
+    geom_point(aes(y = M), shape = 21, fill = "white", size = 2) +
+    coord_flip() +
+    .motyw_mcda() +
+    theme(panel.grid.major.y = element_blank()) +
+    labs(
+      title = "Wagi Kryteriów (GMIR)",
+      subtitle = "Słupki: waga ostra. Wąsy: rozpiętość liczby rozmytej (L, U). Kropka: M.",
+      x = NULL, y = "Znormalizowana Waga"
+    )
 }
 
 
 #' Mapa Strategiczna VIKOR
-
-#'
-
-#' @description Wizualizacja typu cIPMA.
-
-#' Oś X: Efektywność grupowa (odwrócone S). Oś Y: Ryzyko/Żal (R).
-
-#' Wielkość bąbla: Siła kompromisu (zależna od Q).
-
-#'
-
+#' @description Wizualizacja typu IPMA. Oś X: Wydajność (S). Oś Y: Ryzyko (R). Wielkość: Kompromis (Q).
 #' @param x Obiekt klasy `rozmyty_vikor_wynik`.
-
 #' @param ... Dodatkowe argumenty (ignorowane).
-
 #' @import ggplot2
-
 #' @import ggrepel
-
 #' @export
-
 plot.rozmyty_vikor_wynik <- function(x, ...) {
-
   df <- x$wyniki
 
-
-  # 1. Matematyka wykresu: Odwracamy S (żeby im więcej tym lepiej na osi X)
-
+  # Matematyka wykresu: Normalizacja S i Q dla wizualizacji
   s_min <- min(df$Def_S); s_max <- max(df$Def_S)
+  # X: im mniejsze S, tym większa "wydajność"
+  df$Wydajnosc <- ((s_max - df$Def_S) / (s_max - s_min + 1e-9)) * 100
+  
+  # Rozmiar: im mniejsze Q, tym lepszy kompromis (większy bąbel)
+  q_norm <- (df$Def_Q - min(df$Def_Q)) / (max(df$Def_Q) - min(df$Def_Q) + 1e-9)
+  df$Rozmiar <- (1.1 - q_norm)^3 
 
-  # Normalizacja do 0-100
-
-  df$Wydajnosc <- ((s_max - df$Def_S) / (s_max - s_min)) * 100
-  # Wielkość bąbla (odwrócone Q - im mniejsze Q tym większy bąbel, bo to lżejszy kompromis)
-
-  q_inv <- 1 - ((df$Def_Q - min(df$Def_Q)) / (max(df$Def_Q) - min(df$Def_Q)))
-
-  df$Rozmiar <- (q_inv + 0.1)^3 # Potęgowanie dla lepszego kontrastu wizualnego
-
-
-  # Środki do wyznaczenia ćwiartek
-
-  srodek_perf <- median(df$Wydajnosc, na.rm=TRUE)
-
-  srodek_ryzyko <- median(df$Def_R, na.rm=TRUE)
-
+  # Środki ćwiartek
+  srodek_x <- median(df$Wydajnosc, na.rm=TRUE)
+  srodek_y <- median(df$Def_R, na.rm=TRUE)
 
   ggplot(df, aes(x = Wydajnosc, y = Def_R)) +
+    # Tło strefy Lidera
+    annotate("rect", xmin=srodek_x, xmax=Inf, ymin=-Inf, ymax=srodek_y, fill="#2E7D32", alpha=0.2) +
+    # POPRAWKA BŁĘDU (zamieniono drugie xmax na ymax)
+    annotate("rect", xmin=-Inf, xmax=srodek_x, ymin=srodek_y, ymax=Inf, fill="#941212ff", alpha=0.1) +
 
-    # Tło dla strefy Lidera (Prawa dolna ćwiartka: Duża wydajność, Małe ryzyko)
-
-    annotate("rect", xmin=srodek_perf, xmax=Inf, ymin=-Inf, ymax=srodek_ryzyko, fill="#E8F5E9", alpha=0.5) +
-
-
-    # Linie podziału
-
-    geom_vline(xintercept = srodek_perf, linetype = "dashed", color = "grey50") +
-
-    geom_hline(yintercept = srodek_ryzyko, linetype = "dashed", color = "grey50") +
-
-
-    # Etykiety stref
-
-    annotate("text", x = max(df$Wydajnosc), y = min(df$Def_R), label = "STABILNY LIDER\n(Wysoka Efekt., Niskie Ryzyko)",
-
-             hjust=1, vjust=0, size=3, fontface="bold.italic", color="darkgreen") +
-
-    annotate("text", x = min(df$Wydajnosc), y = max(df$Def_R), label = "UNIKAĆ\n(Niska Efekt., Wysokie Ryzyko)",
-
-             hjust=0, vjust=1, size=3, fontface="italic", color="#B71C1C") +
-
+    geom_vline(xintercept = srodek_x, linetype = "dashed", color = "grey50") +
+    geom_hline(yintercept = srodek_y, linetype = "dashed", color = "grey50") +
 
     # Bąble
-
     geom_point(aes(size = Rozmiar, fill = Wydajnosc), shape = 21, color = "black", alpha = 0.8) +
-
     geom_text_repel(aes(label = paste0("Alt ", Alternatywa)), box.padding = 0.5) +
 
-
-    scale_x_continuous(expand = expansion(mult = 0.2)) +
-
-
     labs(
-
-      title = "Mapa Strategiczna VIKOR",
-
-      subtitle = "Zielona strefa = Najlepszy kompromis.",
-
-      x = "Indeks Wydajności Grupy (odwrócone S)",
-
-      y = "Indeks Ryzyka / Żalu (R)",
-
-      size = "Dominacja",
-
-      fill = "Wynik"
-
+      title = "Mapa Strategiczna Fuzzy VIKOR",
+      subtitle = "Prawa-dolna ćwiartka: wysoka wydajność, niskie ryzyko żalu.",
+      x = "Indeks Wydajności Grupy (odwrócone S, 0-100)",
+      y = "Indeks Ryzyka / Żalu (Def_R)",
+      size = "Siła Kompromisu (1-Q)",
+      fill = "Wydajność"
     ) +
-
     .motyw_mcda()
-
 }
 
 
 #' Mapa Efektywności TOPSIS
-
-#'
-
-#' @description Pokazuje odległość od ideału. Oś X: Dystans od Najgorszego (D-).
-
-#' Oś Y: Dystans do Najlepszego (D+).
-
-#' Cel: Chcemy być w prawym dolnym rogu (Daleko od D-, Blisko D+).
-
-#'
-
+#' @description Oś X: Dystans od Anty-wzorca (D-). Oś Y: Dystans do Wzorca (D+).
 #' @param x Obiekt klasy `rozmyty_topsis_wynik`.
-
 #' @param ... Dodatkowe argumenty.
 #' @export
-
 plot.rozmyty_topsis_wynik <- function(x, ...) {
-
   df <- x$wyniki
+  df$Rozmiar <- (df$Wynik)^3 
 
-  df$Rozmiar <- (df$Wynik)^4 # Podbicie różnic w wielkości
-
-
-  # Punkt Idealny na wykresie (Target)
-
-  cel_x <- max(df$D_minus) * 1.02
-
-  cel_y <- min(df$D_plus) * 0.98
-
-
-  # Obliczenie wizualnej odległości euklidesowej na wykresie
-
-  df$OdlegloscWizualna <- sqrt((df$D_minus - cel_x)^2 + (df$D_plus - cel_y)^2)
-
+  # Punkt Idealny wizualny (Target)
+  cel_x <- max(df$D_minus) * 1.05
+  cel_y <- min(df$D_plus) * 0.95
 
   ggplot(df, aes(x = D_minus, y = D_plus)) +
-
-    # Linie łączące z punktem idealnym
-
-    geom_segment(aes(xend = cel_x, yend = cel_y), linetype = "dotted", color = "grey50") +
-
-
-    # Etykieta odległości na linii
-
-    geom_label(aes(x = (D_minus + cel_x) / 2, y = (D_plus + cel_y) / 2,
-
-                   label = sprintf("%.3f", OdlegloscWizualna)),
-
-               size = 2.5, color = "grey30", label.size = 0, alpha = 0.7) +
-
+    # Strefa celu
+    annotate("point", x = cel_x, y = cel_y, shape=18, size=8, color="#929019ff", alpha=0.5) +
+    # Linie pomocnicze
+    geom_segment(aes(xend = cel_x, yend = cel_y), linetype = "dotted", color = "grey70") +
 
     # Bąble
-
     geom_point(aes(size = Rozmiar, fill = Wynik), shape = 21, color = "black", alpha = 0.9) +
-
     geom_text_repel(aes(label = paste0("Alt ", Alternatywa)), box.padding = 0.6) +
 
-
-    # Marker Idealu (Złoty romb)
-
-    annotate("point", x = cel_x, y = cel_y, shape=18, size=6, color="#FFD700") +
-
-    annotate("text", x = cel_x, y = cel_y, label="IDEAŁ", vjust=2, size=3.5, fontface="bold") +
-
-
     labs(
-
-      title = "Mapa Efektywności TOPSIS",
-
-      subtitle = "Linie przerywane pokazują drogę do rozwiązania idealnego.",
-
+      title = "Mapa Efektywności Fuzzy TOPSIS",
+      subtitle = "Cel: Prawy-dolny róg (daleko od najgorszego, blisko ideału).",
       x = "Dystans od Anty-Wzorca (D-)",
-
       y = "Dystans do Wzorca (D+)",
-
-      size = "Bliskość^4",
-
+      size = "Wynik CC^3",
       fill = "Wynik (CC)"
-
     ) +
-
     .motyw_mcda()
-
 }
 
 
 #' Mapa Spójności WASPAS
-
-#'
-
-#' @description Porównuje podejście addytywne (WSM) z multiplikatywnym (WPM).
-
-#' Jeśli punkty leżą na przekątnej, metoda jest spójna.
-
-#'
-
+#' @description Porównuje WSM (addytwność) z WPM (multiplikatywność).
 #' @param x Obiekt klasy `rozmyty_waspas_wynik`.
-
 #' @param ... Dodatkowe argumenty.
-
 #' @export
-
 plot.rozmyty_waspas_wynik <- function(x, ...) {
-
   df <- x$wyniki
 
-
-  # Obliczenie spójności (im mniejsza różnica między WSM a WPM tym lepiej)
-
+  # Obliczenie spójności (różnica między modelami)
   df$Odchylenie <- abs(df$WSM - df$WPM)
-  df$Spojnosc <- 1 - (df$Odchylenie / max(df$Odchylenie))
-
+  df$Spojnosc <- 1 - (df$Odchylenie / (max(df$Odchylenie) + 1e-9))
 
   ggplot(df, aes(x = WSM, y = WPM)) +
-
-    # Pasmo spójności
-
-    geom_ribbon(aes(ymin = WSM - 0.05, ymax = WSM + 0.05), fill = "grey90", alpha = 0.5) +
-
+    # Przekątna idealnej spójności
     geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "grey50") +
 
-
-    geom_point(aes(size = Wynik^3, fill = Spojnosc), shape = 21, color = "black", alpha = 0.8) +
-
+    geom_point(aes(size = Wynik^2, fill = Spojnosc), shape = 21, color = "black", alpha = 0.8) +
     geom_text_repel(aes(label = paste0("Alt ", Alternatywa)), box.padding = 0.5) +
 
-
     labs(
-
-      title = "Mapa Spójności WASPAS",
-
-      subtitle = "Punkty poza szarym pasmem są 'chwiejne' (duża różnica między WSM a WPM).",
-
-      x = "Suma Ważona (WSM)",
-
-      y = "Iloczyn Ważony (WPM)",
-
-      size = "Wynik Q",
-
-      fill = "Spójność"
-
+      title = "Mapa Spójności Fuzzy WASPAS",
+      subtitle = "Im bliżej przekątnej, tym modele WSM i WPM są bardziej zgodne.",
+      x = "Model Addytywny (WSM)",
+      y = "Model Multiplikatywny (WPM)",
+      size = "Wynik Q^2",
+      fill = "Spójność modeli"
     ) +
-
     .motyw_mcda()
-
 }
 
 
-# Fix dla ostrzeżeń R CMD check o zmiennych globalnych w ggplot2
-
-utils::globalVariables(c("Def_S", "Def_R", "D_plus", "D_minus", "Wynik", "WSM", "WPM", "Wydajnosc", "Rozmiar", "OdlegloscWizualna", "Spojnosc", "Alternatywa"))
-#' Mapa Strategiczna MULTIMOORA
-#' @export
-plot.rozmyty_multimoora_wynik <- function(x, ...) {
-  df <- x$wyniki
-  df$Sila <- (max(df$Ranking_MM) - df$Ranking_MM + 1)^2
-
-  ggplot(df, aes(x = RS_Wynik, y = RP_Wynik)) +
-    annotate("rect", xmin = median(df$RS_Wynik), xmax = Inf, ymin = -Inf, ymax = median(df$RP_Wynik),
-             fill = "#E8F5E9", alpha = 0.5) +
-    geom_point(aes(size = Sila, fill = as.factor(Ranking_MM)), shape = 21, color = "black") +
-    geom_text_repel(aes(label = paste0("Alt ", Alternatywa))) +
-    .motyw_mcda() +
-    labs(title = "Mapa MULTIMOORA", x = "System Ilorazowy (Max)", y = "Punkt Odniesienia (Min)")
-}
-
-#' Wykres Przepływów PROMETHEE II
+#' Mapa Przepływów PROMETHEE II
+#' @description Oś X: Przepływ wyjściowy (siła). Oś Y: Przepływ wejściowy (słabość).
+#' @param x Obiekt klasy `rozmyty_promethee_wynik`.
+#' @param ... Dodatkowe argumenty.
+#' @import ggplot2
+#' @import ggrepel
 #' @export
 plot.rozmyty_promethee_wynik <- function(x, ...) {
   df <- x$wyniki
-  df <- df[order(df$Phi_Net), ]
-  df$Alt <- factor(paste0("Alt ", df$Alternatywa), levels = paste0("Alt ", df$Alternatywa))
+  
+  # Przygotowanie rozmiaru bąbla na podstawie Net Flow (CC)
+  # Normalizacja CC do zakresu 0-1 dla rozmiaru
+  cc_norm <- (df$Phi_Net - min(df$Phi_Net)) / (max(df$Phi_Net) - min(df$Phi_Net) + 1e-9)
+  df$Rozmiar <- (cc_norm + 0.2)^2
+  
+  # Środki do wyznaczenia ćwiartek
+  srodek_x <- median(df$Phi_Plus, na.rm=TRUE)
+  srodek_y <- median(df$Phi_Minus, na.rm=TRUE)
 
-  ggplot(df, aes(x = Alt, y = Phi_Net)) +
-    geom_segment(aes(xend = Alt, y = 0, yend = Phi_Net), color = "grey") +
-    geom_point(aes(fill = Phi_Net), size = 5, shape = 21) +
-    coord_flip() +
-    .motyw_mcda() +
-    labs(title = "PROMETHEE II Ranking", y = "Przepływ Netto (Phi)")
+  ggplot(df, aes(x = Phi_Plus, y = Phi_Minus)) +
+    # Tło dla strefy Lidera (Duża siła, Mała słabość -> Prawy Dolny Róg)
+    annotate("rect", xmin=srodek_x, xmax=Inf, ymin=-Inf, ymax=srodek_y, fill="#7d2e63ff", alpha=0.2) +
+    
+    # Linie podziału
+    geom_vline(xintercept = srodek_x, linetype = "dashed", color = "grey50") +
+    geom_hline(yintercept = srodek_y, linetype = "dashed", color = "grey50") +
+    
+    # Bąble
+    geom_point(aes(size = Rozmiar, fill = Phi_Net), shape = 21, color = "black", alpha = 0.8) +
+    geom_text_repel(aes(label = paste0("Alt ", Alternatywa)), box.padding = 0.5) +
+    
+    # Etykiety osi
+    annotate("text", x = max(df$Phi_Plus), y = min(df$Phi_Minus), label = "LIDER", 
+             hjust=1, vjust=0, size=4, fontface="bold", color="darkgreen") +
+
+    labs(
+      title = "Mapa Przepływów Fuzzy PROMETHEE II",
+      subtitle = "Prawy-dolny róg: duża siła przebicia (Phi+), mała podatność (Phi-).",
+      x = "Przepływ Wyjściowy / Siła (Phi+)",
+      y = "Przepływ Wejściowy / Słabość (Phi-)",
+      size = "Przepływ Netto^2",
+      fill = "Phi Netto"
+    ) +
+    .motyw_mcda()
 }
-

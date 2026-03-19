@@ -1,165 +1,54 @@
 #' @title Generowanie Tabeli APA
-
-#' @description
-
-#' Funkcja przekształca wyniki analizy MCDA (TOPSIS, VIKOR, WASPAS, Meta-Ranking)
-
-#' w sformatowaną tabelę zgodną ze standardem APA, gotową do publikacji w Wordzie.
-
-#'
-
-#' @param x Obiekt wynikowy z funkcji pakietu (np. `rozmyty_topsis_wynik`).
-
-#' @param tytul Opcjonalny tytuł tabeli.
-
-#' @return Obiekt klasy `flextable` gotowy do druku lub zapisu do Worda.
-
-#' @importFrom rempsyc nice_table
-
-#' @importFrom flextable autofit save_as_docx
+#' @export
+tabela_apa <- function(x, tytul = NULL) { UseMethod("tabela_apa") }
 
 #' @export
-
-tabela_apa <- function(x, tytul = NULL) {
-
-  UseMethod("tabela_apa")
-
+tabela_apa.data.frame <- function(x, tytul = "Tabela Wyników MCDA") {
+  rempsyc::nice_table(x, title = c("Tabela", tytul))
 }
 
-
 #' @export
-
 tabela_apa.rozmyty_topsis_wynik <- function(x, tytul = "Wyniki metody Fuzzy TOPSIS") {
-
   df <- x$wyniki
-  # Formatowanie nazw kolumn dla czytelnika
-
-  names(df) <- c("Alternatywa", "D+ (Do Idealu)", "D- (Od Anty)", "Wynik (CC)", "Ranking")
-
-
-  # Zaokrąglenia
-
-  df$`D+ (Do Idealu)` <- round(df$`D+ (Do Idealu)`, 3)
-
-  df$`D- (Od Anty)` <- round(df$`D- (Od Anty)`, 3)
-
+  names(df) <- c("Alternatywa", "D+ (Wzorzec)", "D- (Anty-wzorzec)", "Wynik (CC)", "Ranking")
+  df$`D+ (Wzorzec)` <- round(df$`D+ (Wzorzec)`, 4)
+  df$`D- (Anty-wzorzec)` <- round(df$`D- (Anty-wzorzec)`, 4)
   df$`Wynik (CC)` <- round(df$`Wynik (CC)`, 4)
-
-
-  # Tworzenie tabeli
-
-  rempsyc::nice_table(
-
-    df,
-
-    title = c("Tabela 1", tytul),
-
-    note = c("Uwaga. CC - Coefficient of Closeness. Im wyższa wartość, tym lepsza alternatywa.")
-
-  )
-
+  rempsyc::nice_table(df, title = c("Tabela", tytul), note = c("Uwaga. CC - Coefficient of Closeness."))
 }
 
-
 #' @export
-
 tabela_apa.rozmyty_vikor_wynik <- function(x, tytul = "Wyniki metody Fuzzy VIKOR") {
-
-  df <- x$wyniki
-
-
-  names(df) <- c("Alternatywa", "S (Grupa)", "R (Zal)", "Q (Kompromis)", "Ranking")
-
-
-  df$`S (Grupa)` <- round(df$`S (Grupa)`, 3)
-
-  df$`R (Zal)` <- round(df$`R (Zal)`, 3)
-
+  # Wybieramy tylko unikalne kolumny, ignorujemy zduplikowany "Wynik"
+  df <- x$wyniki[, c("Alternatywa", "Def_S", "Def_R", "Def_Q", "Ranking")]
+  names(df) <- c("Alternatywa", "S (Wydajnosc)", "R (Zal)", "Q (Kompromis)", "Ranking")
+  df$`S (Wydajnosc)` <- round(df$`S (Wydajnosc)`, 4)
+  df$`R (Zal)` <- round(df$`R (Zal)`, 4)
   df$`Q (Kompromis)` <- round(df$`Q (Kompromis)`, 4)
-
-
-  rempsyc::nice_table(
-
-    df,
-
-    title = c("Tabela 2", tytul),
-
-    note = c("Uwaga. S: użyteczność grupy, R: indywidualny żal, Q: indeks kompromisu (im mniej tym lepiej).")
-
-  )
-
+  rempsyc::nice_table(df, title = c("Tabela", tytul), note = c("Uwaga. Q: indeks kompromisu."))
 }
 
-
 #' @export
-
 tabela_apa.rozmyty_waspas_wynik <- function(x, tytul = "Wyniki metody Fuzzy WASPAS") {
-
   df <- x$wyniki
-
-
-  names(df) <- c("Alternatywa", "WSM (Suma)", "WPM (Iloczyn)", "Q (Laczny)", "Ranking")
-
-
-  df$`WSM (Suma)` <- round(df$`WSM (Suma)`, 3)
-
-  df$`WPM (Iloczyn)` <- round(df$`WPM (Iloczyn)`, 3)
-
-  df$`Q (Laczny)` <- round(df$`Q (Laczny)`, 4)
-
-
-  rempsyc::nice_table(
-
-    df,
-
-    title = c("Tabela 3", tytul),
-
-    note = c("Uwaga. WSM: Weighted Sum Model, WPM: Weighted Product Model.")
-
-  )
-
+  names(df) <- c("Alternatywa", "WSM", "WPM", "Wynik (Q)", "Ranking")
+  df$WSM <- round(df$WSM, 4); df$WPM <- round(df$WPM, 4); df$`Wynik (Q)` <- round(df$`Wynik (Q)`, 4)
+  rempsyc::nice_table(df, title = c("Tabela", tytul), note = c("Uwaga. Wynik Q to połączenie modeli WSM i WPM."))
 }
 
+#' @export
+tabela_apa.rozmyty_promethee_wynik <- function(x, tytul = "Wyniki metody Fuzzy PROMETHEE II") {
+  # Wybieramy tylko konkretne kolumny
+  df <- x$wyniki[, c("Alternatywa", "Phi_Plus", "Phi_Minus", "Phi_Net", "Ranking")]
+  names(df) <- c("Alternatywa", "Phi+", "Phi-", "Phi Netto", "Ranking")
+  df$`Phi+` <- round(df$`Phi+`, 4); df$`Phi-` <- round(df$`Phi-`, 4); df$`Phi Netto` <- round(df$`Phi Netto`, 4)
+  rempsyc::nice_table(df, title = c("Tabela", tytul), note = c("Uwaga. Phi: przepływy siły i słabości."))
+}
 
 #' @export
-
-tabela_apa.list <- function(x, tytul = "Meta-Ranking (Konsensus)") {
-
-  # Obsługa Meta-Rankingu
-  if(is.null(x$porownanie)) stop("To nie jest obiekt meta-rankingu.")
-
-
-  df <- x$porownanie
-
-
-  # Usuwamy "podłogi" z nazw kolumn (np. Meta_Suma -> Meta Suma)
-
+tabela_apa.list <- function(x, tytul = "Zestawienie Meta-Rankingu") {
+  if(is.null(x$wyniki)) stop("To nie jest poprawny obiekt meta-rankingu.")
+  df <- x$wyniki
   names(df) <- gsub("_", " ", names(df))
-
-
-  rempsyc::nice_table(
-
-    df,
-
-    title = c("Tabela 4", tytul),
-
-    note = c("Zestawienie rang uzyskanych różnymi metodami oraz rankingi konsensusu.")
-
-  )
-
+  rempsyc::nice_table(df, title = c("Tabela", tytul), note = c("Uwaga. Meta Ranking oparty na Teorii Dominacji."))
 }
-#' @export
-tabela_apa.rozmyty_multimoora_wynik <- function(x, tytul = "Wyniki MULTIMOORA") {
-  df <- x$wyniki[, c("Alternatywa", "RS_Ranking", "RP_Ranking", "FMF_Ranking", "Ranking_MM")]
-  names(df) <- c("Alternatywa", "Rank Ratio", "Rank Ref.Point", "Rank Mult.Form", "MULTIMOORA")
-  rempsyc::nice_table(df, title = c("Tabela", tytul))
-}
-
-#' @export
-tabela_apa.rozmyty_promethee_wynik <- function(x, tytul = "Wyniki PROMETHEE II") {
-  df <- x$wyniki
-  df$Phi_Net <- round(df$Phi_Net, 3)
-  names(df) <- c("Alternatywa", "Phi+ (Leaving)", "Phi- (Entering)", "Phi Net", "Ranking")
-  rempsyc::nice_table(df, title = c("Tabela", tytul))
-}
-

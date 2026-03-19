@@ -7,7 +7,6 @@
 .skaluj_do_saaty(wektor)
 }
 \description{
-Przekształca dowolną skalę (np. Likert 1-5, wartości ciągłe)
-na skalę Saaty'ego 1-9.
+Przekształca dowolną skalę (np. Likert 1-5) na skalę Saaty'ego 1-9.
 }
 \keyword{internal}

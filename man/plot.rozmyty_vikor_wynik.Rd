@@ -12,7 +12,5 @@
 \item{...}{Dodatkowe argumenty (ignorowane).}
 }
 \description{
-Wizualizacja typu cIPMA.
-Oś X: Efektywność grupowa (odwrócone S). Oś Y: Ryzyko/Żal (R).
-Wielkość bąbla: Siła kompromisu (zależna od Q).
+Wizualizacja typu IPMA. Oś X: Wydajność (S). Oś Y: Ryzyko (R). Wielkość: Kompromis (Q).
 }

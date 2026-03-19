@@ -7,7 +7,6 @@
 .rozmyj_wektor(wektor)
 }
 \description{
-Zamienia liczbę rzeczywistą (Crisp) na Trójkątną Liczbę Rozmytą (TFN).
-TFN to trójka (l, m, u), gdzie m = x, l = x-1, u = x+1.
+Zamienia liczbę rzeczywistą na Trójkątną Liczbę Rozmytą (TFN).
 }
 \keyword{internal}

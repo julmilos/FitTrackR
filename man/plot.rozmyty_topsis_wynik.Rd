@@ -12,7 +12,5 @@
 \item{...}{Dodatkowe argumenty.}
 }
 \description{
-Pokazuje odległość od ideału. Oś X: Dystans od Najgorszego (D-).
-Oś Y: Dystans do Najlepszego (D+).
-Cel: Chcemy być w prawym dolnym rogu (Daleko od D-, Blisko D+).
+Oś X: Dystans od Anty-wzorca (D-). Oś Y: Dystans do Wzorca (D+).
 }
