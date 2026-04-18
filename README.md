@@ -121,7 +121,7 @@ head(meta$porownanie[order(meta$porownanie$Meta_Agregacja), ], 3)
 ## Dokumentacja
 Więcej informacji:
 - Vignette: ``` vignette("fittrackr_mcda", package = "FitTrackR") ```
-- Pomoc dla funkcji: ``` ?fuzzy_vikor, ?rozmyty_promethee,
+- Pomoc dla funkcji: ``` ?fuzzy_vikor, 
 ?meta_ranking, ?przygotuj_dane_mcda
 
 ## Autor

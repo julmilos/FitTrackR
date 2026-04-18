@@ -15,7 +15,7 @@ plot.fuzzy_vikor_res <- function(x, ...) {
     df$worst_case_loss,
     cex = sqrt(pmax(df$compromise_index, 0)) + 0.5,
     pch = 21,
-    bg = "lightblue",
+    bg = adjustcolor("limegreen", alpha.f = 0.6),
     xlab = "Aggregated Loss (group utility)",
     ylab = "Worst-case Loss (individual regret)",
     main = "Fuzzy VIKOR – Decision Bubble Map",
