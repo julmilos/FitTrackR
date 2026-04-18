@@ -47,11 +47,9 @@ analyze_wearables <- function(macierz,
   wagi_rozszerzone <- wagi_rozszerzone / sum(wagi_rozszerzone)
   wagi_fuzzy <- rep(wagi_rozszerzone, each = 3)
 
-  # --- MCDA ---
   wynik_topsis <- rozmyty_topsis(macierz, typy_kryteriow, wagi = wagi_fuzzy)
   wynik_vikor  <- rozmyty_vikor(macierz, typy_kryteriow, wagi = wagi_fuzzy)
 
-  # --- meta-ranking ---
   rank_matrix <- cbind(
     TOPSIS = wynik_topsis$wyniki$Ranking,
     VIKOR  = wynik_vikor$wyniki$Ranking

@@ -1,7 +1,7 @@
 #' Przykładowe dane do analizy wielokryterialnej MCDA
 #'
 #' Zbiór danych zawiera symulowane oceny ekspertów dotyczące
-#' urządzeń do monitorowania aktywności fizycznej (smartwatchy).
+#' urządzeń do monitorowania aktywności fizycznej (smartwatchy oraz opasek fitness).
 #' Dane zostały wygenerowane w oparciu o skale Likerta i stanowią
 #' wejście do metod Fuzzy TOPSIS oraz Fuzzy VIKOR.
 #'

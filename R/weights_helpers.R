@@ -9,7 +9,6 @@
 
   n_criteria <- ncol(decision_matrix) / 3
 
-  # --- Case 1: explicit fuzzy weights ---
   if (!is.null(weights)) {
 
     if (length(weights) != ncol(decision_matrix)) {
@@ -19,7 +18,6 @@
     return(weights)
   }
 
-  # --- Case 2: BWM weights ---
   if (!is.null(bwm_criteria) &&
       !is.null(bwm_best) &&
       !is.null(bwm_worst)) {

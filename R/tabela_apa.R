@@ -32,12 +32,11 @@ tabela_apa <- function(x, tytul = NULL) {
 tabela_apa.rozmyty_topsis_wynik <- function(x, tytul = "Wyniki metody Fuzzy TOPSIS") {
 
   df <- x$wyniki
-  # Formatowanie nazw kolumn dla czytelnika
+
 
   names(df) <- c("Alternatywa", "D+ (Do Idealu)", "D- (Od Anty)", "Wynik (CC)", "Ranking")
 
 
-  # Zaokrąglenia
 
   df$`D+ (Do Idealu)` <- round(df$`D+ (Do Idealu)`, 3)
 
@@ -46,7 +45,6 @@ tabela_apa.rozmyty_topsis_wynik <- function(x, tytul = "Wyniki metody Fuzzy TOPS
   df$`Wynik (CC)` <- round(df$`Wynik (CC)`, 4)
 
 
-  # Tworzenie tabeli
 
   rempsyc::nice_table(
 
@@ -125,14 +123,11 @@ tabela_apa.rozmyty_waspas_wynik <- function(x, tytul = "Wyniki metody Fuzzy WASP
 
 tabela_apa.list <- function(x, tytul = "Meta-Ranking (Konsensus)") {
 
-  # Obsługa Meta-Rankingu
   if(is.null(x$porownanie)) stop("To nie jest obiekt meta-rankingu.")
 
 
   df <- x$porownanie
 
-
-  # Usuwamy "podłogi" z nazw kolumn (np. Meta_Suma -> Meta Suma)
 
   names(df) <- gsub("_", " ", names(df))
 

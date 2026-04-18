@@ -1,6 +1,6 @@
 #' @title Lifestyle Profiles for Wearable Devices
 #' @description Predefiniowane profile użytkowników wspierające dobór wag kryteriów
-#' w analizie MCDA dla urządzeń wearable.
+#' w analizie MCDA dla urządzeń wearable (smartwatchy oraz opasek fitness).
 #' @keywords internal
 
 .get_lifestyle_profile <- function(profile) {

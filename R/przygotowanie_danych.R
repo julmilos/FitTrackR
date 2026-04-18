@@ -8,11 +8,9 @@
 
 .parsuj_skladnie_mcda <- function(skladnia) {
 
-  # Usuwamy znaki nowej linii
 
   czysta_skladnia <- gsub("\n", "", skladnia)
 
-  # Dzielimy na linie po sredniku
 
   linie <- strsplit(czysta_skladnia, ";")[[1]]
 
@@ -21,9 +19,7 @@
 
   for (linia in linie) {
 
-    if (trimws(linia) == "") next # Pomin puste linie
-
-    # Dzielimy wg operatora "=~"
+    if (trimws(linia) == "") next
 
     czesci <- strsplit(linia, "=~")[[1]]
 
@@ -31,7 +27,6 @@
 
       nazwa_kryterium <- trimws(czesci[1])
 
-      # Dzielimy zmienne skladowe wg "+"
 
       elementy <- trimws(strsplit(czesci[2], "\\+")[[1]])
 
@@ -56,24 +51,16 @@
 
 .skaluj_do_saaty <- function(wektor) {
 
-  # Zabezpieczenie przed ujemnymi (chyba ze to specyfika danych, tu zakladamy blad)
+  if (any(wektor < 0, na.rm = TRUE)) stop("Dane wejściowe nie mogą być wartościami ujemnymi.")
 
-  if (any(wektor < 0, na.rm = TRUE)) stop("Wykryto wartości ujemne w danych wejściowych.")
-
-
-  # Obsluga kodow bledow (np. 99) i brakow danych (NA) -> zamiana na 0
 
   wektor[is.na(wektor) | wektor == 99] <- 0
 
-
-  # Maska dla poprawnych wartosci (wiekszych od 0)
 
   maska_poprawne <- wektor > 0
 
   wartosci <- wektor[maska_poprawne]
 
-
-  # Jesli same zera, zwroc wektor
 
   if (length(wartosci) == 0) return(wektor)
 
@@ -83,15 +70,12 @@
   max_v <- max(wartosci)
 
 
-  # Skalowanie liniowe do przedzialu [1, 9]
-
   if (min_v == max_v) {
 
     wektor[maska_poprawne] <- 1
 
   } else {
 
-    # Wzor: 1 + (x - min) * (8 / (max - min))
 
     wektor[maska_poprawne] <- 1 + (wartosci - min_v) * (8 / (max_v - min_v))
 
@@ -112,20 +96,16 @@
 
 .rozmyj_wektor <- function(wektor) {
 
-  # Dolna granica (lower), min to 1
 
   l <- pmax(1, wektor - 1)
 
-  # Srodek (middle)
 
   m <- wektor
 
-  # Gorna granica (upper), max to 9
 
   u <- pmin(9, wektor + 1)
 
 
-  # Obsluga zer (brakow danych) - pozostają zerami
 
   jest_zerem <- (wektor == 0)
 
@@ -169,14 +149,12 @@ przygotuj_dane_mcda <- function(dane, skladnia, kolumna_alternatyw = NULL, funkc
   if (!is.data.frame(dane)) stop("Argument 'dane' musi być ramką danych (data frame).")
 
 
-  # 1. Parsowanie składni
 
   mapowanie <- .parsuj_skladnie_mcda(skladnia)
 
   nazwy_kryteriow <- names(mapowanie)
 
 
-  # 2. Obliczanie zmiennych kompozytowych i skalowanie (dla każdego wiersza/eksperta)
 
   tymczasowe_wyniki <- data.frame(row_id = 1:nrow(dane))
 
@@ -185,14 +163,12 @@ przygotuj_dane_mcda <- function(dane, skladnia, kolumna_alternatyw = NULL, funkc
 
     zmienne <- mapowanie[[kryt]]
 
-    # Sprawdzenie czy zmienne istnieja w danych
 
     brakujace <- zmienne[!zmienne %in% names(dane)]
 
-    if (length(brakujace) > 0) stop(paste("Brakuje zmiennych w danych:", paste(brakujace, collapse=", ")))
+    if (length(brakujace) > 0) stop(paste("Brak zmiennych w danych:", paste(brakujace, collapse=", ")))
 
 
-    # Obliczanie sredniej dla kryterium (Composite Score)
 
     if (length(zmienne) > 1) {
 
@@ -205,14 +181,12 @@ przygotuj_dane_mcda <- function(dane, skladnia, kolumna_alternatyw = NULL, funkc
     }
 
 
-    # Skalowanie do 1-9
 
     tymczasowe_wyniki[[kryt]] <- .skaluj_do_saaty(surowy_wynik)
 
   }
 
 
-  # 3. Agregacja (Eksperci -> Alternatywy)
 
   if (!is.null(kolumna_alternatyw)) {
 
@@ -222,12 +196,10 @@ przygotuj_dane_mcda <- function(dane, skladnia, kolumna_alternatyw = NULL, funkc
     tymczasowe_wyniki$ID_Alternatywy <- dane[[kolumna_alternatyw]]
 
 
-    # Agregacja wg ID Alternatywy (np. srednia z ocen 5 ekspertow dla danego dostawcy)
 
     dane_zagregowane <- aggregate(. ~ ID_Alternatywy, data = tymczasowe_wyniki[, -1], FUN = funkcja_agregacji)
 
 
-    # Sortowanie i czyszczenie
 
     dane_zagregowane <- dane_zagregowane[order(dane_zagregowane$ID_Alternatywy), ]
 
@@ -238,7 +210,6 @@ przygotuj_dane_mcda <- function(dane, skladnia, kolumna_alternatyw = NULL, funkc
 
   } else {
 
-    # Brak agregacji (1 wiersz = 1 alternatywa)
 
     macierz_wynikow <- as.matrix(tymczasowe_wyniki[, nazwy_kryteriow])
 
@@ -247,7 +218,6 @@ przygotuj_dane_mcda <- function(dane, skladnia, kolumna_alternatyw = NULL, funkc
   }
 
 
-  # 4. Rozmywanie (Crisp -> Fuzzy Triangular)
 
   lista_decyzyjna <- list()
 
@@ -264,7 +234,6 @@ przygotuj_dane_mcda <- function(dane, skladnia, kolumna_alternatyw = NULL, funkc
 
   rownames(finalna_macierz) <- nazwy_wierszy
 
-  # Zapisujemy metadane (nazwy kryteriow) jako atrybut macierzy
 
   attr(finalna_macierz, "nazwy_kryteriow") <- nazwy_kryteriow
 
