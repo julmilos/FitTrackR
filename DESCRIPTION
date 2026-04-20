@@ -5,7 +5,7 @@ Version: 0.1.0
 Author: Julia Milos <julia.milos@student.uj.edu.pl>
 Maintainer: Julia Milos <julia.milos@student.uj.edu.pl>
 Description: Pakiet R do wspomagania wyboru najlepszego urzadzenia do monitorowania aktywnosci fizycznej.
-  Pakiet implementuje metody MCDA (TOPSIS, VIKOR, WASPAS) w srodowisku
+  Pakiet implementuje metody MCDA (TOPSIS, VIKOR) w srodowisku
   rozmytym (Fuzzy Logic). Zawiera modul automatycznego przetwarzania danych ankietowych
   na liczby rozmyte oraz solver dla metody Best-Worst Method (BWM) do wyznaczania wag kryteriow.
 License: GPL-3
@@ -19,7 +19,8 @@ Imports:
     RankAggreg,
     stats,
     rempsyc,
-    flextable
+    flextable,
+    pkgdown
 Suggests:
   knitr,
   rmarkdown,
