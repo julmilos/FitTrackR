@@ -2,7 +2,7 @@
 
 #' @description
 
-#' Funkcja przekształca wyniki analizy MCDA (TOPSIS, VIKOR, WASPAS, Meta-Ranking)
+#' Funkcja przekształca wyniki analizy MCDA (TOPSIS, VIKOR, PROMETHEE, Meta-Ranking)
 
 #' w sformatowaną tabelę zgodną ze standardem APA, gotową do publikacji w Wordzie.
 
@@ -91,36 +91,6 @@ tabela_apa.rozmyty_vikor_wynik <- function(x, tytul = "Wyniki metody Fuzzy VIKOR
 
 #' @export
 
-tabela_apa.rozmyty_waspas_wynik <- function(x, tytul = "Wyniki metody Fuzzy WASPAS") {
-
-  df <- x$wyniki
-
-
-  names(df) <- c("Alternatywa", "WSM (Suma)", "WPM (Iloczyn)", "Q (Laczny)", "Ranking")
-
-
-  df$`WSM (Suma)` <- round(df$`WSM (Suma)`, 3)
-
-  df$`WPM (Iloczyn)` <- round(df$`WPM (Iloczyn)`, 3)
-
-  df$`Q (Laczny)` <- round(df$`Q (Laczny)`, 4)
-
-
-  rempsyc::nice_table(
-
-    df,
-
-    title = c("Tabela 3", tytul),
-
-    note = c("Uwaga. WSM: Weighted Sum Model, WPM: Weighted Product Model.")
-
-  )
-
-}
-
-
-#' @export
-
 tabela_apa.list <- function(x, tytul = "Meta-Ranking (Konsensus)") {
 
   if(is.null(x$porownanie)) stop("To nie jest obiekt meta-rankingu.")
@@ -141,14 +111,8 @@ tabela_apa.list <- function(x, tytul = "Meta-Ranking (Konsensus)") {
     note = c("Zestawienie rang uzyskanych różnymi metodami oraz rankingi konsensusu.")
 
   )
+}
 
-}
-#' @export
-tabela_apa.rozmyty_multimoora_wynik <- function(x, tytul = "Wyniki MULTIMOORA") {
-  df <- x$wyniki[, c("Alternatywa", "RS_Ranking", "RP_Ranking", "FMF_Ranking", "Ranking_MM")]
-  names(df) <- c("Alternatywa", "Rank Ratio", "Rank Ref.Point", "Rank Mult.Form", "MULTIMOORA")
-  rempsyc::nice_table(df, title = c("Tabela", tytul))
-}
 
 #' @export
 tabela_apa.rozmyty_promethee_wynik <- function(x, tytul = "Wyniki PROMETHEE II") {

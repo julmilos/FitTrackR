@@ -139,10 +139,9 @@
 
 #' @param funkcja_agregacji Funkcja używana do scalania opinii ekspertów (domyślnie: mean).
 
-#' @return Macierz o wymiarach ($m \times 3n$), gdzie m to liczba alternatyw.
-
+#' @return Macierz o wymiarach (m x 3n), gdzie m to liczba alternatyw.
+#' @importFrom stats aggregate
 #' @export
-
 przygotuj_dane_mcda <- function(dane, skladnia, kolumna_alternatyw = NULL, funkcja_agregacji = mean) {
 
 

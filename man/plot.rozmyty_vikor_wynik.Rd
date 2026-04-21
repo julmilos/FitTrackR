@@ -9,10 +9,8 @@
 \arguments{
 \item{x}{Obiekt klasy `rozmyty_vikor_wynik`.}
 
-\item{...}{Dodatkowe argumenty (ignorowane).}
+\item{...}{Dodatkowe argumenty.}
 }
 \description{
-Wizualizacja typu cIPMA.
-Oś X: Efektywność grupowa (odwrócone S). Oś Y: Ryzyko/Żal (R).
-Wielkość bąbla: Siła kompromisu (zależna od Q).
+Mapa Strategiczna VIKOR
 }

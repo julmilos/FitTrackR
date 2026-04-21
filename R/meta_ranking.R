@@ -1,81 +1,130 @@
-# Internal helper: dominance-based ranking
-.calculate_dominance_ranking <- function(rank_matrix) {
-
-  n <- nrow(rank_matrix)
+#' @title Teoria Dominacji dla Rankingu
+#' @description Funkcja pomocnicza do konsensusu.
+#' @keywords internal
+calculate_dominance_ranking <- function(rank_mat) {
+  n <- nrow(rank_mat)
   final_rank <- rep(0, n)
   available <- rep(TRUE, n)
-
-  for (pos in 1:n) {
-
-    current <- rank_matrix
-    current[!available, ] <- Inf
-
-    best_candidates <- apply(current, 2, which.min)
-    freq <- table(best_candidates)
-
-    max_votes <- max(freq)
-    winners <- as.numeric(names(freq)[freq == max_votes])
-
+  for (current_position in 1:n) {
+    current_mat <- rank_mat
+    current_mat[!available, ] <- Inf
+    candidates <- apply(current_mat, 2, which.min)
+    freq_table <- table(candidates)
+    max_votes <- max(freq_table)
+    winners <- as.numeric(names(freq_table)[freq_table == max_votes])
     if (length(winners) == 1) {
-      winner <- winners
+      winner_idx <- winners
     } else {
-      sums <- rowSums(rank_matrix[winners, , drop = FALSE])
-      winner <- winners[which.min(sums)]
+      sums <- rowSums(rank_mat[winners, , drop = FALSE])
+      winner_idx <- winners[which.min(sums)]
     }
-
-    final_rank[winner] <- pos
-    available[winner] <- FALSE
+    final_rank[winner_idx] <- current_position
+    available[winner_idx] <- FALSE
   }
-
   return(final_rank)
 }
 
-
-#' Fuzzy Meta-Ranking (VIKOR + TOPSIS)
+#' @title Rozmyty Meta-Ranking (3 Metody)
+#' @description Agreguje wyniki: VIKOR, TOPSIS, PROMETHEE.
 #'
-#' Aggregates rankings from multiple MCDA methods using consensus logic.
+#' @param decision_matrix Rozmyta macierz decyzyjna.
+#' @param criteria_type Wektor typów kryteriów ("min", "max").
+#' @param weights Wektor wag (opcjonalny).
+#' @param preference_params Ramka parametrów dla PROMETHEE (opcjonalna).
+#' @param bwm_best,bwm_worst Parametry BWM.
+#' @param lambda Parametr lambda (nieużywany, zachowany dla zgodności).
+#' @param v Parametr VIKOR (waga strategii grupowej).
 #'
 #' @export
-fuzzy_meta_ranking <- function(
-    decision_matrix,
-    criteria_direction,
-    weights = NULL,
-    v = 0.5
-) {
+#' @importFrom stats cor
+fuzzy_meta_ranking <- function(decision_matrix, criteria_type, weights = NULL,
+                               preference_params = NULL, bwm_best = NULL, bwm_worst = NULL,
+                               lambda = 0.5, v = 0.5) {
 
-  res_vikor <- fuzzy_vikor(
-    decision_matrix,
-    criteria_direction,
-    strategy_weight = v,
-    weights = weights
+  n_crit <- ncol(decision_matrix) / 3
+
+  # Wagi: entropy jeśli brak weights i BWM
+  if (is.null(weights) && (is.null(bwm_best) || is.null(bwm_worst))) {
+    message("Brak wag. Obliczam Entropię...")
+    weights_raw <- oblicz_wagi_entropii(decision_matrix)
+    weights <- rep(weights_raw, each = 3)
+  }
+
+  # Domyślne parametry PROMETHEE (typ V – liniowy z progiem)
+  if (is.null(preference_params)) {
+    preference_params <- data.frame(
+      Type = rep("V",   n_crit),
+      q    = rep(0,     n_crit),
+      p    = rep(1,     n_crit),
+      s    = rep(0.5,   n_crit)
+    )
+  }
+
+  # Wspólne argumenty dla VIKOR i TOPSIS
+  args_base <- list(
+    decision_matrix = decision_matrix,
+    criteria_type   = criteria_type   # poprawna nazwa parametru
   )
+  if (!is.null(weights))   args_base$weights   <- weights
+  if (!is.null(bwm_best))  args_base$bwm_best  <- bwm_best
+  if (!is.null(bwm_worst)) args_base$bwm_worst <- bwm_worst
 
-  res_topsis <- fuzzy_topsis(
-    decision_matrix,
-    criteria_direction,
-    weights = weights
+  # Uruchomienie metod
+  res_vikor  <- do.call(fuzzy_vikor,  c(args_base, list(strategy_weight = v)))
+  res_topsis <- do.call(fuzzy_topsis, args_base)
+
+  args_prom <- c(
+    list(decision_matrix   = decision_matrix,
+         criteria_type     = criteria_type,
+         preference_params = preference_params),
+    if (!is.null(weights))   list(weights   = weights),
+    if (!is.null(bwm_best))  list(bwm_best  = bwm_best),
+    if (!is.null(bwm_worst)) list(bwm_worst = bwm_worst)
   )
+  res_prom <- do.call(fuzzy_promethee, args_prom)
 
+  # Pobierz rankingi – spójne nazwy kolumn z każdej metody
   rank_matrix <- cbind(
-    res_vikor$results$ranking_pozycja,
-    res_topsis$results$ranking_position
+    res_vikor$results$final_rank,       # fuzzy_vikor  → final_rank
+    res_topsis$results$ranking_position, # fuzzy_topsis → ranking_position
+    res_prom$results$ranking             # fuzzy_promethee → ranking
   )
+  colnames(rank_matrix) <- c("VIKOR", "TOPSIS", "PROMETHEE")
 
-  colnames(rank_matrix) <- c("VIKOR", "TOPSIS")
-
+  # Meta-rankingi
   rank_sum <- rank(rowSums(rank_matrix), ties.method = "first")
-  rank_dom <- .calculate_dominance_ranking(rank_matrix)
+  rank_dom <- calculate_dominance_ranking(rank_matrix)
 
-  comparison <- data.frame(
-    Alternative = seq_len(nrow(decision_matrix)),
-    VIKOR = rank_matrix[,1],
-    TOPSIS = rank_matrix[,2],
-    Meta_Sum = rank_sum,
-    Meta_Dominance = rank_dom
+  # RankAggreg
+  n_alt    <- nrow(decision_matrix)
+  ra_input <- t(apply(rank_matrix, 2, order))
+
+  if (n_alt <= 10) {
+    ra <- RankAggreg::BruteAggreg(ra_input, n_alt, distance = "Spearman")
+  } else {
+    ra <- RankAggreg::RankAggreg(ra_input, n_alt, method = "GA",
+                                 distance = "Spearman", verbose = FALSE)
+  }
+
+  rank_ra  <- numeric(n_alt)
+  top_list <- ra$top.list
+  for (i in seq_len(n_alt)) {
+    rank_ra[top_list[i]] <- i
+  }
+
+  # Tabela wynikowa – pole "porownanie" zgodne z vignette
+  porownanie <- data.frame(
+    Alternatywa   = if (!is.null(rownames(decision_matrix))) rownames(decision_matrix) else seq_len(n_alt),
+    R_VIKOR       = rank_matrix[, 1],
+    R_TOPSIS      = rank_matrix[, 2],
+    R_PROMETHEE   = rank_matrix[, 3],
+    Meta_Suma     = rank_sum,
+    Meta_Dominacja = rank_dom,
+    Meta_Agregacja = rank_ra
   )
 
   return(list(
-    comparison = comparison,
-    correlation = cor(comparison[,2:3], method = "spearman")
+    porownanie   = porownanie,
+    korelacje    = cor(porownanie[, -1], method = "spearman")
   ))
 }

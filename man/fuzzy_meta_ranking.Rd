@@ -2,11 +2,11 @@
 % Please edit documentation in R/meta_ranking.R
 \name{fuzzy_meta_ranking}
 \alias{fuzzy_meta_ranking}
-\title{Rozmyty Meta-Ranking (5 Metod)}
+\title{Rozmyty Meta-Ranking (3 Metody)}
 \usage{
 fuzzy_meta_ranking(
-  decision_mat,
-  criteria_types,
+  decision_matrix,
+  criteria_type,
   weights = NULL,
   preference_params = NULL,
   bwm_best = NULL,
@@ -16,9 +16,9 @@ fuzzy_meta_ranking(
 )
 }
 \arguments{
-\item{decision_mat}{Rozmyta macierz decyzyjna.}
+\item{decision_matrix}{Rozmyta macierz decyzyjna.}
 
-\item{criteria_types}{Wektor typów kryteriów ("min", "max").}
+\item{criteria_type}{Wektor typów kryteriów ("min", "max").}
 
 \item{weights}{Wektor wag (opcjonalny).}
 
@@ -26,10 +26,10 @@ fuzzy_meta_ranking(
 
 \item{bwm_best, bwm_worst}{Parametry BWM.}
 
-\item{lambda}{Parametr WASPAS.}
+\item{lambda}{Parametr lambda (nieużywany, zachowany dla zgodności).}
 
-\item{v}{Parametr VIKOR.}
+\item{v}{Parametr VIKOR (waga strategii grupowej).}
 }
 \description{
-Agreguje wyniki: VIKOR, TOPSIS, WASPAS, MULTIMOORA, PROMETHEE.
+Agreguje wyniki: VIKOR, TOPSIS, PROMETHEE.
 }

@@ -6,6 +6,7 @@
 #' @importFrom graphics plot text
 #' @export
 #' @method plot fuzzy_vikor_res
+#' @importFrom grDevices adjustcolor
 plot.fuzzy_vikor_res <- function(x, ...) {
 
   df <- x$results

@@ -53,7 +53,7 @@ Koszt =~ Cena_PLN
 macierz_rozmyta <- przygotuj_dane_mcda(
   dane = mcda_dane_surowe, 
   skladnia = skladnia_modelu, 
-  kolumna_alternatyw = "Alternatywa" # Agregujemy opinie ekspertów dla każdej Alternatywy
+  kolumna_alternatyw = "Alternatywa" 
 )
 
 # Podgląd fragmentu macierzy
@@ -96,42 +96,68 @@ bwm_best <- c(1, 3, 4, 5, 6, 7, 9)
 bwm_worst <- c(9, 7, 6, 5, 4, 3, 1)
 
 
-#5. Analiza Decyzyjna (VIKOR, TOPSIS, WASPAS)
+#5. Analiza Decyzyjna (VIKOR, TOPSIS, PROMETHEE)
 
-typy <- c("min", "max", "max", "max")
+criteria_type <- c(
+  "max",  # Dokladnosc
+  "max",  # Funkcjonalnosc
+  "max",  # Kompatybilnosc
+  "max",  # Komfort_Jakosc
+  "max",  # Wytrzymalosc
+  "max",  # Bateria
+  "min"   # Koszt
+)
 
 # Fuzzy VIKOR
-wynik_vikor <- rozmyty_vikor(
-  macierz_decyzyjna = macierz_rozmyta,
-  typy_kryteriow = typy,
-  bwm_najlepsze = bwm_best,
-  bwm_najgorsze = bwm_worst
+wynik_vikor <- fuzzy_vikor(
+  decision_matrix = macierz_rozmyta,
+  criteria_type = criteria_type,
+  bwm_best = bwm_best,
+  bwm_worst = bwm_worst
 )
 
 # Fuzzy TOPSIS
-wynik_topsis <- rozmyty_topsis(
-  macierz_decyzyjna = macierz_rozmyta,
-  typy_kryteriow = typy,
-  bwm_najlepsze = bwm_best,
-  bwm_najgorsze = bwm_worst
+wynik_topsis <- fuzzy_topsis(
+  decision_matrix = macierz_rozmyta,
+  criteria_type = criteria_type,
+  bwm_best = bwm_best,
+  bwm_worst = bwm_worst
+)
+
+# Parametry funkcji preferencji (typ V – liniowy, dla każdego z 7 kryteriów)
+preference_params <- data.frame(
+  Type = rep("V", 7),
+  q    = rep(0,   7),
+  p    = rep(1,   7),
+  s    = rep(0.5, 7)
+)
+
+# Fuzzy PROMETHEE
+wynik_promethee <- fuzzy_promethee(
+  decision_matrix   = macierz_rozmyta,
+  criteria_type     = criteria_type,
+  preference_params = preference_params,
+  bwm_best          = bwm_best,
+  bwm_worst         = bwm_worst
 )
 
 # Wyniki tabelaryczne
 print(wynik_vikor$wyniki)
+print(wynik_topsis$wyniki)
+print(wynik_promethee$wyniki)
 
 #6. Wizualizacja (Mapy Decyzyjne)
 
 plot(wynik_vikor)
 plot(wynik_topsis)
+plot(wynik_promethee)
 
 #7. Meta-Ranking (Konsensus)
-
-meta_wynik <- rozmyty_meta_ranking(
-  macierz_decyzyjna = macierz_rozmyta, 
-  typy_kryteriow = typy,
-  bwm_najlepsze = bwm_best, 
-  bwm_najgorsze = bwm_worst
+meta_wynik <- fuzzy_meta_ranking(
+  decision_matrix = macierz_rozmyta,
+  criteria_type   = criteria_type,
+  bwm_best        = bwm_best,
+  bwm_worst       = bwm_worst
 )
 
-# Tabela porównawcza
 knitr::kable(meta_wynik$porownanie, caption = "Porównanie rankingów i Konsensus")
