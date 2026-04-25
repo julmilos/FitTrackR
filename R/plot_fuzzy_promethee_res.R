@@ -3,31 +3,27 @@
 #' @param x Object of class `fuzzy_promethee_res`.
 #' @param ... Additional graphical parameters.
 #'
-#' @importFrom graphics plot text
+#' @import ggplot2
+#' @importFrom ggrepel geom_text_repel
 #' @export
 #' @method plot fuzzy_promethee_res
-#' @importFrom grDevices adjustcolor
 plot.fuzzy_promethee_res <- function(x, ...) {
 
   df <- x$results
 
-  plot(
-    df$phi_plus,
-    df$phi_minus,
-    cex = sqrt(pmax(df$phi_net, 0)) + 0.5,
-    pch = 21,
-    bg = adjustcolor("limegreen", alpha.f = 0.6),
-    xlab = "Positive Flow (Phi+)",
-    ylab = "Negative Flow (Phi-)",
-    main = "Fuzzy PROMETHEE – Decision Bubble Map",
-    ...
-  )
-
-  text(
-    df$phi_plus,
-    df$phi_minus,
-    labels = df$alternative_id,
-    pos = 3,
-    cex = 0.8
-  )
+  ggplot(df, aes(
+    x = phi_plus,
+    y = phi_minus,
+    size = phi_net
+  )) +
+    geom_point(color = "limegreen", alpha = 0.6) +
+    geom_text_repel(aes(label = alternative_id), size = 3) +
+    scale_size_continuous(range = c(3, 10)) +
+    labs(
+      title = "Fuzzy PROMETHEE – Decision Bubble Map",
+      x = "Positive Flow (Phi+)",
+      y = "Negative Flow (Phi-)",
+      size = "Net flow"
+    ) +
+    theme_minimal()
 }

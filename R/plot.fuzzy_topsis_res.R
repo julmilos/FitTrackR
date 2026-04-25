@@ -3,31 +3,27 @@
 #' @param x Object of class `fuzzy_topsis_res`.
 #' @param ... Additional graphical parameters.
 #'
-#' @importFrom graphics plot text
+#' @import ggplot2
+#' @importFrom ggrepel geom_text_repel
 #' @export
 #' @method plot fuzzy_topsis_res
-#' @importFrom grDevices adjustcolor
 plot.fuzzy_topsis_res <- function(x, ...) {
 
   df <- x$results
 
-  plot(
-    df$distance_to_ideal,
-    df$distance_to_anti_ideal,
-    cex = sqrt(pmax(df$closeness_coefficient, 0)) + 0.5,
-    pch = 21,
-    bg = adjustcolor("limegreen", alpha.f = 0.6),
-    xlab = "Distance to Ideal Solution",
-    ylab = "Distance to Anti-Ideal Solution",
-    main = "Fuzzy TOPSIS – Decision Bubble Map",
-    ...
-  )
-
-  text(
-    df$distance_to_ideal,
-    df$distance_to_anti_ideal,
-    labels = df$alternative_id,
-    pos = 3,
-    cex = 0.8
-  )
+  ggplot(df, aes(
+    x = distance_to_ideal,
+    y = distance_to_anti_ideal,
+    size = closeness_coefficient
+  )) +
+    geom_point(color = "limegreen", alpha = 0.6) +
+    geom_text_repel(aes(label = alternative_id), size = 3) +
+    scale_size_continuous(range = c(3, 10)) +
+    labs(
+      title = "Fuzzy TOPSIS – Decision Bubble Map",
+      x = "Distance to Ideal Solution",
+      y = "Distance to Anti-Ideal Solution",
+      size = "Closeness coefficient"
+    ) +
+    theme_minimal()
 }
