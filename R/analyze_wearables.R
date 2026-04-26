@@ -1,7 +1,8 @@
 analyze_wearables <- function(macierz,
                               typy_kryteriow = NULL,
                               profile = NULL,
-                              wagi = NULL) {
+                              wagi = NULL,
+                              preference_params = NULL) {
 
 
   if (is.null(attr(macierz, "nazwy_kryteriow"))) {
@@ -28,6 +29,7 @@ analyze_wearables <- function(macierz,
   if (is.null(wagi)) {
     warning("Brak wag – rozważ użycie profilu lub Entropii.")
     wagi <- rep(1, length(nazwy))
+    names(wagi) <- nazwy
   }
 
 
@@ -47,12 +49,29 @@ analyze_wearables <- function(macierz,
   wagi_rozszerzone <- wagi_rozszerzone / sum(wagi_rozszerzone)
   wagi_fuzzy <- rep(wagi_rozszerzone, each = 3)
 
+  if (is.null(preference_params)) {
+    preference_params <- list(
+      Type = rep("V", length(nazwy)),
+      q = rep(0.1, length(nazwy)),
+      p = rep(0.3, length(nazwy)),
+      s = rep(0, length(nazwy))
+    )
+  }
+
+
   wynik_topsis <- rozmyty_topsis(macierz, typy_kryteriow, wagi = wagi_fuzzy)
   wynik_vikor  <- rozmyty_vikor(macierz, typy_kryteriow, wagi = wagi_fuzzy)
+  wynik_promethee <- fuzzy_promethee(
+    decision_matrix = macierz,
+    criteria_type = typy_kryteriow,
+    preference_params = preference_params,
+    weights = wagi_rozszerzone
+  )
 
   rank_matrix <- cbind(
-    TOPSIS = wynik_topsis$wyniki$Ranking,
-    VIKOR  = wynik_vikor$wyniki$Ranking
+    TOPSIS = wynik_topsis$results$ranking_position,
+    VIKOR  = wynik_vikor$results$final_rank,
+    PROMETHEE = wynik_promethee$results$ranking
   )
 
   ranking_meta <- rank(rowSums(rank_matrix), ties.method = "first")
@@ -60,6 +79,7 @@ analyze_wearables <- function(macierz,
   return(list(
     TOPSIS = wynik_topsis,
     VIKOR = wynik_vikor,
+    PROMETHEE = wynik_promethee,
     META = ranking_meta,
     profile = profile
   ))
