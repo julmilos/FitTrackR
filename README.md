@@ -7,18 +7,18 @@
 
 *FitTrackR* to pakiet języka **R** przeznaczony do wspomagania decyzji
 w ramach **Wielokryterialnej Analizy Decyzyjnej (MCDA)** w środowisku rozmytym przy wyborze
-urządzeń do monitorowania aktywności fizycznej, takich jak
+urządzeń typu **wearable**, takich jak
 **smartwatche i opaski fitness**.
 
 Pakiet łączy **logikę rozmytą (TFN)** z zaawansowanymi metodami MCDA,
-umożliwiając pełną ścieżkę analityczną -  od surowych danych, przez wyznaczanie wag metodą BWM (Best-Worst Method), aż po rankingi metodami TOPSIS oraz VIKOR.
+umożliwiając pełną ścieżkę analityczną -  od surowych danych, przez wyznaczanie wag metodą BWM (Best-Worst Method), aż po rankingi metodami TOPSIS, VIKOR oraz PROMETHEE.
 
 ---
 
 ## Funkcje pakietu
 
 - *Przygotowanie danych rozmytych* z surowych danych numerycznych
-- *Fuzzy MCDA*: implementacja metod **Fuzzy VIKOR** oraz **Fuzzy TOPSIS Linear**
+- *Fuzzy MCDA*: implementacja metod **Fuzzy VIKOR**, **Fuzzy TOPSIS** oraz **Fuzzy PROMETHEE**
 - *Best–Worst Method (BWM)*: wyznaczanie wag kryteriów na podstawie
   porównań eksperckich
 - *Meta-ranking*: agregacja wyników z wielu metod w jeden stabilny
@@ -59,7 +59,7 @@ head(mcda_dane_surowe)
 #> 5 2 AppleWatch 9 7 6 6 5 7 3 2 4 6 5 4 7 1890.44
 #> 6 2 Garmin 8 8 7 4 4 6 4 3 5 6 6 6 4 1600.55
 
-# 2. Przygotuj macierz decyzyjną
+# 2. Przygotuj macierz rozmytą
 skladnia <- "
 Dokladnosc =~ Tetno_Dokladnosc + Kroki_Dokladnosc + Kalorie_Dokladnosc
 Bateria =~ Bateria_Wydajnosc
@@ -94,15 +94,29 @@ wynik_vikor <- fuzzy_vikor(
 #> 3 Garmin 0.08210813 0.1421481 0.3421120 1
 
 # 4. Wyświetl wynik
-print(wynik_vikor$wyniki)
+wynik_vikor$results
 ```
 ## Wizualizacja
 Pakiet oferuje profesjonalne wizualizacje wyników MCDA:
-```r
+
+```{r fig.width=7, fig.height=5}
 plot(wynik_vikor)
 ```
+## Pełna analiza MCDA
+Pakiet zawiera funkcję **analyze_wearables()**, która automatyzuje pełny pipeline MCDA:
+- wyznacza wagi (lub używa profilu użytkownika),
+- uruchamia **TOPSIS, VIKOR i PROMETHEE**,
+- tworzy ranking konsensusowy (META).
+```r
+wynik <- analyze_wearables(
+  macierz,
+  profile = "athlete"
+)
+
+wynik$META
+```
 ## Meta-ranking
-Agreguj wyniki z wielu metod, aby uzyskać stabilny ranking konsensusu:
+FitTrackR agreguje wyniki z wielu metod, aby uzyskać stabilny ranking konsensusu:
 ```r
 meta <- meta_ranking(
   macierz,
@@ -118,11 +132,13 @@ head(meta$porownanie[order(meta$porownanie$Meta_Agregacja), ], 3)
 #> 2 Samsung Galaxy Watch 0.374
 #> 3 AppleWatch 0.390
 ```
+
+
 ## Dokumentacja
 Więcej informacji:
 - Vignette: ``` vignette("fittrackr_mcda", package = "FitTrackR") ```
-- Pomoc dla funkcji: ``` ?fuzzy_vikor, 
-?meta_ranking, ?przygotuj_dane_mcda
+- Pomoc dla funkcji: ``` ?fuzzy_vikor, ?fuzzy_topsis, ?fuzzy_promethee,
+?meta_ranking, ?przygotuj_dane_mcda ```
 
 ## Autor
 Julia Miłoś
