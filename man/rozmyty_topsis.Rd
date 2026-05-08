@@ -14,7 +14,7 @@ rozmyty_topsis(
 )
 }
 \arguments{
-\item{macierz_decyzyjna}{Macierz ($m \times 3n$).}
+\item{macierz_decyzyjna}{Macierz ($m x 3n$).}
 
 \item{typy_kryteriow}{Wektor znakowy ("max" dla zysku, "min" dla kosztu).}
 

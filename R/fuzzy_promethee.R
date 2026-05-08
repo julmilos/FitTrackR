@@ -86,13 +86,16 @@ fuzzy_promethee <- function(
     phi_plus       = phi_plus,
     phi_minus      = phi_minus,
     phi_net        = phi_net,
+    score          = phi_net,
     ranking        = rank(-phi_net, ties.method = "first")
   )
 
   output <- list(
     results = results,
+    details = results,
     method  = "PROMETHEE II"
   )
+
   class(output) <- "fuzzy_promethee_res"
   return(output)
 }

@@ -11,7 +11,6 @@ fuzzy_meta_ranking(
   preference_params = NULL,
   bwm_best = NULL,
   bwm_worst = NULL,
-  lambda = 0.5,
   v = 0.5
 )
 }
@@ -25,8 +24,6 @@ fuzzy_meta_ranking(
 \item{preference_params}{Ramka parametrów dla PROMETHEE (opcjonalna).}
 
 \item{bwm_best, bwm_worst}{Parametry BWM.}
-
-\item{lambda}{Parametr lambda (nieużywany, zachowany dla zgodności).}
 
 \item{v}{Parametr VIKOR (waga strategii grupowej).}
 }

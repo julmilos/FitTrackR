@@ -13,7 +13,7 @@ vignette: >
 
 
 
-```{r, include = FALSE}
+```{r setup, include = FALSE}
 
 knitr::opts_chunk$set(
 
@@ -142,7 +142,7 @@ wynik_promethee <- fuzzy_promethee(
 )
 
 # Wyniki tabelaryczne
-print(wynik_vikor$wyniki)
+print(wynik_vikor$results)
 print(wynik_topsis$wyniki)
 print(wynik_promethee$wyniki)
 

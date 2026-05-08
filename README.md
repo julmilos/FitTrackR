@@ -39,7 +39,7 @@ devtools::install_github("julmilos/FitTrackR")
 ## Szybki start
 Oto podstawowy przykład użycia pakietu z wykorzystaniem danych symulowanych zgodnych z założeniami pracy:
 
-3 alternatywy(Samsung Galaxy Watch, Apple Watch, Garmin)
+3 alternatywy(MiBand , Apple Watch, Garmin)
 
 15 ekspertów
 
@@ -52,10 +52,10 @@ library(FitTrackR)
 data("mcda_dane_surowe")
 head(mcda_dane_surowe)
 #> EkspertID Alternatywa Tetno_Dokladnosc Kroki_Dokladnosc Kalorie_Dokladnosc Bateria_Wydajnosc Funkcje_Zdrowotne Funkcje_Sportowe Funkcje_Smart Kompatybilnosc_Android Kompatybilnosc_iOS Wygoda_Noszenia Jakosc_Wykonania Wodoodpornosc Wytrzymalosc Cena_PLN
-#> 1 1 Samsung Galaxy Watch 9 6 7 5 5 3 3 3 1 4 7 5 5 152.16
+#> 1 1 MiBand  9 6 7 5 5 3 3 3 1 4 7 5 5 152.16
 #> 2 1 AppleWatch 8 7 6 4 6 7 4 4 5 7 4 6 6 2245.23
 #> 3 1 Garmin 7 9 8 6 5 4 6 2 2 5 5 3 5 920.32
-#> 4 2 Samsung Galaxy Watch 6 8 7 5 6 6 3 5 3 5 6 5 4 167.11
+#> 4 2 MiBand  6 8 7 5 6 6 3 5 3 5 6 5 4 167.11
 #> 5 2 AppleWatch 9 7 6 6 5 7 3 2 4 6 5 4 7 1890.44
 #> 6 2 Garmin 8 8 7 4 4 6 4 3 5 6 6 6 4 1600.55
 
@@ -77,7 +77,7 @@ macierz <- przygotuj_dane_mcda(
 macierz
 
 #> Alternatywa Dokladnosc Bateria Funkcjonalnosc Komfort Odpornosc Cena
-#> 1 Samsung Galaxy Watch 7.5 5 4.5 5 5 160
+#> 1 MiBand  7.5 5 4.5 5 5 160
 #> 2 AppleWatch 8.0 5 5.0 5 5 2000
 #> 3 Garmin 7.5 5 4.5 5 5 1200
 
@@ -89,7 +89,7 @@ wynik_vikor <- fuzzy_vikor(
   bwm_najgorsze = c(1, 2, 3, 4, 5, 6, 8)
 )
 #> Alternatywa Def_S Def_R Def_Q Ranking
-#> 1 Samsung Galaxy Watch 0.14515360 0.1599259 0.3743246 2
+#> 1 MiBand  0.14515360 0.1599259 0.3743246 2
 #> 2 AppleWatch 0.13007834 0.1900849 0.3903515 3
 #> 3 Garmin 0.08210813 0.1421481 0.3421120 1
 
@@ -129,7 +129,7 @@ head(meta$porownanie[order(meta$porownanie$Meta_Agregacja), ], 3)
 
 #> Alternatywa Meta_Agregacja
 #> 1 Garmin 0.342
-#> 2 Samsung Galaxy Watch 0.374
+#> 2 MiBand  0.374
 #> 3 AppleWatch 0.390
 ```
 

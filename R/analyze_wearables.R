@@ -4,9 +4,8 @@ analyze_wearables <- function(macierz,
                               wagi = NULL,
                               preference_params = NULL) {
 
-
   if (is.null(attr(macierz, "nazwy_kryteriow"))) {
-    stop("Brak atrybutu 'nazwy_kryteriow'. Użyj funkcji przygotuj_dane_mcda.")
+    stop("Brak atrybutu 'nazwy_kryteriow'. Użyj przygotuj_dane_mcda.")
   }
 
   nazwy <- attr(macierz, "nazwy_kryteriow")
@@ -19,20 +18,18 @@ analyze_wearables <- function(macierz,
     )
   }
 
-
   if (!is.null(profile)) {
     prof <- .get_lifestyle_profile(profile)
     wagi <- prof$weights
   }
 
-
   if (is.null(wagi)) {
-    warning("Brak wag – rozważ użycie profilu lub Entropii.")
+    warning("Brak wag – użyto równych wag.")
     wagi <- rep(1, length(nazwy))
     names(wagi) <- nazwy
   }
 
-
+  # CRISP weights per criterion
   wagi_rozszerzone <- sapply(nazwy, function(n) {
 
     if (grepl("Dokladnosc", n)) return(wagi["Dokladnosc"])
@@ -58,9 +55,9 @@ analyze_wearables <- function(macierz,
     )
   }
 
-
   wynik_topsis <- rozmyty_topsis(macierz, typy_kryteriow, wagi = wagi_fuzzy)
   wynik_vikor  <- rozmyty_vikor(macierz, typy_kryteriow, wagi = wagi_fuzzy)
+
   wynik_promethee <- fuzzy_promethee(
     decision_matrix = macierz,
     criteria_type = typy_kryteriow,
@@ -69,18 +66,21 @@ analyze_wearables <- function(macierz,
   )
 
   rank_matrix <- cbind(
-    TOPSIS = wynik_topsis$results$ranking_position,
-    VIKOR  = wynik_vikor$results$final_rank,
+    TOPSIS = wynik_topsis$results$ranking,
+    VIKOR = wynik_vikor$results$ranking,
     PROMETHEE = wynik_promethee$results$ranking
   )
 
-  ranking_meta <- rank(rowSums(rank_matrix), ties.method = "first")
+  meta_scores <- rowMeans(rank_matrix)
+  ranking_meta <- rank(meta_scores, ties.method = "first")
 
-  return(list(
+  names(ranking_meta) <- rownames(rank_matrix)
+
+  list(
     TOPSIS = wynik_topsis,
     VIKOR = wynik_vikor,
     PROMETHEE = wynik_promethee,
     META = ranking_meta,
     profile = profile
-  ))
+  )
 }

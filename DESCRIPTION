@@ -19,13 +19,13 @@ Imports:
     RankAggreg,
     rempsyc,
     flextable,
-    grDevices,
     stats
 Suggests:
     knitr,
     rmarkdown,
-    testthat,
+    testthat (>= 3.0.0),
     pkgdown
 VignetteBuilder: knitr
 Depends:
   R (>= 3.5.0)
+Config/testthat/edition: 3

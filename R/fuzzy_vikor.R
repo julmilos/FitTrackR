@@ -86,13 +86,16 @@ fuzzy_vikor <- function(
     aggregated_loss  = aggregated_loss,
     worst_case_loss  = worst_case_loss,
     compromise_index = comp_index,
-    final_rank       = rank(comp_index, ties.method = "first")
+    score            = comp_index,
+    ranking          = rank(comp_index, ties.method = "first")
   )
 
   output <- list(
-    results    = results,
-    parameters = list(strategy_weight = strategy_weight)
+    results = results,
+    details = results,
+    method = "VIKOR"
   )
+
   class(output) <- "fuzzy_vikor_res"
   return(output)
 }

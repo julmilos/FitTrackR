@@ -73,17 +73,20 @@ fuzzy_topsis <- function(
     (distance_to_ideal + distance_to_anti_ideal + epsilon)
 
   results <- data.frame(
-    alternative_id        = seq_len(nrow(decision_matrix)),
-    distance_to_ideal     = distance_to_ideal,
+    alternative_id = seq_len(nrow(decision_matrix)),
+    distance_to_ideal = distance_to_ideal,
     distance_to_anti_ideal = distance_to_anti_ideal,
-    closeness_coefficient  = closeness_coefficient,
-    ranking_position       = rank(-closeness_coefficient, ties.method = "first")
+    closeness_coefficient = closeness_coefficient,
+    score = closeness_coefficient,
+    ranking = rank(-closeness_coefficient, ties.method = "first")
   )
 
   output <- list(
-    results    = results,
-    parameters = list()
+    results = results,
+    details = results,
+    method = "TOPSIS"
   )
+
   class(output) <- "fuzzy_topsis_res"
   return(output)
 }

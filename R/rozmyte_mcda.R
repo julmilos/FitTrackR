@@ -175,7 +175,7 @@ oblicz_wagi_entropii <- function(macierz_decyzyjna) {
 
 #'
 
-#' @param macierz_decyzyjna Macierz ($m \times 3n$).
+#' @param macierz_decyzyjna Macierz ($m x 3n$).
 
 #' @param typy_kryteriow Wektor znakowy ("max" dla zysku, "min" dla kosztu).
 
@@ -658,37 +658,6 @@ rozmyty_waspas <- function(macierz_decyzyjna, typy_kryteriow, lambda = 0.5, wagi
 
   return(wynik)
 
-}
-#' @title Internal MULTIMOORA Dominance Aggregation
-#' @description Agreguje trzy wewnętrzne rankingi metody MULTIMOORA (RS, RP, MF).
-#' @keywords internal
-.teoria_dominacji_multimoora <- function(r1, r2, r3) {
-  n <- length(r1)
-  finalny_ranking <- rep(0, n)
-  macierz_rang <- cbind(r1, r2, r3)
-  dostepne <- rep(TRUE, n)
-
-  for (poz in 1:n) {
-    obecna_macierz <- macierz_rang
-    obecna_macierz[!dostepne, ] <- Inf
-
-    c1 <- which.min(obecna_macierz[, 1])
-    c2 <- which.min(obecna_macierz[, 2])
-    c3 <- which.min(obecna_macierz[, 3])
-    kandydaci <- c(c1, c2, c3)
-
-    czestosc <- table(kandydaci)
-    zwyciezca <- as.numeric(names(czestosc)[which.max(czestosc)])
-
-    if (length(czestosc) == 3) {
-      sumy <- rowSums(macierz_rang[kandydaci, ])
-      zwyciezca <- kandydaci[which.min(sumy)]
-    }
-
-    finalny_ranking[zwyciezca] <- poz
-    dostepne[zwyciezca] <- FALSE
-  }
-  return(finalny_ranking)
 }
 
 #' Rozmyta Metoda MULTIMOORA

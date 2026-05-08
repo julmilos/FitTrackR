@@ -5,12 +5,8 @@
 \title{Internal MULTIMOORA Dominance Aggregation}
 \usage{
 .teoria_dominacji_multimoora(r1, r2, r3)
-
-.teoria_dominacji_multimoora(r1, r2, r3)
 }
 \description{
-Agreguje trzy wewnętrzne rankingi metody MULTIMOORA (RS, RP, MF).
-
 Implementacja metody Fuzzy MULTIMOORA. Składa się z:
 1. Ratio System (RS)
 2. Reference Point (RP)
