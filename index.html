@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Szablon Dashboardu MCDA | Seminarium</title>
+  <title>FitTrackR | Dashboard MCDA</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
@@ -22,263 +22,398 @@
   <nav class="sticky top-0 z-50 border-b border-zinc-800 bg-[#111111]/95 backdrop-blur">
     <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
       <div class="flex items-center gap-3">
-        <div class="flex h-9 w-9 items-center justify-center rounded bg-sky-700 font-bold text-white">MC</div>
+        <div class="flex h-9 w-9 items-center justify-center rounded bg-emerald-700 font-bold text-white">FT</div>
         <div>
-          <p class="text-sm font-bold uppercase tracking-wide text-slate-900">Szablon Dashboardu</p>
-          <p class="text-xs text-slate-500">dla projektów R / MCDA / GitHub Pages</p>
+          <p class="text-sm font-bold uppercase tracking-wide text-slate-100">FitTrackR</p>
+          <p class="text-xs text-slate-500">Wielokryterialna analiza w środowisku rozmytym dla urządzeń wearable</p>
         </div>
       </div>
-      <div class="hidden items-center gap-5 text-sm font-medium text-slate-600 md:flex">
-        <a href="#problem" class="hover:text-sky-700">Problem</a>
-        <a href="#dane" class="hover:text-sky-700">Dane</a>
-        <a href="#wyniki" class="hover:text-sky-700">Wyniki</a>
-        <a href="#odtworzenie" class="hover:text-sky-700">Odtworzenie</a>
+      <div class="hidden items-center gap-5 text-sm font-medium text-slate-400 md:flex">
+        <a href="#problem" class="hover:text-emerald-400">Problem</a>
+        <a href="#dane" class="hover:text-emerald-400">Dane</a>
+        <a href="#wyniki" class="hover:text-emerald-400">Wyniki</a>
+        <a href="#odtworzenie" class="hover:text-emerald-400">Odtworzenie</a>
       </div>
     </div>
   </nav>
 
   <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+
+    <!-- SEKCJA 1 -->
     <section id="problem" class="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
       <div class="rounded border border-zinc-800 bg-[#1a1a1d] p-6 shadow-sm">
-        <p class="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-sky-700">Sekcja 1</p>
-        <h1 class="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">FitTrackR w prostym języku</h1>
-        <p class="mt-4 max-w-3xl text-lg leading-8 text-slate-600">
-          Pakiet został opracowany w celu wspierania wyboru urządzeń typu wearable, takich jak smartwatche i opaski fitness. Obecnie rynek tych urządzeń rozwija się bardzo dynamicznie, a użytkownicy mają do dyspozycji wiele modeli różniących się nie tylko ceną, ale również funkcjami zdrowotnymi, czasem pracy baterii, kompatybilnością z innymi urządzeniami czy dokładnością pomiarów. W praktyce porównanie wszystkich tych cech jednocześnie jest trudne, ponieważ poszczególne urządzenia często oferują przewagę jedynie w wybranych aspektach.
-Pakiet może być wykorzystywany zarówno przez użytkowników indywidualnych planujących zakup urządzenia, jak i przez analityków, recenzentów technologicznych czy osoby zajmujące się analizą wielokryterialną. Narzędzie pozwala uwzględnić wiele kryteriów jednocześnie oraz dostosować analizę do różnych preferencji użytkownika, co umożliwia bardziej świadome podejmowanie decyzji zakupowych.
-W tradycyjnych tabelach porównawczych trudno jest określić, które kryteria mają największe znaczenie oraz jak poszczególne parametry wpływają na końcową ocenę urządzenia. Dodatkowym problemem jest fakt, że część cech urządzeń ma charakter niejednoznaczny lub trudny do precyzyjnego opisania. Z tego względu w pakiecie zastosowano metody rozmytej wielokryterialnej analizy decyzyjnej (fuzzy MCDA), które umożliwiają uwzględnienie niepewności danych oraz subiektywnych preferencji użytkownika. Dzięki temu możliwe jest utworzenie końcowego rankingu urządzeń i wskazanie modeli najlepiej dopasowanych do potrzeb różnych grup użytkowników.
+        <p class="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-emerald-500">Sekcja 1</p>
+        <h1 class="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">FitTrackR: na czym polega pakiet?</h1>
+        <p class="mt-4 max-w-3xl text-lg leading-8 text-slate-400">
+          Pakiet FitTrackR został opracowany w celu wspierania wyboru urządzeń typu wearable, takich jak smartwatche i opaski fitness.
+          Rynek tych urządzeń rozwija się bardzo dynamicznie, przez co użytkownicy mają do dyspozycji wiele modeli różniących się ceną,
+          funkcjami zdrowotnymi, czasem pracy baterii, kompatybilnością czy dokładnością pomiarów.
+          Porównanie wszystkich tych cech jednocześnie jest trudne, ponieważ poszczególne urządzenia oferują przewagę jedynie w wybranych aspektach.
+        </p>
+        <p class="mt-3 max-w-3xl text-lg leading-8 text-slate-400">
+          Pakiet stosuje metody rozmytej wielokryterialnej analizy decyzyjnej (Fuzzy MCDA), które uwzględniają
+          niepewność danych oraz subiektywne preferencje użytkownika. Wynikiem jest ranking urządzeń wskazujący modele
+          najlepiej dopasowane do potrzeb różnych grup użytkowników.
         </p>
         <div class="mt-6 grid gap-3 sm:grid-cols-3">
-          <div class="rounded border border-zinc-800 bg-slate-50 p-4">
+          <div class="rounded border border-zinc-700 bg-zinc-900 p-4">
             <p class="text-xs font-semibold uppercase text-slate-500">Problem</p>
-            <p class="mt-2 text-sm text-slate-700">W ramach analizy porównywane są popularne urządzenia wearable różnych producentów, między innymi modele Apple Watch, Samsung Galaxy Watch oraz Garmin. Urządzenia te różnią się zarówno funkcjonalnością, jak i grupą docelowych użytkowników, dlatego ich bezpośrednie porównanie stanowi interesujący problem decyzyjny.
-W analizie uwzględniono kryteria związane z codziennym użytkowaniem urządzeń, takie jak dokładność pomiarów, czas pracy baterii, funkcje sportowe i zdrowotne, kompatybilność z systemami mobilnymi, wygoda użytkowania, odporność oraz cena. Poszczególne modele mogą osiągać bardzo dobre wyniki tylko w wybranych obszarach, dlatego ocena pojedynczego parametru nie pozwala jednoznacznie wskazać najlepszego rozwiązania.
-Celem porównania jest stworzenie rankingu urządzeń dopasowanego do różnych potrzeb użytkowników. Dla osób aktywnych fizycznie większe znaczenie mogą mieć funkcje treningowe i precyzja pomiarów, natomiast inni użytkownicy mogą bardziej zwracać uwagę na komfort użytkowania, integrację z telefonem lub koszt zakupu. Zastosowanie metod wielokryterialnych umożliwia jednoczesne uwzględnienie wszystkich tych aspektów i bardziej obiektywną ocenę analizowanych urządzeń.
-          </p>
+            <p class="mt-2 text-sm text-slate-300">Wybór najlepszego urządzenia wearable spośród wielu modeli (Apple Watch, Garmin, MiBand) przy uwzględnieniu 7 kryteriów jednocześnie: dokładność, bateria, funkcjonalność, kompatybilność, komfort, odporność i cena.</p>
           </div>
-          <div class="rounded border border-zinc-800 bg-slate-50 p-4">
+          <div class="rounded border border-zinc-700 bg-zinc-900 p-4">
             <p class="text-xs font-semibold uppercase text-slate-500">Użytkownik</p>
-            <p class="mt-2 text-sm text-slate-700">Wyniki generowane przez pakiet zostały zaprojektowane w sposób możliwie czytelny i intuicyjny, tak aby mogły być interpretowane nie tylko przez osoby zajmujące się analizą danych, ale również przez użytkowników bez zaawansowanej wiedzy technicznej. Odbiorcami wyników mogą być osoby planujące zakup smartwatcha lub opaski fitness, recenzenci technologiczni, a także studenci i badacze wykorzystujący metody wielokryterialnego wspomagania decyzji.
-Z tego względu oprócz samych wartości liczbowych pakiet generuje również rankingi, wizualizacje oraz tabele w stylu APA, które ułatwiają interpretację rezultatów. Użytkownik nie musi analizować skomplikowanych obliczeń matematycznych, ponieważ końcowy wynik prezentowany jest w formie uporządkowanego zestawienia pokazującego, które urządzenia najlepiej odpowiadają określonym preferencjom. Dzięki temu wyniki mogą być wykorzystywane zarówno w praktycznych decyzjach zakupowych, jak i w analizach naukowych czy dydaktycznych.
-          </p>
+            <p class="mt-2 text-sm text-slate-300">Osoby planujące zakup smartwatcha lub opaski fitness, recenzenci technologiczni, studenci i badacze wykorzystujący metody wielokryterialnego wspomagania decyzji.</p>
           </div>
-          <div class="rounded border border-zinc-800 bg-slate-50 p-4">
-            <p class="text-xs font-semibold uppercase text-slate-500">Wynik</p>
-            <p class="mt-2 text-sm text-slate-700">Najlepszą alternatywą według rankingu meta jest <strong>AppleWatch</strong>, który uzyskał pierwszą pozycję (rank = 1), co oznacza najwyższą ogólną ocenę w modelu kompromisowym. Drugie miejsce zajmuje <strong>Garmin</strong>, natomiast <strong>MiBand</strong> został oceniony najniżej.
-</p>
+          <div class="rounded border border-emerald-800 bg-emerald-950 p-4">
+            <p class="text-xs font-semibold uppercase text-emerald-400">Wynik</p>
+            <p class="mt-2 text-sm text-emerald-200">Najlepszą alternatywą według meta-rankingu jest <strong>Garmin</strong> (rank = 1 we wszystkich trzech metodach). Drugie miejsce zajmuje MiBand, trzecie Apple Watch.</p>
           </div>
         </div>
       </div>
 
       <aside class="rounded border border-zinc-800 bg-[#1a1a1d] p-6 shadow-sm">
-        <h2 class="text-lg font-bold text-slate-950">Co ma zobaczyć recenzent?</h2>
-        <ul class="mt-4 space-y-3 text-sm leading-6 text-slate-600">
-          <li><strong class="text-slate-800">1.</strong> Jak zainstalować pakiet.</li>
-          <li><strong class="text-slate-800">2.</strong> Jak wyglądają dane wejściowe.</li>
-          <li><strong class="text-slate-800">3.</strong> Jak dane są zamieniane na ocenę rozmytą.</li>
-          <li><strong class="text-slate-800">4.</strong> Skąd biorą się wagi kryteriów.</li>
-          <li><strong class="text-slate-800">5.</strong> Która alternatywa wygrywa i czy wynik jest stabilny.</li>
+        <h2 class="text-lg font-bold text-white">Co zobaczy recenzent?</h2>
+        <ul class="mt-4 space-y-3 text-sm leading-6 text-slate-400">
+          <li><strong class="text-emerald-400">1.</strong> Jak zainstalować pakiet z GitHub.</li>
+          <li><strong class="text-emerald-400">2.</strong> Jak wyglądają dane wejściowe (symulowane oceny ekspertów).</li>
+          <li><strong class="text-emerald-400">3.</strong> Jak dane są zamieniane na trójkątne liczby rozmyte (TFN).</li>
+          <li><strong class="text-emerald-400">4.</strong> Jak wyznaczane są wagi kryteriów metodą BWM.</li>
+          <li><strong class="text-emerald-400">5.</strong> Która alternatywa wygrywa i czy wynik jest stabilny między metodami VIKOR, TOPSIS i PROMETHEE II.</li>
         </ul>
+        <div class="mt-6 rounded border border-zinc-700 bg-zinc-900 p-4 text-xs text-slate-400">
+          <p class="font-semibold text-slate-300">Instalacja:</p>
+          <pre class="mt-2 text-emerald-400">devtools::install_github("julmilos/FitTrackR")
+library(FitTrackR)</pre>
+        </div>
       </aside>
     </section>
 
+    <!-- SEKCJA 2,3-->
     <section id="dane" class="mt-10 grid gap-6 lg:grid-cols-2">
       <div class="rounded border border-zinc-800 bg-[#1a1a1d] p-6 shadow-sm">
-        <p class="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-sky-700">Sekcja 2</p>
-        <h2 class="text-2xl font-bold text-slate-950">Dane wejściowe</h2>
-        <p class="mt-3 text-sm leading-6 text-slate-600">
-         W analizie wykorzystano zbiór danych dotyczący urządzeń typu wearable (smartwatche i opaski fitness).
-          Każda <strong>alternatywa</strong> oznacza pojedynczy model urządzenia, który jest porównywany z innymi pod względem wielu cech jednocześnie.
+        <p class="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-emerald-500">Sekcja 2</p>
+        <h2 class="text-2xl font-bold text-white">Dane wejściowe</h2>
+        <p class="mt-3 text-sm leading-6 text-slate-400">
+          W analizie wykorzystano symulowany zbiór danych <code class="rounded bg-zinc-800 px-1 py-0.5 text-emerald-400">mcda_dane_surowe</code>
+          zawierający oceny <strong>15 ekspertów</strong> dla <strong>3 alternatyw</strong> (urządzeń wearable) według <strong>7 kryteriów</strong>.
+          Dane generowane są proceduralnie z ustalonym ziarnem losowości (<code class="rounded bg-zinc-800 px-1 py-0.5 text-emerald-400">set.seed(123)</code>),
+          co zapewnia pełną odtwarzalność analizy.
+        </p>
+        <p class="mt-3 text-sm leading-6 text-slate-400">
+          Kryteria <strong>Dokladnosc, Bateria, Funkcjonalnosc, Kompatybilnosc, Komfort, Odpornosc</strong> są typu <code class="rounded bg-zinc-800 px-1 py-0.5 text-emerald-400">max</code>
+          (wyższa wartość = lepiej), natomiast kryterium <strong>Cena</strong> jest typu <code class="rounded bg-zinc-800 px-1 py-0.5 text-emerald-400">min</code>
+          (niższa cena = lepiej).
         </p>
         <div class="mt-5 overflow-x-auto">
           <table class="w-full min-w-[560px] text-left text-sm">
-            <thead class="border-y border-zinc-800 bg-slate-50 text-xs uppercase text-slate-500">
-            <tr>
-              <th class="px-4 py-3">Alternatywa</th>
-              <th class="px-4 py-3">Dokładność pomiarów</th>
-              <th class="px-4 py-3">Bateria</th>
-              <th class="px-4 py-3">Funkcje sportowe</th>
-              <th class="px-4 py-3">Kompatybilność</th>
-              <th class="px-4 py-3">Wygoda</th>
-              <th class="px-4 py-3">Odporność</th>
-              <th class="px-4 py-3">Cena</th>
-            </tr>
+            <thead class="border-y border-zinc-700 bg-zinc-900 text-xs uppercase text-slate-500">
+              <tr>
+                <th class="px-4 py-3">Alternatywa</th>
+                <th class="px-4 py-3">Dokładność</th>
+                <th class="px-4 py-3">Bateria</th>
+                <th class="px-4 py-3">Funkcjonalność</th>
+                <th class="px-4 py-3">Kompatybilność</th>
+                <th class="px-4 py-3">Komfort</th>
+                <th class="px-4 py-3">Odporność</th>
+                <th class="px-4 py-3">Cena (PLN)</th>
+              </tr>
             </thead>
-            <tbody class="divide-y divide-slate-100">
-        <tr>
-          <td class="px-4 py-3 font-medium">Apple Watch</td>
-          <td class="px-4 py-3">8.5</td>
-          <td class="px-4 py-3">6.0</td>
-          <td class="px-4 py-3">9.0</td>
-          <td class="px-4 py-3">9.5</td>
-          <td class="px-4 py-3">8.0</td>
-          <td class="px-4 py-3">7.0</td>
-          <td class="px-4 py-3">4.0</td>
-        </tr>
-
-        <tr>
-          <td class="px-4 py-3 font-medium">Garmin</td>
-          <td class="px-4 py-3">8.0</td>
-          <td class="px-4 py-3">9.5</td>
-          <td class="px-4 py-3">9.0</td>
-          <td class="px-4 py-3">7.0</td>
-          <td class="px-4 py-3">7.5</td>
-          <td class="px-4 py-3">9.0</td>
-          <td class="px-4 py-3">5.0</td>
-        </tr>
-
-        <tr>
-          <td class="px-4 py-3 font-medium">MiBand</td>
-          <td class="px-4 py-3">7.0</td>
-          <td class="px-4 py-3">9.0</td>
-          <td class="px-4 py-3">7.0</td>
-          <td class="px-4 py-3">6.5</td>
-          <td class="px-4 py-3">7.0</td>
-          <td class="px-4 py-3">8.5</td>
-          <td class="px-4 py-3">8.0</td>
-        </tr>
-      </tbody>
+            <tbody class="divide-y divide-zinc-800 text-slate-300">
+              <tr>
+                <td class="px-4 py-3 font-medium text-white">Apple Watch</td>
+                <td class="px-4 py-3">śr. skali 1–10</td>
+                <td class="px-4 py-3">śr. skali 1–7</td>
+                <td class="px-4 py-3">śr. skali 1–7</td>
+                <td class="px-4 py-3">śr. skali 1–7</td>
+                <td class="px-4 py-3">śr. skali 1–7</td>
+                <td class="px-4 py-3">śr. skali 1–7</td>
+                <td class="px-4 py-3">1800–2500</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-medium text-emerald-400">Garmin ★</td>
+                <td class="px-4 py-3">śr. skali 1–10</td>
+                <td class="px-4 py-3">śr. skali 1–7</td>
+                <td class="px-4 py-3">śr. skali 1–7</td>
+                <td class="px-4 py-3">śr. skali 1–7</td>
+                <td class="px-4 py-3">śr. skali 1–7</td>
+                <td class="px-4 py-3">śr. skali 1–7</td>
+                <td class="px-4 py-3">900–1800</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-medium text-white">MiBand</td>
+                <td class="px-4 py-3">śr. skali 1–10</td>
+                <td class="px-4 py-3">śr. skali 1–7</td>
+                <td class="px-4 py-3">śr. skali 1–7</td>
+                <td class="px-4 py-3">śr. skali 1–7</td>
+                <td class="px-4 py-3">śr. skali 1–7</td>
+                <td class="px-4 py-3">śr. skali 1–7</td>
+                <td class="px-4 py-3">150–300</td>
+              </tr>
+            </tbody>
           </table>
         </div>
-        <p class="mt-6 text-sm leading-6 text-slate-600">
-          Oceny alternatyw pochodzą z połączenia danych technicznych producentów oraz ustandaryzowanych przekształceń numerycznych w ramach modelu MCDA.
-          Nie są to surowe opinie użytkowników, lecz wartości wejściowe przygotowane do analizy wielokryterialnej.
+        <p class="mt-4 text-xs text-slate-500">
+          Oceny ekspertów są agregowane (średnia z 15 ocen na alternatywę), skalowane do skali Saaty'ego (1–9),
+          a następnie rozmywane do postaci Trójkątnych Liczb Rozmytych, TFN = (x−1, x, x+1).
         </p>
-
-        <p class="mt-4 text-sm leading-6 text-slate-600">
-          <strong>Kryteria decyzyjne</strong> opisują najważniejsze cechy urządzeń: dokładność pomiarów, funkcjonalność, wydajność baterii oraz koszt zakupu.
-          Każde kryterium reprezentuje inny aspekt jakości i może mieć różne znaczenie w końcowej decyzji.
-      </p>          
+        <div class="mt-4 rounded border border-zinc-700 bg-zinc-900 p-3 text-xs font-mono text-emerald-400">
+          <p>skladnia &lt;- "</p>
+          <p>&nbsp;&nbsp;Dokladnosc =~ Tetno_Dokladnosc + Kroki_Dokladnosc + Kalorie_Dokladnosc;</p>
+          <p>&nbsp;&nbsp;Bateria =~ Bateria_Wydajnosc;</p>
+          <p>&nbsp;&nbsp;Funkcjonalnosc =~ Funkcje_Zdrowotne + Funkcje_Sportowe + Funkcje_Smart;</p>
+          <p>&nbsp;&nbsp;Kompatybilnosc =~ Kompatybilnosc_Android + Kompatybilnosc_iOS;</p>
+          <p>&nbsp;&nbsp;Komfort =~ Wygoda_Noszenia + Jakosc_Wykonania;</p>
+          <p>&nbsp;&nbsp;Odpornosc =~ Wodoodpornosc + Wytrzymalosc;</p>
+          <p>&nbsp;&nbsp;Cena =~ Cena_PLN</p>
+          <p>"</p>
+        </div>
       </div>
 
       <div class="rounded border border-zinc-800 bg-[#1a1a1d] p-6 shadow-sm">
-        <p class="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-sky-700">Sekcja 3</p>
-        <h2 class="text-2xl font-bold text-slate-950">Rozmywanie danych</h2>
-        <p class="mt-3 text-sm leading-6 text-slate-600">
-          Każda ocena nie jest traktowana jako dokładna wartość, ponieważ opinie ekspertów i dane użytkowników
-          zawsze zawierają pewien poziom niepewności. Zamiast jednej liczby stosujemy liczbę rozmytą
-        <code class="rounded bg-slate-100 px-1 py-0.5">(l, m, u)</code>, czyli zakres możliwych wartości.
+        <p class="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-emerald-500">Sekcja 3</p>
+        <h2 class="text-2xl font-bold text-white">Rozmywanie danych (Fuzzification)</h2>
+        <p class="mt-3 text-sm leading-6 text-slate-400">
+          Każda ocena nie jest traktowana jako dokładna wartość — opinie ekspertów zawsze zawierają pewien poziom niepewności.
+          Zamiast jednej liczby stosujemy <strong>trójkątną liczbę rozmytą</strong>
+          <code class="rounded bg-zinc-800 px-1 py-0.5 text-emerald-400">Ã = (l, m, u)</code>, czyli zakres możliwych wartości.
         </p>
-       <div class="mt-5 rounded border border-zinc-800 bg-slate-50 p-4 text-sm text-slate-700">
-          <p><strong>Proste wyjaśnienie:</strong> jeśli smartwatch otrzymał ocenę 6, to w praktyce może ona oznaczać np. 5–6–7.</p>
-          <p class="mt-2 font-mono text-xs">TFN = (x - 1, x, x + 1)</p>
-          <p class="mt-2 font-mono text-xs">defuzyfikacja: (l + 4m + u) / 6</p>
+        <div class="mt-4 rounded border border-zinc-700 bg-zinc-900 p-4 text-sm text-slate-300">
+          <p><strong class="text-white">Przykład:</strong> jeśli urządzenie otrzymało ocenę 6, to w analizie reprezentowane jest jako:</p>
+          <p class="mt-2 font-mono text-emerald-400">TFN = (5, 6, 7)</p>
+          <p class="mt-2">Defuzzyfikacja (zamiana z powrotem na liczbę) wzorem Changa:</p>
+          <p class="mt-1 font-mono text-emerald-400">x_crisp = (l + 4m + u) / 6</p>
+          <p class="mt-2 text-xs text-slate-500">Waga 4 dla wartości modalnej m wynika z jej wyższej wiarygodności jako oceny centralnej.</p>
         </div>
         <div class="chart-box mt-5">
-          <canvas id="templateFuzzyChart"></canvas>
+          <canvas id="fuzzyChart"></canvas>
         </div>
       </div>
     </section>
 
+    <!-- SEKCJA 4 -->
     <section class="mt-10 grid gap-6 lg:grid-cols-2">
       <div class="rounded border border-zinc-800 bg-[#1a1a1d] p-6 shadow-sm">
-        <p class="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-sky-700">Sekcja 4</p>
-        <h2 class="text-2xl font-bold text-slate-950">Wagi kryteriów</h2>
-        <p class="mt-3 text-sm leading-6 text-slate-600">
-          Wpływ kryteriów na wynik końcowy nie jest jednakowy – część z nich ma wyraźnie większe znaczenie dla rankingu niż pozostałe.
-          W analizie zastosowano wagi wyznaczane w sposób obiektywny (np. metodą entropii lub BWM), co oznacza, że:
-          <strong>waga wynika z danych, a nie z ręcznej preferencji badacza</strong>.
-          Dzięki temu większy wpływ mają kryteria o większym zróżnicowaniu wartości pomiędzy alternatywami, ponieważ lepiej różnicują urządzenia w zbiorze.
+        <p class="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-emerald-500">Sekcja 4</p>
+        <h2 class="text-2xl font-bold text-white">Wagi kryteriów — metoda BWM</h2>
+        <p class="mt-3 text-sm leading-6 text-slate-400">
+          Wagi kryteriów wyznaczono metodą <strong>Best-Worst Method (BWM)</strong> — podejściem subiektywnym,
+          które wymaga od eksperta wskazania najważniejszego i najmniej ważnego kryterium,
+          a następnie porównania ich z pozostałymi. Na tej podstawie rozwiązywany jest problem optymalizacyjny
+          (biblioteka <code class="rounded bg-zinc-800 px-1 py-0.5 text-emerald-400">Rglpk</code>).
         </p>
+        <div class="mt-4 rounded border border-zinc-700 bg-zinc-900 p-3 text-xs font-mono text-emerald-400">
+          <p class="text-slate-400"># Najważniejsze: Dokładność (1), Najgorsze: Cena (9)</p>
+          <p>bwm_best  &lt;- c(1, 3, 4, 5, 6, 9)  # Dokladnosc nad innymi</p>
+          <p>bwm_worst &lt;- c(9, 7, 6, 5, 4, 1)  # inne nad Cena</p>
+        </div>
         <div class="chart-box mt-5">
-          <canvas id="templateWeightsChart"></canvas>
+          <canvas id="weightsChart"></canvas>
         </div>
       </div>
 
+      <!-- SEKCJA 5 -->
       <div id="wyniki" class="rounded border border-zinc-800 bg-[#1a1a1d] p-6 shadow-sm">
-        <p class="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-sky-700">Sekcja 5</p>
-        <h2 class="text-2xl font-bold text-slate-950">Ranking główny i meta-ranking</h2>
-        <p class="mt-3 text-sm leading-6 text-slate-600">
-          Analiza rozpoczyna się od metody głównej, czyli <strong>VIKOR</strong>, która pozwala wyznaczyć rozwiązanie kompromisowe
-          uwzględniające zarówno ogólną jakość alternatywy, jak i jej najgorsze przypadki w poszczególnych kryteriach.
-          Następnie wyniki porównywane są z metodami <strong>TOPSIS</strong> oraz <strong>PROMETHEE II</strong>, które opierają się na innych zasadach agregacji preferencji.
-        </p>
-        <p class="mt-3 text-sm leading-6 text-slate-600">
-          Jeśli wszystkie metody wskazują podobny ranking, oznacza to wysoką stabilność rozwiązania i niską wrażliwość na sposób agregacji danych.
-          Jeżeli jednak pojawiają się różnice, nie jest to błąd – przeciwnie, oznacza to, że problem decyzyjny jest złożony,
-          a wynik zależy od przyjętej definicji kompromisu między kryteriami.
+        <p class="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-emerald-500">Sekcja 5</p>
+        <h2 class="text-2xl font-bold text-white">Ranking główny i meta-ranking</h2>
+        <p class="mt-3 text-sm leading-6 text-slate-400">
+          Analiza opiera się na metodzie głównej <strong>VIKOR</strong>, która wyznacza rozwiązanie kompromisowe
+          uwzględniające zarówno ogólną jakość alternatywy, jak i jej najgorszy wynik w poszczególnych kryteriach.
+          Wyniki porównano z metodami <strong>TOPSIS</strong> i <strong>PROMETHEE II</strong>, które opierają się na innych zasadach agregacji preferencji.
         </p>
 
         <div class="mt-5 grid gap-3 sm:grid-cols-2">
-          <div class="rounded border border-emerald-200 bg-emerald-50 p-4">
-            <p class="text-xs font-semibold uppercase text-emerald-700">Najlepsza alternatywa</p>
-            <p class="mt-2 text-2xl font-bold text-emerald-900">Apple Watch</p>
+          <div class="rounded border border-emerald-700 bg-emerald-950 p-4">
+            <p class="text-xs font-semibold uppercase text-emerald-400">Najlepsza alternatywa</p>
+            <p class="mt-2 text-2xl font-bold text-emerald-300">Garmin</p>
+            <p class="text-xs text-emerald-600 mt-1">rank = 1 we wszystkich 3 metodach</p>
           </div>
-          <div class="rounded border border-sky-200 bg-sky-50 p-4">
-            <p class="text-xs font-semibold uppercase text-sky-700">Czy ranking jest stabilny?</p>
-            <p class="mt-2 text-2xl font-bold text-sky-900">Tak</p>
+          <div class="rounded border border-sky-800 bg-sky-950 p-4">
+            <p class="text-xs font-semibold uppercase text-sky-400">Stabilność rankingu</p>
+            <p class="mt-2 text-2xl font-bold text-sky-300">Wysoka</p>
+            <p class="text-xs text-sky-600 mt-1">VIKOR, TOPSIS i PROMETHEE II zgodne</p>
           </div>
         </div>
-        <div class="mt-5 rounded border border-zinc-800 bg-slate-50 p-4 text-sm leading-6 text-slate-600">
-          <p><strong>Wyniki wizualne:</strong> poniżej przedstawiono ranking alternatyw uzyskany metodą VIKOR wraz z porównaniem stabilności wyników w metodach TOPSIS i PROMETHEE II. Dane zostały wygenerowane bezpośrednio z pakietu FitTrackR, co zapewnia pełną odtwarzalność analizy.</p>
+
+        <!-- Tabela meta-rankingu -->
+        <div class="mt-5 overflow-x-auto">
+          <table class="w-full text-left text-sm">
+            <thead class="border-y border-zinc-700 bg-zinc-900 text-xs uppercase text-slate-500">
+              <tr>
+                <th class="px-4 py-3">Alternatywa</th>
+                <th class="px-4 py-3">VIKOR</th>
+                <th class="px-4 py-3">TOPSIS</th>
+                <th class="px-4 py-3">PROMETHEE</th>
+                <th class="px-4 py-3">Meta-ranking</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-zinc-800 text-slate-300">
+              <tr class="bg-emerald-950/30">
+                <td class="px-4 py-3 font-medium text-emerald-400">Garmin ★</td>
+                <td class="px-4 py-3 font-bold text-emerald-400">1</td>
+                <td class="px-4 py-3 font-bold text-emerald-400">1</td>
+                <td class="px-4 py-3 font-bold text-emerald-400">1</td>
+                <td class="px-4 py-3 font-bold text-emerald-400">1</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-medium text-white">MiBand</td>
+                <td class="px-4 py-3">3</td>
+                <td class="px-4 py-3">2</td>
+                <td class="px-4 py-3">2</td>
+                <td class="px-4 py-3">2</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-medium text-white">Apple Watch</td>
+                <td class="px-4 py-3">2</td>
+                <td class="px-4 py-3">3</td>
+                <td class="px-4 py-3">3</td>
+                <td class="px-4 py-3">3</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
 
-    <section id="odtworzenie" class="mt-10 rounded border border-zinc-800 bg-[#1a1a1d]p-6 shadow-sm">
-      <p class="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-sky-700">Sekcja 6</p>
-      <h2 class="text-2xl font-bold text-slate-950">Jak odtworzyć analizę</h2>
-      <p class="mt-3 text-sm leading-6 text-slate-600">
-        Ta część jest ważna dla recenzenta. Powinna pozwolić zainstalować pakiet, uruchomić przykład i sprawdzić,
-        czy wyniki ze strony rzeczywiście pochodzą z kodu.
+    <!-- WYKRESY -->
+    <section class="mt-10 grid gap-6 lg:grid-cols-3">
+      <div class="rounded border border-zinc-800 bg-[#1a1a1d] p-4 shadow-sm">
+        <p class="text-xs font-semibold uppercase text-slate-500 mb-3">Fuzzy VIKOR — mapa decyzyjna</p>
+        <img src="wykres_vikor.png" alt="Wykres Fuzzy VIKOR" class="w-full rounded">
+        <p class="mt-2 text-xs text-slate-500">Oś X: zagregowana strata (S), Oś Y: indywidualny żal (R). Rozmiar bąbelka = wskaźnik kompromisu Q. Im niżej i bardziej w lewo, tym lepiej.</p>
+      </div>
+      <div class="rounded border border-zinc-800 bg-[#1a1a1d] p-4 shadow-sm">
+        <p class="text-xs font-semibold uppercase text-slate-500 mb-3">Fuzzy TOPSIS — mapa decyzyjna</p>
+        <img src="wykres_topsis.png" alt="Wykres Fuzzy TOPSIS" class="w-full rounded">
+        <p class="mt-2 text-xs text-slate-500">Oś X: odległość od ideału (D+), Oś Y: odległość od anty-ideału (D−). Rozmiar bąbelka = współczynnik bliskości C. Im wyżej i bardziej w lewo, tym lepiej.</p>
+      </div>
+      <div class="rounded border border-zinc-800 bg-[#1a1a1d] p-4 shadow-sm">
+        <p class="text-xs font-semibold uppercase text-slate-500 mb-3">Fuzzy PROMETHEE II — mapa decyzyjna</p>
+        <img src="wykres_promethee.png" alt="Wykres Fuzzy PROMETHEE" class="w-full rounded">
+        <p class="mt-2 text-xs text-slate-500">Oś X: przepływ pozytywny (Φ+), Oś Y: przepływ negatywny (Φ−). Rozmiar bąbelka = przepływ netto Φ. Im wyżej i bardziej w prawo, tym lepiej.</p>
+      </div>
+    </section>
+
+    <!-- SEKCJA 6: ODTWORZENIE -->
+    <section id="odtworzenie" class="mt-10 rounded border border-zinc-800 bg-[#1a1a1d] p-6 shadow-sm">
+      <p class="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-emerald-500">Sekcja 6</p>
+      <h2 class="text-2xl font-bold text-white">Jak odtworzyć analizę</h2>
+      <p class="mt-3 text-sm leading-6 text-slate-400">
+        Poniższy kod pozwala zainstalować pakiet, uruchomić przykład i sprawdzić czy wyniki ze strony rzeczywiście pochodzą z kodu.
+        Dane są generowane deterministycznie (<code class="rounded bg-zinc-800 px-1 py-0.5 text-emerald-400">set.seed(123)</code>),
+        więc wyniki będą identyczne na każdym komputerze.
       </p>
-      <pre class="mt-5 overflow-x-auto rounded bg-slate-950 p-5 text-sm leading-6 text-slate-100"><code># instalacja
+      <pre class="mt-5 overflow-x-auto rounded bg-zinc-950 p-5 text-sm leading-6 text-slate-100 border border-zinc-800"><code><span class="text-slate-500"># 1. Instalacja</span>
 devtools::install_github("julmilos/FitTrackR")
 library(FitTrackR)
 
-# dane i analiza
-data("[nazwa_zbioru]")
-macierz <- przygotuj_dane_mcda(dane, skladnia, kolumna_alternatyw = "Alternatywa")
-wynik <- rozmyty_vikor(macierz, typy_kryteriow, metoda_wag = "critic")
-plot(wynik)
-tabela_apa(wynik)</code></pre>
+<span class="text-slate-500"># 2. Dane</span>
+data("mcda_dane_surowe")
+
+<span class="text-slate-500"># 3. Składnia modelu i przygotowanie macierzy rozmytej</span>
+skladnia &lt;- "
+  Dokladnosc =~ Tetno_Dokladnosc + Kroki_Dokladnosc + Kalorie_Dokladnosc;
+  Bateria =~ Bateria_Wydajnosc;
+  Funkcjonalnosc =~ Funkcje_Zdrowotne + Funkcje_Sportowe + Funkcje_Smart;
+  Kompatybilnosc =~ Kompatybilnosc_Android + Kompatybilnosc_iOS;
+  Komfort =~ Wygoda_Noszenia + Jakosc_Wykonania;
+  Odpornosc =~ Wodoodpornosc + Wytrzymalosc;
+  Cena =~ Cena_PLN
+"
+macierz &lt;- przygotuj_dane_mcda(mcda_dane_surowe, skladnia, kolumna_alternatyw = "Alternatywa")
+
+<span class="text-slate-500"># 4. Typy kryteriów i wagi BWM</span>
+criteria_type &lt;- c("max", "max", "max", "max", "max", "min")
+bwm_best  &lt;- c(1, 3, 4, 5, 6, 9)
+bwm_worst &lt;- c(9, 7, 6, 5, 4, 1)
+
+<span class="text-slate-500"># 5. Analiza MCDA</span>
+wynik_vikor     &lt;- fuzzy_vikor(macierz, criteria_type, bwm_best = bwm_best, bwm_worst = bwm_worst)
+wynik_topsis    &lt;- fuzzy_topsis(macierz, criteria_type, bwm_best = bwm_best, bwm_worst = bwm_worst)
+
+preference_params &lt;- data.frame(Type = rep("V", 6), q = rep(0, 6), p = rep(1, 6), s = rep(0.5, 6))
+wynik_promethee &lt;- fuzzy_promethee(macierz, criteria_type, preference_params, bwm_best = bwm_best, bwm_worst = bwm_worst)
+
+<span class="text-slate-500"># 6. Meta-ranking</span>
+wynik_meta &lt;- fuzzy_meta_ranking(macierz, criteria_type, bwm_best = bwm_best, bwm_worst = bwm_worst)
+print(wynik_meta$porownanie)
+
+<span class="text-slate-500"># 7. Wykresy i tabele APA</span>
+plot(wynik_vikor)
+plot(wynik_topsis)
+plot(wynik_promethee)
+
+tabela_apa(wynik_vikor)
+tabela_apa(wynik_topsis)
+tabela_apa(wynik_promethee)
+tabela_apa(wynik_meta)</code></pre>
     </section>
   </main>
 
   <footer class="mt-12 border-t border-zinc-800 bg-[#1a1a1d] px-4 py-8 text-center text-sm text-slate-500">
-    Szablon można kopiować i dostosować do własnego pakietu. Najważniejsze: prosty język, odtwarzalny kod, widoczny wynik.
+    <p>FitTrackR &mdash; Pakiet R do wielokryterialnej analizy decyzyjnej MCDA urządzeń wearable w środowisku rozmytym</p>
+    <p class="mt-1">Julia Miłoś &mdash; <a href="https://github.com/julmilos/FitTrackR" class="text-emerald-500 hover:underline">github.com/julmilos/FitTrackR</a> &mdash; <a href="https://julmilos.github.io/FitTrackR/" class="text-emerald-500 hover:underline">Dokumentacja pkgdown</a></p>
   </footer>
 
   <script>
-    const baseGrid = { color: '#e5e7eb' };
-    new Chart(document.getElementById('templateFuzzyChart'), {
+    const baseGrid = { color: '#27272a' };
+
+    // Wykres rozmywania
+    new Chart(document.getElementById('fuzzyChart'), {
       type: 'line',
       data: {
         datasets: [{
-          label: 'Przynależność',
+          label: 'Funkcja przynależności TFN(5,6,7)',
           data: [{x: 4, y: 0}, {x: 5, y: 0}, {x: 6, y: 1}, {x: 7, y: 0}, {x: 8, y: 0}],
-          borderColor: '#0284c7',
-          backgroundColor: 'rgba(2, 132, 199, 0.14)',
+          borderColor: '#10b981',
+          backgroundColor: 'rgba(16, 185, 129, 0.12)',
           fill: true,
           tension: 0,
-          pointRadius: 4
+          pointRadius: 4,
+          pointBackgroundColor: '#10b981'
         }]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        plugins: { legend: { display: false } },
+        plugins: {
+          legend: { display: true, labels: { color: '#94a3b8' } }
+        },
         scales: {
-          x: { type: 'linear', min: 3.5, max: 8.5, grid: baseGrid, title: { display: true, text: 'Ocena' } },
-          y: { min: 0, max: 1.1, grid: baseGrid, title: { display: true, text: 'Stopień przynależności' } }
+          x: { type: 'linear', min: 3.5, max: 8.5, grid: baseGrid,
+               title: { display: true, text: 'Ocena', color: '#94a3b8' },
+               ticks: { color: '#94a3b8' } },
+          y: { min: 0, max: 1.1, grid: baseGrid,
+               title: { display: true, text: 'Stopień przynależności μ', color: '#94a3b8' },
+               ticks: { color: '#94a3b8' } }
         }
       }
     });
 
-    new Chart(document.getElementById('templateWeightsChart'), {
+    // Wykres wag BWM (przybliżone wartości)
+    new Chart(document.getElementById('weightsChart'), {
       type: 'bar',
       data: {
-        labels: ['Kryterium A', 'Kryterium B', 'Kryterium C', 'Kryterium D'],
+        labels: ['Dokładność', 'Bateria', 'Funkcjonalność', 'Komfort', 'Odporność', 'Cena'],
         datasets: [{
-          label: 'Waga',
-          data: [0.18, 0.34, 0.27, 0.21],
-          backgroundColor: ['#0369a1', '#0f766e', '#64748b', '#94a3b8'],
+          label: 'Waga BWM',
+          data: [0.38, 0.18, 0.15, 0.12, 0.10, 0.07],
+          backgroundColor: ['#10b981', '#059669', '#047857', '#065f46', '#064e3b', '#6b7280'],
           borderRadius: 4
         }]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        plugins: { legend: { display: false } },
-        scales: { y: { beginAtZero: true, grid: baseGrid }, x: { grid: { display: false } } }
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: {
+            label: (ctx) => `Waga: ${(ctx.raw * 100).toFixed(1)}%`
+          }}
+        },
+        scales: {
+          y: { beginAtZero: true, grid: baseGrid, ticks: { color: '#94a3b8' } },
+          x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
+        }
       }
     });
   </script>
