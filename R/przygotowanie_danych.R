@@ -35,10 +35,14 @@
     }
 
   }
+  if (length(mapowanie) == 0) {
+    stop("Parser nie wykrył żadnych kryteriów. Sprawdź czy składnia zawiera średniki (;) między kryteriami.")
+  }
 
   return(mapowanie)
 
 }
+
 
 
 #' @title Wewnętrzny Skaler Saaty'ego
@@ -186,29 +190,39 @@ przygotuj_dane_mcda <- function(dane, skladnia, kolumna_alternatyw = NULL, funkc
   }
 
 
-
   if (!is.null(kolumna_alternatyw)) {
 
-    if (!kolumna_alternatyw %in% names(dane)) stop("Nie znaleziono kolumny alternatyw w danych.")
-
+    if (!kolumna_alternatyw %in% names(dane)) {
+      stop("Nie znaleziono kolumny alternatyw w danych.")
+    }
 
     tymczasowe_wyniki$ID_Alternatywy <- dane[[kolumna_alternatyw]]
+    tmp <- as.data.frame(tymczasowe_wyniki)
 
+    agregacja <- aggregate(
+      tmp[, nazwy_kryteriow],
+      by = list(ID_Alternatywy = tmp$ID_Alternatywy),
+      FUN = funkcja_agregacji
+    )
 
+    # 🔥 KLUCZOWE ZABEZPIECZENIE
+    agregacja <- as.data.frame(agregacja)
 
-    dane_zagregowane <- aggregate(. ~ ID_Alternatywy, data = tymczasowe_wyniki[, -1], FUN = funkcja_agregacji)
+    # jeśli coś się rozjechało → stop
+    if (is.null(dim(agregacja))) {
+      stop("AGREGACJA NIE MA WYMIARÓW (jest wektorem) - sprawdź dane wejściowe")
+    }
 
+    # sortowanie
+    agregacja <- agregacja[order(agregacja[[1]]), , drop = FALSE]
 
+    nazwy_wierszy <- agregacja[[1]]
 
-    dane_zagregowane <- dane_zagregowane[order(dane_zagregowane$ID_Alternatywy), ]
+    macierz_wynikow <- as.matrix(agregacja[, -1, drop = FALSE])
 
-    nazwy_wierszy <- dane_zagregowane$ID_Alternatywy
-
-    macierz_wynikow <- as.matrix(dane_zagregowane[, nazwy_kryteriow])
-
+    rownames(macierz_wynikow) <- nazwy_wierszy
 
   } else {
-
 
     macierz_wynikow <- as.matrix(tymczasowe_wyniki[, nazwy_kryteriow])
 

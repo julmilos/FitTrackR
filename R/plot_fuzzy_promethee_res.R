@@ -10,7 +10,7 @@
 plot.fuzzy_promethee_res <- function(x, ...) {
 
   df <- x$results
-
+  phi_plus <- phi_minus <- phi_net <- alternative_id <- NULL
   ggplot(df, aes(
     x = phi_plus,
     y = phi_minus,

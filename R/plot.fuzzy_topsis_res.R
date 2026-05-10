@@ -10,7 +10,7 @@
 plot.fuzzy_topsis_res <- function(x, ...) {
 
   df <- x$results
-
+  distance_to_ideal <- distance_to_anti_ideal <- closeness_coefficient <- alternative_id <- NULL
   ggplot(df, aes(
     x = distance_to_ideal,
     y = distance_to_anti_ideal,

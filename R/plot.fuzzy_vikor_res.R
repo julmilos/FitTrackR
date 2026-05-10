@@ -8,9 +8,8 @@
 #' @export
 #' @method plot fuzzy_vikor_res
 plot.fuzzy_vikor_res <- function(x, ...) {
-
   df <- x$results
-
+  aggregated_loss <- worst_case_loss <- compromise_index <- alternative_id <- NULL
   ggplot(df, aes(
     x = aggregated_loss,
     y = worst_case_loss,

@@ -122,3 +122,49 @@ tabela_apa.rozmyty_promethee_wynik <- function(x, tytul = "Wyniki PROMETHEE II")
   rempsyc::nice_table(df, title = c("Tabela", tytul))
 }
 
+#' @export
+tabela_apa.fuzzy_topsis_res <- function(x, tytul = "Wyniki metody Fuzzy TOPSIS") {
+  df <- x$results
+  df <- df[, c("alternative_id", "distance_to_ideal", "distance_to_anti_ideal",
+               "closeness_coefficient", "ranking")]
+  names(df) <- c("Alternatywa", "D+ (Do Idealu)", "D- (Od Anty)", "Wynik (CC)", "Ranking")
+  df$`D+ (Do Idealu)`  <- round(df$`D+ (Do Idealu)`, 3)
+  df$`D- (Od Anty)`    <- round(df$`D- (Od Anty)`, 3)
+  df$`Wynik (CC)`      <- round(df$`Wynik (CC)`, 4)
+  rempsyc::nice_table(
+    df,
+    title = c("Tabela 1", tytul),
+    note  = c("Uwaga. CC - Coefficient of Closeness. Im wyższa wartość, tym lepsza alternatywa.")
+  )
+}
+
+#' @export
+tabela_apa.fuzzy_vikor_res <- function(x, tytul = "Wyniki metody Fuzzy VIKOR") {
+  df <- x$results
+  df <- df[, c("alternative_id", "aggregated_loss", "worst_case_loss",
+               "compromise_index", "ranking")]
+  names(df) <- c("Alternatywa", "S (Grupa)", "R (Żal)", "Q (Kompromis)", "Ranking")
+  df$`S (Grupa)`     <- round(df$`S (Grupa)`, 3)
+  df$`R (Żal)`       <- round(df$`R (Żal)`, 3)
+  df$`Q (Kompromis)` <- round(df$`Q (Kompromis)`, 4)
+  rempsyc::nice_table(
+    df,
+    title = c("Tabela 2", tytul),
+    note  = c("Uwaga. S: użyteczność grupy, R: indywidualny żal, Q: indeks kompromisu (im mniej tym lepiej).")
+  )
+}
+
+#' @export
+tabela_apa.fuzzy_promethee_res <- function(x, tytul = "Wyniki metody Fuzzy PROMETHEE II") {
+  df <- x$results
+  df <- df[, c("alternative_id", "phi_plus", "phi_minus", "phi_net", "ranking")]
+  df$phi_plus  <- round(df$phi_plus, 3)
+  df$phi_minus <- round(df$phi_minus, 3)
+  df$phi_net   <- round(df$phi_net, 3)
+  names(df) <- c("Alternatywa", "Phi+ (Leaving)", "Phi- (Entering)", "Phi Net", "Ranking")
+  rempsyc::nice_table(
+    df,
+    title = c("Tabela 3", tytul),
+    note  = c("Uwaga. Phi+: przepływ pozytywny, Phi-: przepływ negatywny, Phi Net: przepływ netto (im wyższy tym lepiej).")
+  )
+}

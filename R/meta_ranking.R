@@ -125,11 +125,10 @@ fuzzy_meta_ranking <- function(
   # MATRIX RANKING
   # =========================
   rank_matrix <- cbind(
-    res_vikor$results$score,
-    res_topsis$results$score,
-    res_prom$results$score
+    res_vikor$results$ranking,
+    res_topsis$results$ranking,
+    res_prom$results$ranking
   )
-
   colnames(rank_matrix) <- c("VIKOR", "TOPSIS", "PROMETHEE")
 
   # Meta-ranking methods

@@ -5,7 +5,7 @@
 
 set.seed(123)
 
-alternatywy <- c("MiBandGalaxyWatch", "AppleWatch", "Garmin")
+alternatywy <- c("MiBand", "AppleWatch", "Garmin")
 liczba_ekspertow <- 15
 n <- liczba_ekspertow * length(alternatywy)
 
