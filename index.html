@@ -66,7 +66,7 @@
           </div>
           <div class="rounded border border-emerald-800 bg-emerald-950 p-4">
             <p class="text-xs font-semibold uppercase text-emerald-400">Wynik</p>
-            <p class="mt-2 text-sm text-emerald-200">Najlepszą alternatywą według meta-rankingu jest <strong>Garmin</strong> (rank = 1 we wszystkich trzech metodach). Drugie miejsce zajmuje MiBand, trzecie Apple Watch.</p>
+            <p class="mt-2 text-sm text-emerald-200">Najlepszą alternatywą według meta-rankingu jest <strong>Garmin</strong> (rank = 1 we wszystkich trzech metodach). Drugie miejsce zajmuje Apple Watch, trzecie MiBand.</p>
           </div>
         </div>
       </div>
@@ -247,28 +247,28 @@ library(FitTrackR)</pre>
               </tr>
             </thead>
             <tbody class="divide-y divide-zinc-800 text-slate-300">
-              <tr class="bg-emerald-950/30">
-                <td class="px-4 py-3 font-medium text-emerald-400">Garmin ★</td>
-                <td class="px-4 py-3 font-bold text-emerald-400">1</td>
-                <td class="px-4 py-3 font-bold text-emerald-400">1</td>
-                <td class="px-4 py-3 font-bold text-emerald-400">1</td>
-                <td class="px-4 py-3 font-bold text-emerald-400">1</td>
-              </tr>
-              <tr>
-                <td class="px-4 py-3 font-medium text-white">MiBand</td>
-                <td class="px-4 py-3">3</td>
-                <td class="px-4 py-3">2</td>
-                <td class="px-4 py-3">2</td>
-                <td class="px-4 py-3">2</td>
-              </tr>
-              <tr>
-                <td class="px-4 py-3 font-medium text-white">Apple Watch</td>
-                <td class="px-4 py-3">2</td>
-                <td class="px-4 py-3">3</td>
-                <td class="px-4 py-3">3</td>
-                <td class="px-4 py-3">3</td>
-              </tr>
-            </tbody>
+            <tr class="bg-emerald-950/30">
+              <td class="px-4 py-3 font-medium text-emerald-400">Garmin ★</td>
+              <td class="px-4 py-3 font-bold text-emerald-400">1</td>
+              <td class="px-4 py-3 font-bold text-emerald-400">1</td>
+              <td class="px-4 py-3 font-bold text-emerald-400">1</td>
+              <td class="px-4 py-3 font-bold text-emerald-400">1</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3 font-medium text-white">Apple Watch</td>
+              <td class="px-4 py-3">2</td>
+              <td class="px-4 py-3">3</td>
+              <td class="px-4 py-3">2</td>
+              <td class="px-4 py-3">2</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3 font-medium text-white">MiBand</td>
+              <td class="px-4 py-3">3</td>
+              <td class="px-4 py-3">2</td>
+              <td class="px-4 py-3">3</td>
+              <td class="px-4 py-3">3</td>
+            </tr>
+          </tbody>
           </table>
         </div>
       </div>
@@ -278,17 +278,17 @@ library(FitTrackR)</pre>
     <section class="mt-10 grid gap-6 lg:grid-cols-3">
       <div class="rounded border border-zinc-800 bg-[#1a1a1d] p-4 shadow-sm">
         <p class="text-xs font-semibold uppercase text-slate-500 mb-3">Fuzzy VIKOR — mapa decyzyjna</p>
-        <img src="wykres_vikor.png" alt="Wykres Fuzzy VIKOR" class="w-full rounded">
+        <img src="vikor_plot.png" alt="Wykres Fuzzy VIKOR" class="w-full rounded">
         <p class="mt-2 text-xs text-slate-500">Oś X: zagregowana strata (S), Oś Y: indywidualny żal (R). Rozmiar bąbelka = wskaźnik kompromisu Q. Im niżej i bardziej w lewo, tym lepiej.</p>
       </div>
       <div class="rounded border border-zinc-800 bg-[#1a1a1d] p-4 shadow-sm">
         <p class="text-xs font-semibold uppercase text-slate-500 mb-3">Fuzzy TOPSIS — mapa decyzyjna</p>
-        <img src="wykres_topsis.png" alt="Wykres Fuzzy TOPSIS" class="w-full rounded">
+        <img src="topsis_plot.png" alt="Wykres Fuzzy TOPSIS" class="w-full rounded">
         <p class="mt-2 text-xs text-slate-500">Oś X: odległość od ideału (D+), Oś Y: odległość od anty-ideału (D−). Rozmiar bąbelka = współczynnik bliskości C. Im wyżej i bardziej w lewo, tym lepiej.</p>
       </div>
       <div class="rounded border border-zinc-800 bg-[#1a1a1d] p-4 shadow-sm">
         <p class="text-xs font-semibold uppercase text-slate-500 mb-3">Fuzzy PROMETHEE II — mapa decyzyjna</p>
-        <img src="wykres_promethee.png" alt="Wykres Fuzzy PROMETHEE" class="w-full rounded">
+        <img src="promethee_plot.png" alt="Wykres Fuzzy PROMETHEE" class="w-full rounded">
         <p class="mt-2 text-xs text-slate-500">Oś X: przepływ pozytywny (Φ+), Oś Y: przepływ negatywny (Φ−). Rozmiar bąbelka = przepływ netto Φ. Im wyżej i bardziej w prawo, tym lepiej.</p>
       </div>
     </section>
@@ -322,15 +322,15 @@ skladnia &lt;- "
 macierz &lt;- przygotuj_dane_mcda(mcda_dane_surowe, skladnia, kolumna_alternatyw = "Alternatywa")
 
 <span class="text-slate-500"># 4. Typy kryteriów i wagi BWM</span>
-criteria_type &lt;- c("max", "max", "max", "max", "max", "min")
-bwm_best  &lt;- c(1, 3, 4, 5, 6, 9)
-bwm_worst &lt;- c(9, 7, 6, 5, 4, 1)
+criteria_type &lt;- c("max", "max", "max", "max", "max", "max", "min")
+bwm_best  &lt;- c(1, 3, 4, 5, 6, 7, 9)
+bwm_worst &lt;- c(9, 7, 6, 5, 4, 3, 1)
 
 <span class="text-slate-500"># 5. Analiza MCDA</span>
 wynik_vikor     &lt;- fuzzy_vikor(macierz, criteria_type, bwm_best = bwm_best, bwm_worst = bwm_worst)
 wynik_topsis    &lt;- fuzzy_topsis(macierz, criteria_type, bwm_best = bwm_best, bwm_worst = bwm_worst)
 
-preference_params &lt;- data.frame(Type = rep("V", 6), q = rep(0, 6), p = rep(1, 6), s = rep(0.5, 6))
+preference_params &lt;- data.frame(Type = rep("V", 7), q = rep(0, 7), p = rep(1, 7), s = rep(0.5, 7))
 wynik_promethee &lt;- fuzzy_promethee(macierz, criteria_type, preference_params, bwm_best = bwm_best, bwm_worst = bwm_worst)
 
 <span class="text-slate-500"># 6. Meta-ranking</span>
@@ -393,11 +393,11 @@ tabela_apa(wynik_meta)</code></pre>
     new Chart(document.getElementById('weightsChart'), {
       type: 'bar',
       data: {
-        labels: ['Dokładność', 'Bateria', 'Funkcjonalność', 'Komfort', 'Odporność', 'Cena'],
+        labels: ['Dokładność', 'Bateria', 'Funkcjonalność', 'Kompatybilność', 'Komfort', 'Odporność', 'Cena'],
         datasets: [{
           label: 'Waga BWM',
-          data: [0.38, 0.18, 0.15, 0.12, 0.10, 0.07],
-          backgroundColor: ['#10b981', '#059669', '#047857', '#065f46', '#064e3b', '#6b7280'],
+          data: [0.35, 0.16, 0.13, 0.11, 0.10, 0.09, 0.06],
+          backgroundColor: ['#10b981', '#059669', '#047857', '#065f46', '#065f46', '#064e3b', '#6b7280'],
           borderRadius: 4
         }]
       },
