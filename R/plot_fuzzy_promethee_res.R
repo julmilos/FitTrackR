@@ -8,9 +8,13 @@
 #' @export
 #' @method plot fuzzy_promethee_res
 plot.fuzzy_promethee_res <- function(x, ...) {
-
   df <- x$results
   phi_plus <- phi_minus <- phi_net <- alternative_id <- NULL
+  if (!is.null(rownames(x$results))) {
+    df$label <- rownames(x$results)
+  } else {
+    df$label <- as.character(df$alternative_id)
+  }
   ggplot(df, aes(
     x = phi_plus,
     y = phi_minus,

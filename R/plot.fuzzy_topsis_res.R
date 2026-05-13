@@ -8,9 +8,13 @@
 #' @export
 #' @method plot fuzzy_topsis_res
 plot.fuzzy_topsis_res <- function(x, ...) {
-
   df <- x$results
   distance_to_ideal <- distance_to_anti_ideal <- closeness_coefficient <- alternative_id <- NULL
+  if (!is.null(rownames(x$results))) {
+    df$label <- rownames(x$results)
+  } else {
+    df$label <- as.character(df$alternative_id)
+  }
   ggplot(df, aes(
     x = distance_to_ideal,
     y = distance_to_anti_ideal,

@@ -82,12 +82,14 @@ fuzzy_vikor <- function(
     (max(worst_case_loss) - min(worst_case_loss) + epsilon)
 
   results <- data.frame(
-    alternative_id   = seq_len(nrow(decision_matrix)),
+    alternative_id = if (!is.null(rownames(decision_matrix)))
+      rownames(decision_matrix)
+    else seq_len(nrow(decision_matrix)),
     aggregated_loss  = aggregated_loss,
     worst_case_loss  = worst_case_loss,
     compromise_index = comp_index,
-    score            = comp_index,
-    ranking          = rank(comp_index, ties.method = "first")
+    score = comp_index,
+    ranking = rank(comp_index, ties.method = "first")
   )
 
   output <- list(

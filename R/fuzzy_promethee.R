@@ -82,12 +82,14 @@ fuzzy_promethee <- function(
   phi_net   <- phi_plus - phi_minus
 
   results <- data.frame(
-    alternative_id = seq_len(n_alternatives),
-    phi_plus       = phi_plus,
-    phi_minus      = phi_minus,
-    phi_net        = phi_net,
-    score          = phi_net,
-    ranking        = rank(-phi_net, ties.method = "first")
+    alternative_id = if (!is.null(rownames(decision_matrix)))
+      rownames(decision_matrix)
+    else seq_len(n_alternatives),
+    phi_plus  = phi_plus,
+    phi_minus = phi_minus,
+    phi_net   = phi_net,
+    score = phi_net,
+    ranking = rank(-phi_net, ties.method = "first")
   )
 
   output <- list(

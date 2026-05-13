@@ -72,11 +72,12 @@ head(mcda_dane_surowe)
 
 # 2. Przygotuj macierz rozmytą
 skladnia <- "
-Dokladnosc =~ Tetno_Dokladnosc + Kroki_Dokladnosc + Kalorie_Dokladnosc
-Bateria =~ Bateria_Wydajnosc
-Funkcjonalnosc =~ Funkcje_Zdrowotne + Funkcje_Sportowe + Funkcje_Smart
-Komfort =~ Wygoda_Noszenia + Jakosc_Wykonania
-Odpornosc =~ Wodoodpornosc + Wytrzymalosc
+Dokladnosc =~ Tetno_Dokladnosc + Kroki_Dokladnosc + Kalorie_Dokladnosc;
+Bateria =~ Bateria_Wydajnosc;
+Funkcjonalnosc =~ Funkcje_Zdrowotne + Funkcje_Sportowe + Funkcje_Smart;
+Kompatybilnosc =~ Kompatybilnosc_Android + Kompatybilnosc_iOS;
+Komfort =~ Wygoda_Noszenia + Jakosc_Wykonania;
+Odpornosc =~ Wodoodpornosc + Wytrzymalosc;
 Cena =~ Cena_PLN
 "
 
@@ -87,17 +88,17 @@ macierz <- przygotuj_dane_mcda(
 )
 macierz
 
-#> Alternatywa Dokladnosc Bateria Funkcjonalnosc Komfort Odpornosc Cena
+#> Alternatywa Dokladnosc Bateria Funkcjonalnosc Kompaatybilnosc Komfort Odpornosc Cena
 #> 1 MiBand  7.5 5 4.5 5 5 160
 #> 2 AppleWatch 8.0 5 5.0 5 5 2000
 #> 3 Garmin 7.5 5 4.5 5 5 1200
 
 # 3. Oblicz ranking metodą Fuzzy VIKOR z wagami BWM
-wynik_vikor <- fuzzy_vikor(
-  macierz,
-  typy_kryteriow = c("max", "max", "max", "max", "max", "max", "min"),
-  bwm_najlepsze = c(8, 7, 6, 5, 4, 3, 1),
-  bwm_najgorsze = c(1, 2, 3, 4, 5, 6, 8)
+fuzzy_vikor_res <- fuzzy_vikor(
+  decision_matrix,
+  criteria_type <- c("max", "max", "max", "max", "max", "max", "min")
+bwm_best  <- c(1, 3, 4, 5, 6, 7, 9)  
+bwm_worst <- c(9, 7, 6, 5, 4, 3, 1)  
 )
 #> Alternatywa Def_S Def_R Def_Q Ranking
 #> 1 MiBand  0.14515360 0.1599259 0.3743246 2
@@ -130,10 +131,10 @@ wynik$META
 FitTrackR agreguje wyniki z wielu metod, aby uzyskać stabilny ranking konsensusu:
 ```r
 meta <- meta_ranking(
-  macierz,
-  typy_kryteriow = c("max", "max", "max", "max", "max", "max", "min"),
-  bwm_najlepsze = c(8, 7, 6, 5, 4, 3, 1),
-  bwm_najgorsze = c(1, 2, 3, 4, 5, 6, 8)
+decision_matrix,
+criteria_type <- c("max", "max", "max", "max", "max", "max", "min")
+bwm_best  <- c(1, 3, 4, 5, 6, 7, 9)  
+bwm_worst <- c(9, 7, 6, 5, 4, 3, 1)  
 )
 
 head(meta$porownanie[order(meta$porownanie$Meta_Agregacja), ], 3)

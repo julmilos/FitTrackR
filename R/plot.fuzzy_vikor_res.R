@@ -10,6 +10,11 @@
 plot.fuzzy_vikor_res <- function(x, ...) {
   df <- x$results
   aggregated_loss <- worst_case_loss <- compromise_index <- alternative_id <- NULL
+  if (!is.null(rownames(x$results))) {
+    df$label <- rownames(x$results)
+  } else {
+    df$label <- as.character(df$alternative_id)
+  }
   ggplot(df, aes(
     x = aggregated_loss,
     y = worst_case_loss,
