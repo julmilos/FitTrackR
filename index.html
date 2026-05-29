@@ -202,9 +202,17 @@ library(FitTrackR)</pre>
           (biblioteka <code class="rounded bg-zinc-800 px-1 py-0.5 text-emerald-400">Rglpk</code>).
         </p>
         <div class="mt-4 rounded border border-zinc-700 bg-zinc-900 p-3 text-xs font-mono text-emerald-400">
-          <p class="text-slate-400"># Najważniejsze: Dokładność (1), Najgorsze: Cena (9)</p>
-          <p>bwm_best  &lt;- c(1, 3, 4, 5, 6, 9)  # Dokladnosc nad innymi</p>
-          <p>bwm_worst &lt;- c(9, 7, 6, 5, 4, 1)  # inne nad Cena</p>
+         <p class="text-slate-400"># Najważniejsze: Dokładność (1), Najgorsze: Cena (9)</p>
+          <p>bwm_best  &lt;- c(1, 3, 4, 5, 6, 7, 9)  # Dokladnosc nad innymi</p>
+          <p>bwm_worst &lt;- c(9, 7, 6, 5, 4, 3, 1)  # inne nad Cena</p>
+          <p class="text-slate-400 mt-2"># Wyznaczone wagi BWM:</p>
+            <p># Dokladnosc:      0.4137</p>
+            <p># Bateria:         0.1679</p>
+            <p># Funkcjonalnosc:  0.1259</p>
+            <p># Kompatybilnosc:  0.1007</p>
+            <p># Komfort:         0.0839</p>
+            <p># Odpornosc:       0.0719</p>
+            <p># Cena:            0.0360</p>
         </div>
         <div class="chart-box mt-5">
           <canvas id="weightsChart"></canvas>
@@ -396,7 +404,7 @@ tabela_apa(wynik_meta)</code></pre>
         labels: ['Dokładność', 'Bateria', 'Funkcjonalność', 'Kompatybilność', 'Komfort', 'Odporność', 'Cena'],
         datasets: [{
           label: 'Waga BWM',
-          data: [0.35, 0.16, 0.13, 0.11, 0.10, 0.09, 0.06],
+          data: [0.4137, 0.1679, 0.1259, 0.1007, 0.0839, 0.0719, 0.0360],
           backgroundColor: ['#10b981', '#059669', '#047857', '#065f46', '#065f46', '#064e3b', '#6b7280'],
           borderRadius: 4
         }]
