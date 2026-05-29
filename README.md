@@ -5,68 +5,72 @@
 
 <!-- badges: end -->
 
-*FitTrackR* to pakiet języka **R** przeznaczony do wspomagania decyzji
-w ramach **Wielokryterialnej Analizy Decyzyjnej (MCDA)** w środowisku rozmytym przy wyborze
-urządzeń typu **wearable**, takich jak
+*FitTrackR* to pakiet języka **R** przeznaczony do wspomagania decyzji w
+ramach **Wielokryterialnej Analizy Decyzyjnej (MCDA)** w środowisku
+rozmytym przy wyborze urządzeń typu **wearable**, takich jak
 **smartwatche i opaski fitness**.
 
 Pakiet łączy **logikę rozmytą (TFN)** z zaawansowanymi metodami MCDA,
-umożliwiając pełną ścieżkę analityczną -  od surowych danych, przez wyznaczanie wag metodą BWM (Best-Worst Method), aż po rankingi metodami TOPSIS, VIKOR oraz PROMETHEE.
+umożliwiając pełną ścieżkę analityczną - od surowych danych, przez
+wyznaczanie wag metodą BWM (Best-Worst Method), aż po rankingi metodami
+Fuzzy TOPSIS, Fuzzy VIKOR oraz Fuzzy PROMETHEE II.
 
----
+------------------------------------------------------------------------
 
 ## Funkcje pakietu
 
-- *Przygotowanie danych rozmytych* z surowych danych numerycznych
-- *Fuzzy MCDA*: implementacja metod **Fuzzy VIKOR**, **Fuzzy TOPSIS** oraz **Fuzzy PROMETHEE**
+- *Przygotowanie danych rozmytych* z surowych danych ankietowych
+
+- *Fuzzy MCDA*: implementacja metod **Fuzzy VIKOR**, **Fuzzy TOPSIS**
+  oraz **Fuzzy PROMETHEE II**
+
 - *Best–Worst Method (BWM)*: wyznaczanie wag kryteriów na podstawie
   porównań eksperckich
+
 - *Meta-ranking*: agregacja wyników z wielu metod w jeden stabilny
   ranking konsensusu
-- *Wizualizacja S3*: intuicyjne wykresy i mapy decyzyjne
+
+- *Wizualizacja S3*: mapy decyzyjne (bubble plot) dla każdej metody
+
 - *Eksport wyników*: tabele wynikowe w stylu APA
 
----
+- ## *Profile użytkowników*: predefiniowane zestawy wag (athlete, casual, beginner)
 
 ## Instalacja
 
 Możesz zainstalować wersję deweloperską z GitHub:
 
-```r
+``` r
 # install.packages("devtools")
 devtools::install_github("julmilos/FitTrackR")
 ```
+
 ## Szybki start
-Oto podstawowy przykład użycia pakietu z wykorzystaniem danych symulowanych zgodnych z założeniami pracy:
+
+Oto podstawowy przykład użycia pakietu z wykorzystaniem danych
+symulowanych zgodnych z założeniami pracy:
 
 3 alternatywy(MiBand , Apple Watch, Garmin)
 
 15 ekspertów
 
 7 kryteriów
-{r example}
-```r
+
+``` r
 library(FitTrackR)
 
 # 1. Wczytaj dane
 data("mcda_dane_surowe")
-head(mcda_dane_surowe)
-#> EkspertID Alternatywa Tetno_Dokladnosc Kroki_Dokladnosc Kalorie_Dokladnosc Bateria_Wydajnosc Funkcje_Zdrowotne Funkcje_Sportowe Funkcje_Smart Kompatybilnosc_Android Kompatybilnosc_iOS Wygoda_Noszenia Jakosc_Wykonania Wodoodpornosc Wytrzymalosc Cena_PLN
-#> 1 1 MiBand  9 6 7 5 5 3 3 3 1 4 7 5 5 152.16
-#> 2 1 AppleWatch 8 7 6 4 6 7 4 4 5 7 4 6 6 2245.23
-#> 3 1 Garmin 7 9 8 6 5 4 6 2 2 5 5 3 5 920.32
-#> 4 2 MiBand  6 8 7 5 6 6 3 5 3 5 6 5 4 167.11
-#> 5 2 AppleWatch 9 7 6 6 5 7 3 2 4 6 5 4 7 1890.44
-#> 6 2 Garmin 8 8 7 4 4 6 4 3 5 6 6 6 4 1600.55
 
-# 2. Przygotuj macierz rozmytą
+# 2. Zdefiniuj model i przygotuj macierz rozmytą
 skladnia <- "
-Dokladnosc =~ Tetno_Dokladnosc + Kroki_Dokladnosc + Kalorie_Dokladnosc
-Bateria =~ Bateria_Wydajnosc
-Funkcjonalnosc =~ Funkcje_Zdrowotne + Funkcje_Sportowe + Funkcje_Smart
-Komfort =~ Wygoda_Noszenia + Jakosc_Wykonania
-Odpornosc =~ Wodoodpornosc + Wytrzymalosc
-Cena =~ Cena_PLN
+  Dokladnosc =~ Tetno_Dokladnosc + Kroki_Dokladnosc + Kalorie_Dokladnosc;
+  Bateria =~ Bateria_Wydajnosc;
+  Funkcjonalnosc =~ Funkcje_Zdrowotne + Funkcje_Sportowe + Funkcje_Smart;
+  Kompatybilnosc =~ Kompatybilnosc_Android + Kompatybilnosc_iOS;
+  Komfort =~ Wygoda_Noszenia + Jakosc_Wykonania;
+  Odpornosc =~ Wodoodpornosc + Wytrzymalosc;
+  Cena =~ Cena_PLN
 "
 
 macierz <- przygotuj_dane_mcda(
@@ -74,58 +78,128 @@ macierz <- przygotuj_dane_mcda(
   skladnia = skladnia,
   kolumna_alternatyw = "Alternatywa"
 )
-macierz
 
-#> Alternatywa Dokladnosc Bateria Funkcjonalnosc Komfort Odpornosc Cena
-#> 1 MiBand  7.5 5 4.5 5 5 160
-#> 2 AppleWatch 8.0 5 5.0 5 5 2000
-#> 3 Garmin 7.5 5 4.5 5 5 1200
 
-# 3. Oblicz ranking metodą Fuzzy VIKOR z wagami BWM
-wynik_vikor <- fuzzy_vikor(
-  macierz,
-  typy_kryteriow = c("max", "max", "max", "max", "max", "max", "min"),
-  bwm_najlepsze = c(8, 7, 6, 5, 4, 3, 1),
-  bwm_najgorsze = c(1, 2, 3, 4, 5, 6, 8)
-)
-#> Alternatywa Def_S Def_R Def_Q Ranking
-#> 1 MiBand  0.14515360 0.1599259 0.3743246 2
-#> 2 AppleWatch 0.13007834 0.1900849 0.3903515 3
-#> 3 Garmin 0.08210813 0.1421481 0.3421120 1
+# 3. Wyznaczenie wag kryteriów metodą BWM
+wynik_bwm <- oblicz_wagi_bwm( 
+nazwy_kryteriow = c( 
+  "Dokladnosc", 
+  "Bateria", 
+  "Funkcjonalnosc", 
+  "Kompatybilnosc", 
+  "Komfort", 
+  "Odpornosc", 
+  "Cena" 
+  ), 
+  najlepsze_do_innych = c(1, 3, 4, 5, 6, 7, 9),
+  inne_do_najgorszego = c(9, 7, 6, 5, 4, 3, 1) ) 
+  
+  weights <- wynik_bwm$wagi_kryteriow
+  
+  print(round(wynik_bwm$wagi_kryteriow, 4))
+#> [1] 0.4137 0.1679 0.1259 0.1007 0.0839 0.0719 0.0360
+cat("CR:", round(wynik_bwm$wskaznik_spojnosci, 4), "\n")
+#> CR: 0.0172
 
-# 4. Wyświetl wynik
-wynik_vikor$results
+# 4. Typy kryteriów 
+
+criteria_type <- c( 
+"max", "max", "max", "max", "max", "max", "min" 
+) 
+
+# 5. Analiza metodą Fuzzy VIKOR
+
+wynik_vikor <- fuzzy_vikor( 
+  decision_matrix = macierz,
+  criteria_type = typy_kryteriow,
+  weights = wagi, 
+  strategy_weight = 0.5 
+  ) 
+  
+  wynik_vikor$results
+  
+# 6. Analiza metodą Fuzzy TOSPIS
+
+wynik_topsis <- fuzzy_topsis( 
+  decision_matrix = macierz,
+  criteria_type = typy_kryteriow,
+  weights = wagi 
+  ) 
+  
+  wynik_topsis$results
+
+# 6. Analiza metodą Fuzzy PROMETHEE II
+
+  preference_params <- data.frame( 
+  Type = rep("linear", 7), 
+  q = rep(0, 7),
+  p = rep(2, 7), 
+  s = rep(NA, 7), 
+  Role = typy_kryteriow 
+  )
+  
+  wynik_promethee <- fuzzy_promethee( 
+  decision_matrix = macierz,
+  criteria_type = typy_kryteriow, 
+  preference_params = preference_params, 
+  weights = wagi 
+  )
+  
+  wynik_promethee$results
 ```
-## Wizualizacja
-Pakiet oferuje profesjonalne wizualizacje wyników MCDA:
 
-```{r fig.width=7, fig.height=5}
+## Wizualizacja
+
+Pakiet oferuje profesjonalne wizualizacje wyników metod MCDA w postaci
+map decyzyjnych bubble plot:
+
+``` r
 plot(wynik_vikor)
 ```
-## Pełna analiza MCDA
-Pakiet zawiera funkcję **analyze_wearables()**, która automatyzuje pełny pipeline MCDA:
-- wyznacza wagi (lub używa profilu użytkownika),
-- uruchamia **TOPSIS, VIKOR i PROMETHEE**,
-- tworzy ranking konsensusowy (META).
-```r
-wynik <- analyze_wearables(
-  macierz,
-  profile = "athlete"
-)
 
-wynik$META
+## Tabela APA
+
+Pakiet oferuje tabele w stylu APA:
+
+``` r
+tabela_apa(wynik_vikor)
+tabela_apa(wynik_meta)
 ```
+
+## Profile użytkowników
+
+Pakiet zawiera funkcję **analyze_wearables()**, która automatyzuje pełny
+pipeline MCDA: - wyznacza wagi (lub używa profilu użytkownika), -
+uruchamia **TOPSIS, VIKOR i PROMETHEE**, - tworzy ranking konsensusowy
+(META).
+
+``` r
+# Profil sportowca
+wynik <- analyze_wearables(macierz, profile = "athlete")
+print(wynik$META)
+
+# Profil początkującego
+wynik <- analyze_wearables(macierz, profile = "beginner")
+print(wynik$META)
+
+# Profil casual
+wynik <- analyze_wearables(macierz, profile = "casual")
+print(wynik$META)
+```
+
 ## Meta-ranking
-FitTrackR agreguje wyniki z wielu metod, aby uzyskać stabilny ranking konsensusu:
-```r
-meta <- meta_ranking(
-  macierz,
-  typy_kryteriow = c("max", "max", "max", "max", "max", "max", "min"),
-  bwm_najlepsze = c(8, 7, 6, 5, 4, 3, 1),
-  bwm_najgorsze = c(1, 2, 3, 4, 5, 6, 8)
+
+FitTrackR agreguje wyniki z wielu metod, aby uzyskać stabilny ranking
+konsensusu:
+
+``` r
+wynik_meta <- fuzzy_meta_ranking(
+decision_matrix = macierz,
+criteria_type <- typy_kryteriów,
+weights = wagi
 )
 
-head(meta$porownanie[order(meta$porownanie$Meta_Agregacja), ], 3)
+wynik_meta$comparison
 
 #> Alternatywa Meta_Agregacja
 #> 1 Garmin 0.342
@@ -133,15 +207,18 @@ head(meta$porownanie[order(meta$porownanie$Meta_Agregacja), ], 3)
 #> 3 AppleWatch 0.390
 ```
 
-
 ## Dokumentacja
-Więcej informacji:
-- Vignette: ``` vignette("fittrackr_mcda", package = "FitTrackR") ```
-- Pomoc dla funkcji: ``` ?fuzzy_vikor, ?fuzzy_topsis, ?fuzzy_promethee,
-?meta_ranking, ?przygotuj_dane_mcda ```
+
+Więcej informacji: - Vignette:
+`vignette("poradnik_mcda", package = "FitTrackR")` - Strona pakietu:
+<https://julmilos.github.io/FitTrackR/> - Pomoc dla funkcji:
+`?fuzzy_vikor`, `?fuzzy_topsis`, `?fuzzy_promethee`,
+`?fuzzy_meta_ranking`, `?przygotuj_dane_mcda`, `?oblicz_wagi_bwm`
 
 ## Autor
+
 Julia Miłoś
 
 ## Licencja
+
 GPL-3
