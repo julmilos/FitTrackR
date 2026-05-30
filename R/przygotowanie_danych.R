@@ -129,7 +129,7 @@
 
 #' Oblicza wyniki zmiennych kompozytowych na podstawie składni, skaluje je do przedziału 1-9,
 
-#' agreguje odpowiedzi ekspertów (jeśli dotyczy) i dokonuje rozmycia (fuzzification).
+#' agreguje odpowiedzi ekspertów i dokonuje rozmycia (fuzzification).
 
 #'
 
@@ -205,15 +205,14 @@ przygotuj_dane_mcda <- function(dane, skladnia, kolumna_alternatyw = NULL, funkc
       FUN = funkcja_agregacji
     )
 
-    # 🔥 KLUCZOWE ZABEZPIECZENIE
     agregacja <- as.data.frame(agregacja)
 
-    # jeśli coś się rozjechało → stop
+
     if (is.null(dim(agregacja))) {
-      stop("AGREGACJA NIE MA WYMIARÓW (jest wektorem) - sprawdź dane wejściowe")
+      stop("Agregacja jest wektorem - sprawdź dane wejściowe")
     }
 
-    # sortowanie
+
     agregacja <- agregacja[order(agregacja[[1]]), , drop = FALSE]
 
     nazwy_wierszy <- agregacja[[1]]

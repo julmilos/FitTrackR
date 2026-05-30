@@ -1,4 +1,4 @@
-#' Bubble plot for fuzzy TOPSIS results
+#' Bubble plot dla wyników metody Fuzzy TOPSIS
 #'
 #' @param x Object of class `fuzzy_topsis_res`.
 #' @param ... Additional graphical parameters.

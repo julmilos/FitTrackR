@@ -1,15 +1,16 @@
-#' Fuzzy TOPSIS Decision Method
+#' Metoda Fuzzy TOPSIS
 #'
-#' Implements a fuzzy TOPSIS (Technique for Order Preference by Similarity
-#' to Ideal Solution) for multi-criteria decision-making using triangular
-#' fuzzy numbers.
+#' Implementuje metodę Fuzzy TOPSIS (Technique for Order Preference by Similarity
+#' to Ideal Solution) dla wielokryterialnej analizy decyzyjnej z użyciem trójkątnych liczb rozmytych.
 #'
-#' @param decision_matrix Matrix (m × 3n) of triangular fuzzy numbers.
-#' @param criteria_type Character vector ("max" / "min") for each criterion.
-#' @param weights Optional numeric vector of weights.
-#' @param bwm_best Optional BWM best-to-others vector.
-#' @param bwm_worst Optional BWM others-to-worst vector.
-#' @param epsilon Small numeric constant for numerical stability.
+#'
+#' @param decision_matrix Macierz (m × 3n) lub TFN.
+#' @param criteria_type Wektor ("max" / "min") dla każdego kryterium.
+#' @param weights Opcjonalny wektor numeryczny lub waga.
+#' @param bwm_best Opcjonalny wektor BWM najlepsze_do_innych.
+#' @param bwm_worst Opcjonalny wektor BWM inne_do_najlepszego.
+#' @param epsilon Mała stała numeryczna zapewniająca stabilność obliczeń
+#' i zapobiegająca dzieleniu przez zero.
 #'
 #' @return Object of class `fuzzy_topsis_res`.
 #' @export
@@ -23,12 +24,12 @@ fuzzy_topsis <- function(
 ) {
   validate_mcda_input(decision_matrix, criteria_type)
   if (!is.matrix(decision_matrix)) {
-    stop("decision_matrix must be a matrix")
+    stop("decision_matrix musi być macierza")
   }
 
   n_criteria <- ncol(decision_matrix) / 3
   if (length(criteria_type) != n_criteria) {
-    stop("Length of 'criteria_type' must match number of criteria.")
+    stop("Dlugosc 'criteria_type' musi byc rowna ilosci kryteriow.")
   }
 
   final_weights <- get_final_weights(
@@ -41,7 +42,6 @@ fuzzy_topsis <- function(
   fuzzy_dir <- rep(criteria_type, each = 3)
   n_cols    <- ncol(decision_matrix)
 
-  # Normalize
   normalized_matrix <- matrix(0, nrow(decision_matrix), n_cols)
   for (j in seq(1, n_cols, 3)) {
     if (fuzzy_dir[j] == "max") {

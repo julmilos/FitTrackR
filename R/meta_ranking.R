@@ -54,14 +54,14 @@ fuzzy_meta_ranking <- function(
 
   n_crit <- ncol(decision_matrix) / 3
 
-  # Wagi (entropy jeśli brak BWM i weights)
+
   if (is.null(weights) && (is.null(bwm_best) || is.null(bwm_worst))) {
     message("Brak wag. Obliczam Entropię...")
     weights_raw <- oblicz_wagi_entropii(decision_matrix)
     weights <- rep(weights_raw, each = 3)
   }
 
-  # Domyślne parametry PROMETHEE
+
   if (is.null(preference_params)) {
     preference_params <- data.frame(
       Type = rep("V", n_crit),
@@ -71,9 +71,9 @@ fuzzy_meta_ranking <- function(
     )
   }
 
-  # =========================
+
   # VIKOR
-  # =========================
+
   res_vikor <- do.call(
     fuzzy_vikor,
     c(
@@ -88,9 +88,9 @@ fuzzy_meta_ranking <- function(
     )
   )
 
-  # =========================
+
   # TOPSIS
-  # =========================
+
   res_topsis <- do.call(
     fuzzy_topsis,
     c(
@@ -104,9 +104,9 @@ fuzzy_meta_ranking <- function(
     )
   )
 
-  # =========================
+
   # PROMETHEE
-  # =========================
+
   res_prom <- do.call(
     fuzzy_promethee,
     c(
@@ -121,9 +121,7 @@ fuzzy_meta_ranking <- function(
     )
   )
 
-  # =========================
-  # MATRIX RANKING
-  # =========================
+
   rank_matrix <- cbind(
     res_vikor$results$ranking,
     res_topsis$results$ranking,
@@ -131,11 +129,10 @@ fuzzy_meta_ranking <- function(
   )
   colnames(rank_matrix) <- c("VIKOR", "TOPSIS", "PROMETHEE")
 
-  # Meta-ranking methods
+
   rank_sum <- rank(rowSums(rank_matrix), ties.method = "first")
   rank_dom <- calculate_dominance_ranking(rank_matrix)
 
-  # Rank aggregation
   n_alt <- nrow(decision_matrix)
   ra_input <- t(apply(rank_matrix, 2, order))
 
@@ -158,9 +155,7 @@ fuzzy_meta_ranking <- function(
     rank_ra[top_list[i]] <- i
   }
 
-  # =========================
-  # OUTPUT
-  # =========================
+
   porownanie <- data.frame(
     Alternatywa    = res_vikor$results$alternative_id,
     R_VIKOR        = rank_matrix[, 1],

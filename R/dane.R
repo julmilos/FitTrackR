@@ -3,14 +3,14 @@
 #' Zbiór danych zawiera symulowane oceny ekspertów dotyczące
 #' urządzeń do monitorowania aktywności fizycznej (smartwatche oraz opaski fitness).
 #' Dane zostały wygenerowane w oparciu o skale Likerta i stanowią
-#' wejście do metod Fuzzy TOPSIS, Fuzzy VIKOR oraz Fuzzy PROMETHEE.
+#' wejście do metod Fuzzy TOPSIS, Fuzzy VIKOR oraz Fuzzy PROMETHEE II.
 #'
-#' Zbiór przeznaczony do użycia z funkcją `prepare_mcdm_data()`.
+#' Zbiór przeznaczony do użycia z funkcją `przygotuj_dane_mcda()`.
 #'
-#' @format Ramka danych (data frame) z ocenami ekspertów dla 4 alternatyw:
+#' @format Ramka danych (data frame) z ocenami ekspertów dla 3 alternatyw:
 #' \describe{
 #'   \item{EkspertID}{Identyfikator eksperta oceniającego urządzenie}
-#'   \item{Alternatywa}{Nazwa urządzenia (MiBand, AppleWatch, Garmin, SamsungGalaxyWatch)}
+#'   \item{Alternatywa}{Nazwa urządzenia (AppleWatch, Garmin, MiBand)}
 #'
 #'   \item{Tetno_Dokladnosc}{Dokładność pomiaru tętna (skala Likerta 1–10)}
 #'   \item{Kroki_Dokladnosc}{Dokładność zliczania kroków (skala Likerta 1–10)}

@@ -94,7 +94,6 @@ nazwy_kryteriow = c(
   najlepsze_do_innych = c(1, 3, 4, 5, 6, 7, 9),
   inne_do_najgorszego = c(9, 7, 6, 5, 4, 3, 1) ) 
   
-  weights <- wynik_bwm$wagi_kryteriow
   
   print(round(wynik_bwm$wagi_kryteriow, 4))
 #> [1] 0.4137 0.1679 0.1259 0.1007 0.0839 0.0719 0.0360
@@ -111,7 +110,7 @@ criteria_type <- c(
 
 wynik_vikor <- fuzzy_vikor( 
   decision_matrix = macierz,
-  criteria_type = typy_kryteriow,
+  criteria_type = criteria_type,
   weights = wagi, 
   strategy_weight = 0.5 
   ) 
@@ -122,30 +121,31 @@ wynik_vikor <- fuzzy_vikor(
 
 wynik_topsis <- fuzzy_topsis( 
   decision_matrix = macierz,
-  criteria_type = typy_kryteriow,
-  weights = wagi 
+  criteria_type = criteria_type,
+  bwm_best        = bwm_best,
+  bwm_worst       = bwm_worst
   ) 
   
-  wynik_topsis$results
+  wynik_topsis$results[, c("alternative_id", "closeness_coefficient", "ranking")]
 
 # 6. Analiza metodą Fuzzy PROMETHEE II
 
   preference_params <- data.frame( 
-  Type = rep("linear", 7), 
+  Type = rep("V", 7), 
   q = rep(0, 7),
-  p = rep(2, 7), 
-  s = rep(NA, 7), 
-  Role = typy_kryteriow 
+  p = rep(1, 7), 
+  s = rep(0.5, 7), 
   )
   
   wynik_promethee <- fuzzy_promethee( 
   decision_matrix = macierz,
-  criteria_type = typy_kryteriow, 
+  criteria_type = criteria_type, 
   preference_params = preference_params, 
-  weights = wagi 
+  bwm_best          = bwm_best,
+  bwm_worst         = bwm_worst
   )
   
-  wynik_promethee$results
+  wynik_promethee$results[, c("alternative_id", "phi_net", "ranking")]
 ```
 
 ## Wizualizacja

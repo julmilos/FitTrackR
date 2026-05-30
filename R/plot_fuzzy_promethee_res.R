@@ -1,4 +1,4 @@
-#' Bubble plot for fuzzy PROMETHEE results
+#' Bubble plot dla wyników metody Fuzzy PROMETHEE II
 #'
 #' @param x Object of class `fuzzy_promethee_res`.
 #' @param ... Additional graphical parameters.

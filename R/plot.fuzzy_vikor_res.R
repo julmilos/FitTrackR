@@ -1,4 +1,4 @@
-#' Bubble plot for fuzzy VIKOR results
+#' Bubble plot dla wyników metody Fuzzy VIKOR
 #'
 #' @param x Object of class `fuzzy_vikor_res`.
 #' @param ... Additional graphical parameters.

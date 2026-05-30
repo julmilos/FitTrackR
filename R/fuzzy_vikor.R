@@ -1,15 +1,22 @@
-#' Fuzzy VIKOR Decision Method
+#' Metoda Fuzzy VIKOR
 #'
-#' Implements a fuzzy multi-criteria decision-making method
-#' based on the VIKOR compromise ranking approach.
+#' Implementuje metodę Fuzzy VIKOR dla wielokryterialnej analizy decyzyjnej
+#' w oparciu o ranking kompromisowy.
 #'
-#' @param decision_matrix Matrix (m × 3n) of triangular fuzzy numbers.
-#' @param criteria_type Character vector ("max" / "min") for each criterion.
-#' @param strategy_weight Numeric [0,1]. Importance of group utility.
-#' @param weights Optional fuzzy weights (length 3n).
-#' @param bwm_best Optional BWM best-to-others vector.
-#' @param bwm_worst Optional BWM others-to-worst vector.
-#' @param epsilon Small numeric constant for numerical stability.
+#' @param decision_matrix Rozmyta macierz decyzyjna (m × 3n) zawierająca
+#' trójkątne liczby rozmyte (TFN).
+#' @param criteria_type Wektor typów kryteriów ("max" dla kryteriów zysków,
+#' "min" dla kryteriów kosztów).
+#' @param strategy_weight Wartość z przedziału [0,1] określająca znaczenie
+#' użyteczności grupowej w metodzie VIKOR.
+#' @param weights Opcjonalny wektor wag kryteriów w postaci rozmytej
+#' (długość 3n).
+#' @param bwm_best Opcjonalny wektor porównań najlepszego kryterium
+#' względem pozostałych w metodzie BWM.
+#' @param bwm_worst Opcjonalny wektor porównań pozostałych kryteriów
+#' względem najgorszego w metodzie BWM.
+#' @param epsilon Mała stała numeryczna zapewniająca stabilność obliczeń
+#' i zapobiegająca dzieleniu przez zero.
 #'
 #' @return Object of class `fuzzy_vikor_res`.
 #' @export
@@ -24,12 +31,12 @@ fuzzy_vikor <- function(
 ) {
   validate_mcda_input(decision_matrix, criteria_type)
   if (!is.matrix(decision_matrix)) {
-    stop("decision_matrix must be a matrix")
+    stop("decision_matrix musi byc macierza")
   }
 
   n_crit <- ncol(decision_matrix) / 3
   if (length(criteria_type) != n_crit) {
-    stop("Length of 'criteria_type' must equal number of criteria.")
+    stop("Dlugosc 'criteria_type' musi byc rowna ilosci kryteriow.")
   }
 
   final_weights <- get_final_weights(

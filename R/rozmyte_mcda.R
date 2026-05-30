@@ -94,13 +94,12 @@ oblicz_wagi_entropii <- function(macierz_decyzyjna) {
   n_kryteriow <- ncol(macierz) / 3
 
 
-  # Opcja 1: Wagi podane ręcznie (np. z Entropii lub eksperckie)
+  # 1: Wagi podane ręcznie (np. z Entropii lub eksperckie)
 
   if (!missing(wagi) && !is.null(wagi)) {
 
     if (length(wagi) == n_kryteriow) {
 
-      # Rozszerzamy wagi ostre na rozmyte (w, w, w)
 
       return(rep(wagi, each = 3))
 
@@ -117,7 +116,7 @@ oblicz_wagi_entropii <- function(macierz_decyzyjna) {
   }
 
 
-  # Opcja 2: Obliczenie BWM
+  # 2: Obliczenie BWM
 
   if (!missing(bwm_najlepsze) && !missing(bwm_najgorsze)) {
 
