@@ -2,7 +2,7 @@
 % Please edit documentation in R/fuzzy_vikor.R
 \name{fuzzy_vikor}
 \alias{fuzzy_vikor}
-\title{Fuzzy VIKOR Decision Method}
+\title{Metoda Fuzzy VIKOR}
 \usage{
 fuzzy_vikor(
   decision_matrix,
@@ -15,24 +15,31 @@ fuzzy_vikor(
 )
 }
 \arguments{
-\item{decision_matrix}{Matrix (m × 3n) of triangular fuzzy numbers.}
+\item{decision_matrix}{Rozmyta macierz decyzyjna (m × 3n) zawierająca
+trójkątne liczby rozmyte (TFN).}
 
-\item{criteria_type}{Character vector ("max" / "min") for each criterion.}
+\item{criteria_type}{Wektor typów kryteriów ("max" dla kryteriów zysków,
+"min" dla kryteriów kosztów).}
 
-\item{strategy_weight}{Numeric [0,1]. Importance of group utility.}
+\item{strategy_weight}{Wartość z przedziału [0,1] określająca znaczenie
+użyteczności grupowej w metodzie VIKOR.}
 
-\item{weights}{Optional fuzzy weights (length 3n).}
+\item{weights}{Opcjonalny wektor wag kryteriów w postaci rozmytej
+(długość 3n).}
 
-\item{bwm_best}{Optional BWM best-to-others vector.}
+\item{bwm_best}{Opcjonalny wektor porównań najlepszego kryterium
+względem pozostałych w metodzie BWM.}
 
-\item{bwm_worst}{Optional BWM others-to-worst vector.}
+\item{bwm_worst}{Opcjonalny wektor porównań pozostałych kryteriów
+względem najgorszego w metodzie BWM.}
 
-\item{epsilon}{Small numeric constant for numerical stability.}
+\item{epsilon}{Mała stała numeryczna zapewniająca stabilność obliczeń
+i zapobiegająca dzieleniu przez zero.}
 }
 \value{
 Object of class `fuzzy_vikor_res`.
 }
 \description{
-Implements a fuzzy multi-criteria decision-making method
-based on the VIKOR compromise ranking approach.
+Implementuje metodę Fuzzy VIKOR dla wielokryterialnej analizy decyzyjnej
+w oparciu o ranking kompromisowy.
 }

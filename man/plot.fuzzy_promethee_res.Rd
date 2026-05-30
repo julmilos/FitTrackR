@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_fuzzy_promethee_res.R
 \name{plot.fuzzy_promethee_res}
 \alias{plot.fuzzy_promethee_res}
-\title{Bubble plot for fuzzy PROMETHEE results}
+\title{Bubble plot dla wyników metody Fuzzy PROMETHEE II}
 \usage{
 \method{plot}{fuzzy_promethee_res}(x, ...)
 }
@@ -12,5 +12,5 @@
 \item{...}{Additional graphical parameters.}
 }
 \description{
-Bubble plot for fuzzy PROMETHEE results
+Bubble plot dla wyników metody Fuzzy PROMETHEE II
 }

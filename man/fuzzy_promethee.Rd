@@ -2,7 +2,7 @@
 % Please edit documentation in R/fuzzy_promethee.R
 \name{fuzzy_promethee}
 \alias{fuzzy_promethee}
-\title{Fuzzy PROMETHEE II Method}
+\title{Metoda Fuzzy PROMETHEE II}
 \usage{
 fuzzy_promethee(
   decision_matrix,
@@ -14,21 +14,21 @@ fuzzy_promethee(
 )
 }
 \arguments{
-\item{decision_matrix}{Matrix (m × 3n) of triangular fuzzy numbers.}
+\item{decision_matrix}{Macierz (m × 3n) lub trójkątne liczby rozmyte (TFN).}
 
-\item{criteria_type}{Character vector ("max" / "min") for each criterion.}
+\item{criteria_type}{Wektor ("max" / "min") dla każdego kryterium.}
 
-\item{preference_params}{Parameters of preference functions.}
+\item{preference_params}{Parametry funkcji preferencji.}
 
-\item{weights}{Optional numeric vector of weights.}
+\item{weights}{Opcjonalny wektor numeryczny lub waga.}
 
-\item{bwm_best}{Optional BWM best-to-others vector.}
+\item{bwm_best}{Opcjonalny wektor BWM najlepsze_do_innych.}
 
-\item{bwm_worst}{Optional BWM others-to-worst vector.}
+\item{bwm_worst}{Opcjonalny wektor BWM inne_do_najlepszego.}
 }
 \value{
 Object of class `fuzzy_promethee_res`
 }
 \description{
-Implements PROMETHEE II for fuzzy multi-criteria decision making
+Implementuje metodę PROMETHEE II dla wielokryterialnej analizy decyzyjnej w środowisku rozmytym.
 }

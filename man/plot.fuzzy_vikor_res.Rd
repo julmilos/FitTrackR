@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot.fuzzy_vikor_res.R
 \name{plot.fuzzy_vikor_res}
 \alias{plot.fuzzy_vikor_res}
-\title{Bubble plot for fuzzy VIKOR results}
+\title{Bubble plot dla wyników metody Fuzzy VIKOR}
 \usage{
 \method{plot}{fuzzy_vikor_res}(x, ...)
 }
@@ -12,5 +12,5 @@
 \item{...}{Additional graphical parameters.}
 }
 \description{
-Bubble plot for fuzzy VIKOR results
+Bubble plot dla wyników metody Fuzzy VIKOR
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/analyze_wearables.R
 \name{analyze_wearables}
 \alias{analyze_wearables}
-\title{Automatyczna analiza wearables}
+\title{Automatyczna analiza urządzeń wearable}
 \usage{
 analyze_wearables(
   macierz,

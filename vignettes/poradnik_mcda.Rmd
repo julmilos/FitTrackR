@@ -81,7 +81,7 @@ print(macierz_rozmyta[1:3, 1:21])
 # Dokladnosc/Bateria = 7
 # Dokladnosc/Cena = 9
 
-najlepsze_do_innych <- c(1, 3, 4, 5, 6, 7, 9)
+bwm_best <- c(1, 3, 4, 5, 6, 7, 9)
 
 
 # Preferencja innych nad NAJGORSZYM (Cena) (1–9):
@@ -93,7 +93,7 @@ najlepsze_do_innych <- c(1, 3, 4, 5, 6, 7, 9)
 # Bateria/Cena = 3
 # Cena/Cena = 1
 
-inne_do_najgorszego <- c(9, 7, 6, 5, 4, 3, 1)
+bwm_worst <- c(9, 7, 6, 5, 4, 3, 1)
 
 
 #5. Analiza Decyzyjna (VIKOR, TOPSIS, PROMETHEE)
@@ -112,8 +112,8 @@ criteria_type <- c(
 wynik_vikor <- fuzzy_vikor(
   decision_matrix = macierz_rozmyta,
   criteria_type = criteria_type,
-  weights = wagi,
-  strategy_weight = 0.5
+  bwm_best = bwm_best,
+  bwm_worst = bwm_worst
 )
 
 # Fuzzy TOPSIS
@@ -156,7 +156,8 @@ plot(wynik_promethee)
 meta_wynik <- fuzzy_meta_ranking(
   decision_matrix = macierz_rozmyta,
   criteria_type   = criteria_type,
-  weights = wagi
+  bwm_best        = bwm_best,
+  bwm_worst       = bwm_worst
 )
 
 knitr::kable(meta_wynik$porownanie, caption = "Porównanie rankingów i Konsensus")

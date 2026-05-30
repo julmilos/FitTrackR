@@ -2,7 +2,7 @@
 % Please edit documentation in R/fuzzy_topsis.R
 \name{fuzzy_topsis}
 \alias{fuzzy_topsis}
-\title{Fuzzy TOPSIS Decision Method}
+\title{Metoda Fuzzy TOPSIS}
 \usage{
 fuzzy_topsis(
   decision_matrix,
@@ -14,23 +14,23 @@ fuzzy_topsis(
 )
 }
 \arguments{
-\item{decision_matrix}{Matrix (m × 3n) of triangular fuzzy numbers.}
+\item{decision_matrix}{Macierz (m × 3n) lub TFN.}
 
-\item{criteria_type}{Character vector ("max" / "min") for each criterion.}
+\item{criteria_type}{Wektor ("max" / "min") dla każdego kryterium.}
 
-\item{weights}{Optional numeric vector of weights.}
+\item{weights}{Opcjonalny wektor numeryczny lub waga.}
 
-\item{bwm_best}{Optional BWM best-to-others vector.}
+\item{bwm_best}{Opcjonalny wektor BWM najlepsze_do_innych.}
 
-\item{bwm_worst}{Optional BWM others-to-worst vector.}
+\item{bwm_worst}{Opcjonalny wektor BWM inne_do_najlepszego.}
 
-\item{epsilon}{Small numeric constant for numerical stability.}
+\item{epsilon}{Mała stała numeryczna zapewniająca stabilność obliczeń
+i zapobiegająca dzieleniu przez zero.}
 }
 \value{
 Object of class `fuzzy_topsis_res`.
 }
 \description{
-Implements a fuzzy TOPSIS (Technique for Order Preference by Similarity
-to Ideal Solution) for multi-criteria decision-making using triangular
-fuzzy numbers.
+Implementuje metodę Fuzzy TOPSIS (Technique for Order Preference by Similarity
+to Ideal Solution) dla wielokryterialnej analizy decyzyjnej z użyciem trójkątnych liczb rozmytych.
 }

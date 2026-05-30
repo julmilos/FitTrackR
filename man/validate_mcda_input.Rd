@@ -2,11 +2,11 @@
 % Please edit documentation in R/validate_mcda_input.R
 \name{validate_mcda_input}
 \alias{validate_mcda_input}
-\title{MCDA Input Validation}
+\title{Walidacja danych wejściowych}
 \usage{
 validate_mcda_input(decision_matrix, criteria_type)
 }
 \description{
-Checks correctness of MCDA inputs
+Sprawdza poprawność danych wejściowych
 }
 \keyword{internal}

@@ -27,5 +27,5 @@ Macierz o wymiarach (m x 3n), gdzie m to liczba alternatyw.
 \description{
 Funkcja przekształca surowe dane ankietowe w rozmytą macierz decyzyjną.
 Oblicza wyniki zmiennych kompozytowych na podstawie składni, skaluje je do przedziału 1-9,
-agreguje odpowiedzi ekspertów (jeśli dotyczy) i dokonuje rozmycia (fuzzification).
+agreguje odpowiedzi ekspertów i dokonuje rozmycia (fuzzification).
 }

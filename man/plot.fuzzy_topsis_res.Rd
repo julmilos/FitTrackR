@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot.fuzzy_topsis_res.R
 \name{plot.fuzzy_topsis_res}
 \alias{plot.fuzzy_topsis_res}
-\title{Bubble plot for fuzzy TOPSIS results}
+\title{Bubble plot dla wyników metody Fuzzy TOPSIS}
 \usage{
 \method{plot}{fuzzy_topsis_res}(x, ...)
 }
@@ -12,5 +12,5 @@
 \item{...}{Additional graphical parameters.}
 }
 \description{
-Bubble plot for fuzzy TOPSIS results
+Bubble plot dla wyników metody Fuzzy TOPSIS
 }

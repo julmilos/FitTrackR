@@ -2,7 +2,7 @@
 % Please edit documentation in R/lifestyle_profiles.R
 \name{.get_lifestyle_profile}
 \alias{.get_lifestyle_profile}
-\title{Lifestyle Profiles for Wearable Devices}
+\title{Profile przykładowych użytkowników urządzeń wearable}
 \usage{
 .get_lifestyle_profile(profile)
 }
