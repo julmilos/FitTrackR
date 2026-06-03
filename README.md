@@ -174,17 +174,23 @@ uruchamia **TOPSIS, VIKOR i PROMETHEE**, - tworzy ranking konsensusowy
 (META).
 
 ``` r
-# Profil sportowca
+# Profil sportowca — priorytet: dokładność i odporność
 wynik <- analyze_wearables(macierz, profile = "athlete")
 print(wynik$META)
+#> AppleWatch     Garmin     MiBand
+#>          3          1          2
 
-# Profil początkującego
+# Profil początkującego — priorytet: cena i bateria
 wynik <- analyze_wearables(macierz, profile = "beginner")
 print(wynik$META)
+#> AppleWatch     Garmin     MiBand
+#>          1          3          2
 
-# Profil casual
+# Profil casual — priorytet: funkcjonalność i komfort
 wynik <- analyze_wearables(macierz, profile = "casual")
 print(wynik$META)
+#> AppleWatch     Garmin     MiBand
+#>          1          2          3
 ```
 
 ## Meta-ranking
@@ -195,7 +201,7 @@ konsensusu:
 ``` r
 wynik_meta <- fuzzy_meta_ranking(
 decision_matrix = macierz,
-criteria_type <- typy_kryteriów,
+criteria_type <- criteria_type,
 weights = wagi
 )
 
