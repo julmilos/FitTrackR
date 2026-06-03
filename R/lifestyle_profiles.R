@@ -9,25 +9,25 @@
 
     beginner = list(
       weights = c(
-        Dokladnosc     = 0.15,
+        Dokladnosc     = 0.05,
         Bateria        = 0.20,
-        Funkcjonalnosc = 0.15,
-        Kompatybilnosc = 0.10,
-        Komfort        = 0.15,
-        Odpornosc      = 0.05,
-        Cena           = 0.20
+        Funkcjonalnosc = 0.25,
+        Kompatybilnosc = 0.05,
+        Komfort        = 0.05,
+        Odpornosc      = 0.10,
+        Cena           = 0.30
       )
     ),
 
     athlete = list(
       weights = c(
-        Dokladnosc     = 0.30,
-        Bateria        = 0.20,
-        Funkcjonalnosc = 0.20,
+        Dokladnosc     = 0.45,
+        Bateria        = 0.05,
+        Funkcjonalnosc = 0.15,
         Kompatybilnosc = 0.05,
-        Komfort        = 0.10,
-        Odpornosc      = 0.10,
-        Cena           = 0.05
+        Komfort        = 0.05,
+        Odpornosc      = 0.15,
+        Cena           = 0.10
       )
     ),
 
@@ -35,8 +35,8 @@
       weights = c(
         Dokladnosc     = 0.15,
         Bateria        = 0.15,
-        Funkcjonalnosc = 0.25,
-        Kompatybilnosc = 0.15,
+        Funkcjonalnosc = 0.20,
+        Kompatybilnosc = 0.20,
         Komfort        = 0.15,
         Odpornosc      = 0.05,
         Cena           = 0.10
