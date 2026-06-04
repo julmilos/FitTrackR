@@ -371,23 +371,87 @@ skladnia &lt;- "
 "
 macierz &lt;- przygotuj_dane_mcda(mcda_dane_surowe, skladnia, kolumna_alternatyw = "Alternatywa")
 
-<span class="text-slate-500"># 4. Typy kryteriów i wagi BWM</span>
+<span class="text-slate-500"># 4. Wyznaczenie wag kryteriów metodą BWM</span>
+wynik_bwm &lt;- oblicz_wagi_bwm( 
+nazwy_kryteriow = c( 
+  "Dokladnosc", 
+  "Bateria", 
+  "Funkcjonalnosc", 
+  "Kompatybilnosc", 
+  "Komfort", 
+  "Odpornosc", 
+  "Cena" 
+  ), 
+  najlepsze_do_innych = c(1, 3, 4, 5, 6, 7, 9),
+  inne_do_najgorszego = c(9, 7, 6, 5, 4, 3, 1) ) 
+
+print(round(wynik_bwm$wagi_kryteriow, 4))
+
+cat("CR:", round(wynik_bwm$wskaznik_spojnosci, 4), "\n")
+
+<span class="text-slate-500"># 4. Typy kryeriów</span>
 criteria_type &lt;- c("max", "max", "max", "max", "max", "max", "min")
 bwm_best  &lt;- c(1, 3, 4, 5, 6, 7, 9)
 bwm_worst &lt;- c(9, 7, 6, 5, 4, 3, 1)
 
-<span class="text-slate-500"># 5. Analiza MCDA</span>
-wynik_vikor     &lt;- fuzzy_vikor(macierz, criteria_type, bwm_best = bwm_best, bwm_worst = bwm_worst)
-wynik_topsis    &lt;- fuzzy_topsis(macierz, criteria_type, bwm_best = bwm_best, bwm_worst = bwm_worst)
+<span class="text-slate-500"># 5. Analiza metodą Fuzzy VIKOR</span>
+wynik_vikor     &lt;- fuzzy_vikor(
+  decision_matrix = macierz,
+  criteria_type = criteria_type,
+  weights = wagi, 
+  strategy_weight = 0.5 
+)
+ wynik_vikor$results
 
-preference_params &lt;- data.frame(Type = rep("V", 7), q = rep(0, 7), p = rep(1, 7), s = rep(0.5, 7))
-wynik_promethee &lt;- fuzzy_promethee(macierz, criteria_type, preference_params, bwm_best = bwm_best, bwm_worst = bwm_worst)
+ <span class="text-slate-500"># 6. Analiza metodą Fuzzy TOPSIS</span>
+wynik_topsis    &lt;- fuzzy_topsis(
+  decision_matrix = macierz,
+  criteria_type = criteria_type,
+  bwm_best        = bwm_best,
+  bwm_worst       = bwm_worst
+  ) 
+  
+  wynik_topsis$results[, c("alternative_id", "closeness_coefficient", "ranking")]
 
-<span class="text-slate-500"># 6. Meta-ranking</span>
-wynik_meta &lt;- fuzzy_meta_ranking(macierz, criteria_type, bwm_best = bwm_best, bwm_worst = bwm_worst)
-print(wynik_meta$porownanie)
+ <span class="text-slate-500"># 7. Analiza metodą Fuzzy PROMETHEE II</span>
+preference_params &lt;- data.frame(
+  Type = rep("V", 7), 
+  q = rep(0, 7),
+  p = rep(1, 7), 
+  s = rep(0.5, 7), 
+  )
+  
+  wynik_promethee &lt;- fuzzy_promethee( 
+  decision_matrix = macierz,
+  criteria_type = criteria_type, 
+  preference_params = preference_params, 
+  bwm_best          = bwm_best,
+  bwm_worst         = bwm_worst
+  )
+  
+  wynik_promethee$results[, c("alternative_id", "phi_net", "ranking")]
 
-<span class="text-slate-500"># 7. Wykresy i tabele APA</span>
+<span class="text-slate-500"># 8. Meta-ranking</span>
+wynik_meta &lt;- fuzzy_meta_ranking(
+decision_matrix = macierz,
+criteria_type &lt;- criteria_type,
+weights = wagi
+)
+
+wynik_meta$comparison
+
+<span class="text-slate-500"># 9. Profile uytkowników</span>
+
+wynik &lt;- analyze_wearables(macierz, profile = "athlete")
+print(wynik$META)
+
+wynik &lt;-  analyze_wearables(macierz, profile = "beginner")
+print(wynik$META)
+
+wynik &lt;- analyze_wearables(macierz, profile = "casual")
+print(wynik$META)
+
+<span class="text-slate-500"># 10. Wykresy i tabele APA</span>
 plot(wynik_vikor)
 plot(wynik_topsis)
 plot(wynik_promethee)
