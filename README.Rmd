@@ -32,7 +32,7 @@ umożliwiając pełną ścieżkę analityczną -  od surowych danych, przez wyzn
 - *Fuzzy MCDA*: implementacja metod **Fuzzy VIKOR**, **Fuzzy TOPSIS** oraz **Fuzzy PROMETHEE II**
 - *Best–Worst Method (BWM)*: wyznaczanie wag kryteriów na podstawie
   porównań eksperckich
-- *Meta-ranking*: agregacja wyników z wielu metod w jeden stabilny
+- *Metaranking*: agregacja wyników z wielu metod w jeden stabilny
   ranking konsensusu
 - *Wizualizacja S3*: mapy decyzyjne (bubble plot) dla każdej metody
 - *Eksport wyników*: tabele wynikowe w stylu APA

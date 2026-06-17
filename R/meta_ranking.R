@@ -30,7 +30,7 @@ calculate_dominance_ranking <- function(rank_mat) {
   return(final_rank)
 }
 
-#' @title Rozmyty Meta-Ranking (3 Metody)
+#' @title Rozmyty MetaRanking (3 Metody)
 #' @description Agreguje wyniki: VIKOR, TOPSIS, PROMETHEE.
 #'
 #' @param decision_matrix Rozmyta macierz decyzyjna.
