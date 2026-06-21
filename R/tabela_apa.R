@@ -2,7 +2,7 @@
 
 #' @description
 
-#' Funkcja przekształca wyniki analizy MCDA (TOPSIS, VIKOR, PROMETHEE, Meta-Ranking)
+#' Funkcja przekształca wyniki analizy MCDA (TOPSIS, VIKOR, PROMETHEE, Metaranking)
 
 #' w sformatowaną tabelę zgodną ze standardem APA, gotową do publikacji w Wordzie.
 
@@ -91,9 +91,9 @@ tabela_apa.rozmyty_vikor_wynik <- function(x, tytul = "Wyniki metody Fuzzy VIKOR
 
 #' @export
 
-tabela_apa.list <- function(x, tytul = "Meta-Ranking (Konsensus)") {
+tabela_apa.list <- function(x, tytul = "Metaranking") {
 
-  if(is.null(x$porownanie)) stop("To nie jest obiekt meta-rankingu.")
+  if(is.null(x$porownanie)) stop("To nie jest obiekt metarankingu.")
 
 
   df <- x$porownanie
@@ -108,7 +108,7 @@ tabela_apa.list <- function(x, tytul = "Meta-Ranking (Konsensus)") {
 
     title = c("Tabela 4", tytul),
 
-    note = c("Zestawienie rang uzyskanych różnymi metodami oraz rankingi konsensusu.")
+    note = c("Zestawienie rang uzyskanych różnymi metodami.")
 
   )
 }

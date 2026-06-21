@@ -19,7 +19,7 @@ validate_mcda_input <- function(decision_matrix, criteria_type) {
   }
 
   if (!all(criteria_type %in% c("max", "min"))) {
-    stop("criteria_type muzi zawierac jedynie 'max' lub 'min'")
+    stop("criteria_type musi zawierac jedynie 'max' lub 'min'")
   }
 
   return(invisible(TRUE))

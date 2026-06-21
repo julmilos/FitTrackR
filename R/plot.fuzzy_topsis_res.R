@@ -24,10 +24,10 @@ plot.fuzzy_topsis_res <- function(x, ...) {
     geom_text_repel(aes(label = alternative_id), size = 3) +
     scale_size_continuous(range = c(3, 10)) +
     labs(
-      title = "Fuzzy TOPSIS – Decision Bubble Map",
-      x = "Distance to Ideal Solution",
-      y = "Distance to Anti-Ideal Solution",
-      size = "Closeness coefficient"
+      title = "Fuzzy TOPSIS – Mapa decyzyjna – Wykres bąbelkowy",
+      x = "Odległość do rozwiązania idealnego",
+      y = "Odległość do rozwiązania antyidealnego",
+      size = "Wskaźnik bliskości"
     ) +
     theme_minimal()
 }

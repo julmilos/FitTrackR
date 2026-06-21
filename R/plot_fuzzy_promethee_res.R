@@ -24,10 +24,10 @@ plot.fuzzy_promethee_res <- function(x, ...) {
     geom_text_repel(aes(label = alternative_id), size = 3) +
     scale_size_continuous(range = c(3, 10)) +
     labs(
-      title = "Fuzzy PROMETHEE – Decision Bubble Map",
-      x = "Positive Flow (Phi+)",
-      y = "Negative Flow (Phi-)",
-      size = "Net flow"
+      title = "Fuzzy PROMETHEE – Mapa decyzyjna – Wykres bąbelkowy",
+      x = "Przepływ dodatni (Phi+)",
+      y = "Przepływ ujemny (Phi-)",
+      size = "Przepływ netto"
     ) +
     theme_minimal()
 }

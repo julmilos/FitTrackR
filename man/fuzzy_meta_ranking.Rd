@@ -2,7 +2,7 @@
 % Please edit documentation in R/meta_ranking.R
 \name{fuzzy_meta_ranking}
 \alias{fuzzy_meta_ranking}
-\title{Rozmyty Meta-Ranking (3 Metody)}
+\title{Rozmyty MetaRanking (3 Metody)}
 \usage{
 fuzzy_meta_ranking(
   decision_matrix,

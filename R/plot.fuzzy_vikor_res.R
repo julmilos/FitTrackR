@@ -24,10 +24,10 @@ plot.fuzzy_vikor_res <- function(x, ...) {
     geom_text_repel(aes(label = alternative_id), size = 3) +
     scale_size_continuous(range = c(3, 10)) +
     labs(
-      title = "Fuzzy VIKOR – Decision Bubble Map",
-      x = "Aggregated Loss (group utility)",
-      y = "Worst-case Loss (individual regret)",
-      size = "Compromise index"
+      title = "Fuzzy VIKOR – Mapa decyzyjna – Wykres bąbelkowy",
+      x = "Użyteczność grupowa",
+      y = "Indywidualny żal",
+      size = "Wskaźnik kompromisowy"
     ) +
     theme_minimal()
 }
